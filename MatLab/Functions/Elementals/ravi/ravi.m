@@ -7,11 +7,12 @@ function [ ind ] = ravi(price,lead,lag,D,M)
 %	than 3% are a ranging phase.
 %
 %   We call ATR to normalize price data in the ravi function so we need O | H | L | C as price input.
+%   ATR will use a lookback of 20 (hard coded)
 %
 %   INPUTS:     price       	An array of price in the form [O | H | L | C]     
 %               lead            Lookback the fast period harmonic mean used to calculate Ravi 
 %               lag             Lookback the slow period harmonic mean used to calculate Ravi 
-%               D               Detrender option:
+%               D               Denominator (Detrender) option:
 %                                   0	-	Ravi (default)
 %                                   1	-	ATR
 %               M               Mean ravi shift used to calibrate the returned vector.
@@ -63,7 +64,7 @@ raviS = slidefun('harmmean',lag,fClose,'backward');
 if D == 0
     ind = (abs(raviF-raviS)./raviS);
 elseif D == 1
-    ind = (abs(raviF-raviS)./atr_mex(price));
+    ind = (abs(raviF-raviS)./atr_mex(price,20));
 else
     error('RAVI:inputArg','Unknown input in value ''D''. Aborting.');
 end; %if
@@ -71,7 +72,7 @@ end; %if
 indAvg = mean(ind);
 
 % Normalize data to a range of 0 - 100.
-% Normalize using assumption that 20% or lessrepresents the amount of time we are either consolodating or
+% Normalize using assumption that 20% or less represents the amount of time we are either consolidating or
 % can't tell.  This value should be thought about and revisited.  It may also be a good number to submit
 % to a parametric sweep for improvement.
 norm = M / indAvg;
@@ -128,8 +129,8 @@ ind = ind * norm;
 %   -------------------------------------------------------------------------
 %
 %   Author:        Mark Tompkins
-%   Revision:      4917.14168
-%   Copyright:     (c)2013
+%   Revision:      5127.15112
+%   Copyright:     (c)2014
 %
 
 

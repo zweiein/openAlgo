@@ -9,7 +9,8 @@ function [dFile, defFile, scaling] = dataSelect( dataSet)
 %                           Currently available:
 %                           KC1D   (KC)    Arabica Futures     Daily 	5 years
 %                           KC1M   (KC)    Arabica Futures     1 min 	1 year
-%                           ES5S   (ES)    E-Mini S&P          5 sec   6 mos
+%                           KC5S   (KC)    Arabica Futures     5 sec    6 mos
+%                           ES5S   (ES)    E-Mini S&P          5 sec    6 mos
 %
 %   OUTPUTS:    dFile       The full UNC file path and name of the CSV file
 %               defFile     Associated UNC file path and name of the symbol definition
@@ -27,6 +28,11 @@ switch lower(dataSet)
         dFile = '\\DISKSTATION\Matlab\HgGit\openAlgo Sample Data\KC\@KC 1yr 1min.txt';
         defFile = '\\DISKSTATION\Matlab\HgGit\openAlgo Sample Data\KC\symbolDef.txt';
         scaling = sqrt(252*60*11);
+ 	case {'kc5s'}
+        disp('Loading (KC) Arabica Futures 5 Seconds 6mo');
+        dFile = '\\DISKSTATION\Matlab\Data\KC\@KC 6mos 5sec.txt';
+        defFile = '\\DISKSTATION\Matlab\Data\KC\symbolDef.txt';
+        scaling = sqrt(252*60*11*12);
     case {'es5s'}
         disp('Loading (ES) E-Mini S&P 5 Seconds 6mo');
         dFile = '\\DISKSTATION\Matlab\Data\ES\@ES 6mos 5sec.txt';
