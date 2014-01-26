@@ -41,15 +41,22 @@ catch me % make sure "ParforProgressStarter2" didn't get moved to a different di
     end
 end
 
-parfor ii = 1:row
-    [~,~,shTest(ii)] = rsiRaviSIG_mex(vBarsTest,[x(ii,1) x(ii,2)],x(ii,3),x(ii,4),...
-        x(ii,5),x(ii,6),x(ii,7),x(ii,8), x(ii,9), x(ii,10),...
-        bigPoint,cost,scaling);
-    [~,~,shVal(ii)] = rsiRaviSIG_mex(vBarsVal,[x(ii,1) x(ii,2)],x(ii,3),x(ii,4),...
-        x(ii,5),x(ii,6),x(ii,7),x(ii,8),x(ii,9), x(ii,10),...
-        bigPoint,cost,scaling); %#ok<PFBNS>
-    ppm.increment(); %#ok<PFBNS> % update progressbar
-end; %parfor
+try
+    parfor ii = 1:row
+        [~,~,shTest(ii)] = rsiRaviSIG_mex(vBarsTest,[x(ii,1) x(ii,2)],x(ii,3),x(ii,4),...
+            x(ii,5),x(ii,6),x(ii,7),x(ii,8), x(ii,9), x(ii,10),...
+            bigPoint,cost,scaling);
+        [~,~,shVal(ii)] = rsiRaviSIG_mex(vBarsVal,[x(ii,1) x(ii,2)],x(ii,3),x(ii,4),...
+            x(ii,5),x(ii,6),x(ii,7),x(ii,8),x(ii,9), x(ii,10),...
+            bigPoint,cost,scaling); %#ok<PFBNS>
+        ppm.increment(); %#ok<PFBNS> % update progressbar
+    end; %parfor
+catch ER
+	% An error occurred during the parallel process ...
+	errorMsg = sprintf('Error while executing the parallel parametric sweep.\nThe error reported by MATLAB is:\n\n%s', ER.message);
+    % Send the notice
+    sendFailureNotice(errorMsg);
+end
 
 try % use try / catch here, since delete(struct) will raise an error.
     delete(ppm);
