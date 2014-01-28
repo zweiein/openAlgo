@@ -53,9 +53,10 @@ try
     end; %parfor
 catch ER
 	% An error occurred during the parallel process ...
-	errorMsg = sprintf('Error while executing the parallel parametric sweep.\nThe error reported by MATLAB is:\n\n%s', ER.message);
+	subj = 'ALERT - Notice of MATLAB error';
+    message = sprintf('Error while executing the parallel parametric sweep.\nThe error reported by MATLAB is:\n\n%s', ER.message);
     % Send the notice
-    sendFailureNotice(errorMsg);
+    sendNotice(subj, message);
 end
 
 try % use try / catch here, since delete(struct) will raise an error.
@@ -117,6 +118,6 @@ shMETS = ((shTest*2)+shVal)/3;
 %   -------------------------------------------------------------------------
 %
 %   Author:        Mark Tompkins
-%   Revision:      4925.31764
-%   Copyright:     (c)2013
+%   Revision:      5139.12894
+%   Copyright:     (c)2014
 %
