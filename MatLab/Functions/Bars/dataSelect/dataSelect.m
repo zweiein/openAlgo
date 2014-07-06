@@ -7,10 +7,16 @@ function [dFile, defFile, scaling] = dataSelect( dataSet)
 %                           Selection key: Contract|interval|interval period|
 %                           e.g. Contract = KC | interval = 1 | interval period = D(ay)
 %                           Currently available:
-%                           KC1D   (KC)    Arabica Futures     Daily 	5 years
+%                           KC1D   (KC)    Arabica Futures     Daily 	all years
+%                           KC1D5  (KC)    Arabica Futures     Daily 	5 years
 %                           KC1M   (KC)    Arabica Futures     1 min 	1 year
 %                           KC5S   (KC)    Arabica Futures     5 sec    6 mos
+%                           KC5SV  (KC)    Arabica Futures     5 sec    6 mos   Validation Set
 %                           ES5S   (ES)    E-Mini S&P          5 sec    6 mos
+%                           ES5SV  (KC)    E-Mini S&P          5 sec    6 mos   Validation Set
+%                           ES1M   (ES)    E-Mini S&P          1 min    all years
+%                           ES1M1  (ES)    E-Mini S&P          1 min    1 year
+%                           ES1M3  (ES)    E-Mini S&P          1 min    3 year
 %
 %   OUTPUTS:    dFile       The full UNC file path and name of the CSV file
 %               defFile     Associated UNC file path and name of the symbol definition
@@ -19,6 +25,11 @@ function [dFile, defFile, scaling] = dataSelect( dataSet)
 
 switch lower(dataSet)
     case {'kc1d'}
+        disp('Loading (KC) Arabica Futures Daily 5yrs');
+        dFile = '\\DISKSTATION\Matlab\Data\KC\@KC Daily.txt';
+        defFile = '\\DISKSTATION\Matlab\Data\KC\symbolDef.txt';
+        scaling = sqrt(252);
+    case {'kc1d5'}
         disp('Loading (KC) Arabica Futures Daily 5yrs');
         dFile = '\\DISKSTATION\Matlab\HgGit\openAlgo Sample Data\KC\@KC 5yr Daily.txt';
         defFile = '\\DISKSTATION\Matlab\HgGit\openAlgo Sample Data\KC\symbolDef.txt';
@@ -33,11 +44,31 @@ switch lower(dataSet)
         dFile = '\\DISKSTATION\Matlab\Data\KC\@KC 6mos 5sec.txt';
         defFile = '\\DISKSTATION\Matlab\Data\KC\symbolDef.txt';
         scaling = sqrt(252*60*11*12);
+	case {'kc5sv'}
+        disp('Loading (KC) Arabica Futures 5 Seconds 6mo');
+        dFile = '\\DISKSTATION\Matlab\Data\KC\@KC 6mos 5sec Val.txt';
+        defFile = '\\DISKSTATION\Matlab\Data\KC\symbolDef.txt';
+        scaling = sqrt(252*60*11*12);
     case {'es5s'}
         disp('Loading (ES) E-Mini S&P 5 Seconds 6mo');
         dFile = '\\DISKSTATION\Matlab\Data\ES\@ES 6mos 5sec.txt';
         defFile = '\\DISKSTATION\Matlab\Data\ES\symbolDef.txt';
         scaling = sqrt(252*60*11*12);
+    case {'es1m'}
+        disp('Loading (ES) E-Mini S&P 1 Minute All');
+        dFile = '\\DISKSTATION\Matlab\Data\ES\@ES 1min max.txt';
+        defFile = '\\DISKSTATION\Matlab\Data\ES\symbolDef.txt';
+        scaling = sqrt(252*60*11);
+	case {'es1m1'}
+        disp('Loading (ES) E-Mini S&P 1 Minute 1yr');
+        dFile = '\\DISKSTATION\Matlab\Data\ES\@ES 1min 1yr.txt';
+        defFile = '\\DISKSTATION\Matlab\Data\ES\symbolDef.txt';
+        scaling = sqrt(252*60*11);
+	case {'es1m3'}
+        disp('Loading (ES) E-Mini S&P 1 Minute 3yr');
+        dFile = '\\DISKSTATION\Matlab\Data\ES\@ES 1min 3yr.txt';
+        defFile = '\\DISKSTATION\Matlab\Data\ES\symbolDef.txt';
+        scaling = sqrt(252*60*11);
     otherwise
         error('Unknown requested data file.  Aborting...');
 end; %switch
@@ -97,8 +128,8 @@ end; %switch
 %   -------------------------------------------------------------------------
 %
 %   Author:        Mark Tompkins
-%   Revision:      4928.15718
-%   Copyright:     (c)2013
+%   Revision:      5295.23659
+%   Copyright:     (c)2014
 %
 
 

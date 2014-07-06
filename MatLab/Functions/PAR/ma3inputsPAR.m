@@ -1,13 +1,6 @@
-function shMETS = rsiRaviPARMETS(x,data,bigPoint,cost,scaling)
-% define rsi + ravi to accept vectorized inputs and return only sharpe ratio
-%%
-%                       rsiRavi(price,rsiM,rsiThresh,rsiType,raviF,raviS,raviD,raviM,raviE, ...
-%                               raviThresh, scaling,cost,bigPoint)
+function sh = ma3inputsPAR(x,data,bigPoint,cost,range,scaling)
+% ma3inputs wrapper
 %
-% maSnrPARMETS(price,N,M,typeMA,Mrsi,thresh,typeRSI,scaling,cost,bigPoint)
-%
-% Wrapper for ma2inputs with numTicksProfit to accept vectorized inputs and return only sharpe ratio
-% in order to facilitate embarrassingly parallel parametric sweeps.
 % PAR wrappers allow the parallel execution of parametric sweeps across HPC clusters
 % ordinarily using 'parfor' with MatLab code.  While it is tempting to more granularly
 % manage the process into a classically defined job with tasks (as used in Microsoft's HPC)
@@ -17,22 +10,39 @@ function shMETS = rsiRaviPARMETS(x,data,bigPoint,cost,scaling)
 %   Standard Sharpe     function(s)PAR
 %   METS Sharpe         function(s)PARMETS
 
-row = size(x,1);
-shTest = zeros(row,1);
-shVal = zeros(row,1);
-shMETS = zeros(row,1); %#ok<NASGU>
+[row,col] = size(x);
+sh  = zeros(row,1);
+x = round(x);
 
-testPts = floor(0.8*length(data(:,1)));
-vBarsTest = data(1:testPts,:);
-vBarsVal = data(testPts+1:end,:);
+if ~exist('scaling','var')
+    scaling = 1;
+end
+if ~exist('cost','var')
+    cost = 0;
+end
+if ~exist('bigPoint','var')
+    bigPoint = 1;
+end;
 
-% Prevent loss of global variables when calling parforprogress
-%show_debug = 0;
-%run_javaaddpath = 0;
+% Slice vectors for performance
+F=x(:,1);   %LEAD
+M=x(:,2);   %MED
+S=x(:,3);   %LAG
 
+if col > 3
+    type = x(1,4);
+else
+    type = 0;
+end;
+
+% To prevent an ambigous error in parfor caused by an uninitialed variable
+% we initialize an empty ppm.
+ppm = [];
+
+
+% Progress bar initialization
 try
-    %ppm = ParforProgressStarter2('Parametric Sweep: RSI with RAVI Transformer', row, 0.1, show_debug, run_javaaddpath);
-    ppm = ParforProgressStarter2('Parametric Sweep: RSI with RAVI Transformer', row, 0.1);
+    ppm = ParforProgressStarter2('Moving Average 3 Input Parameter Sweep', row, 0.1);
 catch me % make sure "ParforProgressStarter2" didn't get moved to a different directory
     if strcmp(me.message, 'Undefined function or method ''ParforProgressStarter2'' for input arguments of type ''char''.')
         error('ParforProgressStarter2 not in path.');
@@ -44,33 +54,28 @@ catch me % make sure "ParforProgressStarter2" didn't get moved to a different di
         % backup solution so that we can still continue.
         ppm.increment = nan(1, nbr_files);
     end
+end %try
+
+% run parallel iterations
+parfor ii = 1:row
+    if(F(ii) >= M(ii)) || (M(ii) >= S(ii))	% ensures we don't dupe the optimizations.  Checks F>M>S
+            sh(ii) = NaN;
+    else
+        if col > 4
+            error('No longer handling vBars at the function level.  Address the passed in ''range''');
+        end; %if
+        [~,~,sh(ii)] = ma3inputsSIG_mex(data,F(ii),M(ii),S(ii),type,...
+                bigPoint,cost,scaling);
+    end; %if
+    ppm.increment(ii); %#ok<PFBNS>
 end
 
-try
-    parfor ii = 1:row
-        [~,~,shTest(ii)] = rsiRaviSIG_mex(vBarsTest,[x(ii,1) x(ii,2)],x(ii,3),x(ii,4),...
-            x(ii,5),x(ii,6),x(ii,7),x(ii,8), x(ii,9), x(ii,10),...
-            bigPoint,cost,scaling);
-        [~,~,shVal(ii)] = rsiRaviSIG_mex(vBarsVal,[x(ii,1) x(ii,2)],x(ii,3),x(ii,4),...
-            x(ii,5),x(ii,6),x(ii,7),x(ii,8),x(ii,9), x(ii,10),...
-            bigPoint,cost,scaling); %#ok<PFBNS>
-        ppm.increment(); %#ok<PFBNS> % update progressbar
-    end; %parfor
-catch ER
-	% An error occurred during the parallel process ...
-	%subj = 'ALERT - Notice of MATLAB error';
-    %message = sprintf('Error while executing the parallel parametric sweep.\nThe error reported by MATLAB is:\n\n%s', ER.message);
-    % Send the notice
-    %sendNotice(subj, message);
-end
 
+%% Destroy progress bar
 try % use try / catch here, since delete(struct) will raise an error.
     delete(ppm);
 catch me %#ok<NASGU>
-end;
-
-%% Aggregate sharpe ratios
-shMETS = ((shTest*2)+shVal)/3;
+end
 
 %%
 %   -------------------------------------------------------------------------
@@ -123,6 +128,6 @@ shMETS = ((shTest*2)+shVal)/3;
 %   -------------------------------------------------------------------------
 %
 %   Author:        Mark Tompkins
-%   Revision:      5139.12894
+%   Revision:      5295.19554
 %   Copyright:     (c)2014
 %

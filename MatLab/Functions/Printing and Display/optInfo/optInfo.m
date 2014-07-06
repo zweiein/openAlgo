@@ -77,11 +77,14 @@ if ~exist('tenI', 'var')
 elseif numI > 0
     estDur = (numI * tenI / 10 );
     if (isPar == 1)
-        % add 6 minutes to Parallel process.  Assumed to be to process the results far workers.
-        estDur = (estDur / numCPU) + 360;
+        estDur = (estDur / numCPU);
+        % add 6 minutes to Parallel process for large sweeps to represent overhead to process results of workers.
+        if numI > 100000
+            estDur = estDur + 360;
+        end; %if
     end; %if
     estDur = round(estDur);
-    formatSpec = 'Completed 10 iterations.\n  Projected duration of optimization: ';
+    formatSpec = 'Completed 10 iterations.\nProjected duration of optimization: ';
     fprintf(formatSpec);
     if ((estDur/60) < 1)
         formatSpec = 'less than 1 minute using %d core(s).\n\n';

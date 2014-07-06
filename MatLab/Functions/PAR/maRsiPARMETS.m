@@ -23,9 +23,14 @@ testPts = floor(0.8*length(data(:,1)));
 vBarsTest = data(1:testPts,:);
 vBarsVal = data(testPts+1:end,:);
 
+% Prevent loss of global variables when calling parforprogress
+show_debug = 0;
+run_javaaddpath = 0;
+
 %% Progress Bar
 try % Initialization
-    ppm = ParforProgressStarter2('Parametric Sweep: maRsiPARMETS', row, 0.1);
+    ppm = ParforProgressStarter2('Parametric Sweep: maRsiPARMETS', row, 0.1, show_debug, run_javaaddpath);
+    %ppm = ParforProgressStarter2('Parametric Sweep: maRsiPARMETS', row, 0.1);
 catch me % make sure "ParforProgressStarter2" didn't get moved to a different directory
     if strcmp(me.message, 'Undefined function or method ''ParforProgressStarter2'' for input arguments of type ''char''.')
         error('ParforProgressStarter2 not in path.');
@@ -41,6 +46,7 @@ end %try
 
 
 %% Parallel iterations
+try
 parfor ii = 1:row
     if x(ii,1) > x(ii,2)
         shTest(ii) = NaN;
@@ -56,8 +62,15 @@ parfor ii = 1:row
         [~,~,shVal(ii)] =	maRsiSIG_mex(vBarsVal,x(ii,1),x(ii,2),x(ii,3),...
             [x(ii,4) x(ii,5)],x(ii,6),x(ii,7),x(ii,8),...
             bigPoint,cost,scaling);  %#ok<PFBNS>
-    end
+   end
     ppm.increment(ii); %#ok<PFBNS>
+end
+catch ER
+	% An error occurred during the parallel process ...
+	subj = 'ALERT - Notice of MATLAB error';
+    message = sprintf('Error while executing the parallel parametric sweep.\nThe error reported by MATLAB is:\n\n%s', ER.message);
+    % Send the notice
+    sendNotice(subj, message);
 end
 
 %% Destroy progress bar

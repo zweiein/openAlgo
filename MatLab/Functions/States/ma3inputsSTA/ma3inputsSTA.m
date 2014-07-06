@@ -1,13 +1,14 @@
-function [STA,LEAD,LAG] = ma2inputsSTA(price,F,S,type)
-%MA2INPUTSSTA returns a logical STATE for a simple lead/lag calculation
-%   ma2inputsSTA returns a logical STATE for a simple lead/lag calculation
+function [STA,LEAD,MED,LAG] = ma3inputsSTA(price,F,M,S,type)
+%MA3INPUTSSTA returns a logical STATE for a fast/medium/slow average calculation
+%   ma3inputsSTA returns a logical STATE for a fast/medium/slow 
 %   moving-average technical indicator.
 %
-%   STA = MA2INPUTSSTA(PRICE, F, S, type) returns a STATE based upon provided
-%   lead (F) and lag (S) periods.
+%   STA = MA3INPUTSSTA(PRICE, F, M, S, type) returns a STATE based upon provided
+%   fast (F), medium (M), and slow (S) periods.
 %
 %   INPUTS:     price = an array of any [C] or [O | C] or [O | H | L | C]
 %               F = fast period
+%               M = medium period
 %               S = slow period
 %               type = Available average types are:
 %                           -5  Triangle (Double smoothed similar to Hull)
@@ -20,9 +21,17 @@ function [STA,LEAD,LAG] = ma2inputsSTA(price,F,S,type)
 %
 %   OUTPUT:
 %       STA values are LEAD referenced where:
-%           1    LEAD > LAG
-%           0    LEAD = LAG
-%          -1    LEAD < LAG
+%           1    LEAD > MEDIUM > LAG
+%           0    LEAD >= MEDIUM <= LAG
+%           0    LEAD <= MEDIUM >= LAG
+%          -1    LEAD < MEDIUM < LAG
+%
+%       LEAD    The moving average value based on the LEAD lookback. 
+%               Values prior to the LEAD start are returned as the fClose value
+%       MED     The moving average value based on the MED lookback. 
+%               Values prior to the MED start are returned as the fClose value
+%       LAG     The moving average value based on the LAG lookback. 
+%               Values prior to the LAG start are returned as the fClose value
 %
 %   NOTE:
 %       As this file is designed to be MEX'd all inputs are required.
@@ -41,29 +50,40 @@ fClose = zeros(rows,1);                                     %#ok<NASGU>
 fClose = OHLCSplitter(price);
 
 %% Input with error check
-if (F > S)
-    error('METS:ma2inputsSTA:invalidInputs', ...
-        'LEAD input > LAG input. Catch this before submitting to ''ma2inputsSIG''');
+if (F > M)
+    error('METS:ma3inputsSTA:invalidInputs', ...
+        'FAST input > MEDIUM input. Catch this before submitting to ''ma3inputsSIG''');
 end; %if
 
-if F > rows || S > rows
-    error ('METS:ma2inputsSTA:invalidInputs', ...
+if (M > S)
+    error('METS:ma3inputsSTA:invalidInputs', ...
+        'MEDIUM input > SLOW input. Catch this before submitting to ''ma3inputsSIG''');
+end; %if
+
+if (F > S)
+    error('METS:ma3inputsSTA:invalidInputs', ...
+        'FAST input > SLOW input. Catch this before submitting to ''ma3inputsSIG''');
+end; %if
+
+if F > rows || M > rows || S > rows
+    error ('METS:ma3inputsSTA:invalidInputs', ...
         'Lookback is greater than the number of observations (%d)',rows);
 end; %if
 
-
 %% Calculations
 % Preallocation
-% The following two preallocations allow MEX to compile
+% The following preallocations allow MEX to compile
 % http://www.mathworks.com/matlabcentral/newsreader/view_thread/306824
 STA = zeros(rows,1);
 LEAD = zeros(rows,1);             	%#ok<NASGU>
+MED = zeros(rows,1);             	%#ok<NASGU>
 LAG = zeros(rows,1);                %#ok<NASGU>
 
-[LEAD,LAG] = movAvg_mex(fClose,F,S,type);
+[LEAD,MED] = movAvg_mex(fClose,F,M,type);       % Consider creating an elemental to handle 3 inputs to reduce calls
+[~,LAG] = movAvg_mex(fClose,M,S,type);          % MED is captured above
 
-STA(LEAD>LAG) = 1;
-STA(LEAD<LAG) = -1;
+STA((LEAD > MED) & (MED > LAG)) = 1;
+STA((LEAD < MED) & (MED < LAG)) = -1;
 
 % Clear erroneous states calculated prior to enough data
 STA(1:S-1) = 0;
@@ -71,9 +91,12 @@ STA(1:S-1) = 0;
 % Correct calculations prior to enough bars for lead & lag
 for ii = 1:S-1
     if (ii < F)
-        LEAD(ii) = fClose(ii);                 % Reset the moving average calculation to equal the Close
+        LEAD(ii) = fClose(ii);          % Reset the moving average calculation to equal the Close
     end;
-    LAG(ii) = fClose(ii);                      % Also reset the slower average
+    if (ii < M)
+        MED(ii) = fClose(ii);           % Reset the moving average calculation to equal the Close
+    end;
+    LAG(ii) = fClose(ii);               % Also reset the slower average
 end; %for
 
 %%
@@ -127,7 +150,8 @@ end; %for
 %   -------------------------------------------------------------------------
 %
 %   Author:        Mark Tompkins
-%   Revision:      4906.24976
-%   Copyright:     (c)2013
+%   Revision:      5295.16422
+%   Copyright:     (c)2014
 %
+
 

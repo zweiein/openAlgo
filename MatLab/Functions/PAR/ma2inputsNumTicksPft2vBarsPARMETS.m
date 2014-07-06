@@ -1,11 +1,4 @@
-function shMETS = rsiRaviPARMETS(x,data,bigPoint,cost,scaling)
-% define rsi + ravi to accept vectorized inputs and return only sharpe ratio
-%%
-%                       rsiRavi(price,rsiM,rsiThresh,rsiType,raviF,raviS,raviD,raviM,raviE, ...
-%                               raviThresh, scaling,cost,bigPoint)
-%
-% maSnrPARMETS(price,N,M,typeMA,Mrsi,thresh,typeRSI,scaling,cost,bigPoint)
-%
+function shMETS = ma2inputsNumTicksPft2vBarsPARMETS(x,dataA,dataB,minTick,bigPoint,cost,scaling)
 % Wrapper for ma2inputs with numTicksProfit to accept vectorized inputs and return only sharpe ratio
 % in order to facilitate embarrassingly parallel parametric sweeps.
 % PAR wrappers allow the parallel execution of parametric sweeps across HPC clusters
@@ -16,23 +9,25 @@ function shMETS = rsiRaviPARMETS(x,data,bigPoint,cost,scaling)
 % The wrapper will indicate if it is looking to maximize:
 %   Standard Sharpe     function(s)PAR
 %   METS Sharpe         function(s)PARMETS
+%
+%   Aggregating function:
+%   [barsOut,sigOut,R,SH,LEAD,LAG] = ma2inputsNumTicksPftSIG(price,F,S,typeMA,...
+%                                             minTick,numTicks,openAvg,...
+%                                             scaling,cost,bigPoint)
 
+%% Preallocate
 row = size(x,1);
-shTest = zeros(row,1);
-shVal = zeros(row,1);
-shMETS = zeros(row,1); %#ok<NASGU>
+shA = zeros(row,1);
+shB = zeros(row,1);
 
-testPts = floor(0.8*length(data(:,1)));
-vBarsTest = data(1:testPts,:);
-vBarsVal = data(testPts+1:end,:);
+%% Split dataset
+%testPts = floor(0.8*length(data(:,1)));
+%vBarsTest = data(1:testPts,:);
+%vBarsVal = data(testPts+1:end,:);
 
-% Prevent loss of global variables when calling parforprogress
-%show_debug = 0;
-%run_javaaddpath = 0;
-
-try
-    %ppm = ParforProgressStarter2('Parametric Sweep: RSI with RAVI Transformer', row, 0.1, show_debug, run_javaaddpath);
-    ppm = ParforProgressStarter2('Parametric Sweep: RSI with RAVI Transformer', row, 0.1);
+%% Progress Bar
+try % Initialization
+    ppm = ParforProgressStarter2('Parametric Sweep: ma2inputsNumTicksPftPARMETS', row, 0.1);
 catch me % make sure "ParforProgressStarter2" didn't get moved to a different directory
     if strcmp(me.message, 'Undefined function or method ''ParforProgressStarter2'' for input arguments of type ''char''.')
         error('ParforProgressStarter2 not in path.');
@@ -43,39 +38,41 @@ catch me % make sure "ParforProgressStarter2" didn't get moved to a different di
         print_error_red(msg);
         % backup solution so that we can still continue.
         ppm.increment = nan(1, nbr_files);
-    end
-end
+    end %if
+end %try
 
-try
-    parfor ii = 1:row
-        [~,~,shTest(ii)] = rsiRaviSIG_mex(vBarsTest,[x(ii,1) x(ii,2)],x(ii,3),x(ii,4),...
-            x(ii,5),x(ii,6),x(ii,7),x(ii,8), x(ii,9), x(ii,10),...
+%% Parallel iterations
+parfor ii = 1:row
+    % We will supress analysis when the averages are
+    % Equal         We can infer 'not to trade' if the optimized result is a negative
+    % Lag > Lead    Lag should in fact 'lag'.  This would be duplicative to analyze twice
+    if x(ii,1) >= x(ii,2)
+        shA(ii) = NaN;
+        shB(ii) = NaN;
+    else
+        [~,~,~,shA(ii)] = ma2inputsNumTicksPftSIG_mex(dataA,x(ii,1),x(ii,2),x(ii,3),...
+            minTick,x(ii,4),x(ii,5),...
             bigPoint,cost,scaling);
-        [~,~,shVal(ii)] = rsiRaviSIG_mex(vBarsVal,[x(ii,1) x(ii,2)],x(ii,3),x(ii,4),...
-            x(ii,5),x(ii,6),x(ii,7),x(ii,8),x(ii,9), x(ii,10),...
-            bigPoint,cost,scaling); %#ok<PFBNS>
-        ppm.increment(); %#ok<PFBNS> % update progressbar
-    end; %parfor
-catch ER
-	% An error occurred during the parallel process ...
-	%subj = 'ALERT - Notice of MATLAB error';
-    %message = sprintf('Error while executing the parallel parametric sweep.\nThe error reported by MATLAB is:\n\n%s', ER.message);
-    % Send the notice
-    %sendNotice(subj, message);
+        [~,~,~,shB(ii)] =	ma2inputsNumTicksPftSIG_mex(dataB,x(ii,1),x(ii,2),x(ii,3),...
+            minTick,x(ii,4),x(ii,5),...
+            bigPoint,cost,scaling); %#ok<*PFBNS>
+    end
+    ppm.increment(ii); %#ok<PFBNS>
 end
 
+%% Destroy progress bar
 try % use try / catch here, since delete(struct) will raise an error.
     delete(ppm);
 catch me %#ok<NASGU>
-end;
+end; %try
 
 %% Aggregate sharpe ratios
-shMETS = ((shTest*2)+shVal)/3;
+shMETS = shA+shB;
 
 %%
 %   -------------------------------------------------------------------------
-%                                  _    _
-%         ___  _ __   ___ _ __    / \  | | __ _  ___   ___  _ __ __ _
+%                                  _    _ 
+%         ___  _ __   ___ _ __    / \  | | __ _  ___   ___  _ __ __ _ 
 %        / _ \| '_ \ / _ \ '_ \  / _ \ | |/ _` |/ _ \ / _ \| '__/ _` |
 %       | (_) | |_) |  __/ | | |/ ___ \| | (_| | (_) | (_) | | | (_| |
 %        \___/| .__/ \___|_| |_/_/   \_\_|\__, |\___(_)___/|_|  \__, |
@@ -123,6 +120,6 @@ shMETS = ((shTest*2)+shVal)/3;
 %   -------------------------------------------------------------------------
 %
 %   Author:        Mark Tompkins
-%   Revision:      5139.12894
-%   Copyright:     (c)2014
+%   Revision:      4908.21539
+%   Copyright:     (c)2013
 %
