@@ -306,7 +306,7 @@ void mexFunction(int nlhs, mxArray *plhs[], /* Output variables */
 
 		// Check for profit on same observation
 		// 'minMax' has been updated so we can safely call 'sameBarProfitCheck'
-		int openPosition = int(sigInPtr[sigIndex]);
+		int openPosition = 0;
 		sameBarProfitCheck(openLedger, profitLedger, sigIndex, int(sigInPtr[sigIndex]), openPosition, minMax);
 
 		// FIRST BAR END
@@ -408,7 +408,6 @@ void mexFunction(int nlhs, mxArray *plhs[], /* Output variables */
 					// Process addition
 					// Put trade on openLedger
 					openLedger.push_back(createOpenLedgerEntry(curBar, int(sigInPtr[curBar]), barsInPtr[curBar + 1 + shiftOpen]));
-					openPosition = openPosition + int(sigInPtr[curBar]);
 					sameBarProfitCheck(openLedger, profitLedger, curBar, int(sigInPtr[curBar]), openPosition, minMax);
 				}
 			}
@@ -677,8 +676,20 @@ void newMinMax(list<openEntry> &openLedger,  list<profitEntry> &profitLedger, co
 						openLedger.erase(iter);
 					}
 				}
+
+				// Update openPosition
+				if(openLedger.empty())
+				{
+					openPosition = 0;
+					// We have deleted the last openLedger entry
+					// This protects against the iterator losing reference
+					break;
+				}
+				else
+				{
+					openPosition = sumQty(openLedger);
+				}
 			}
-			openPosition = sumQty(openLedger);
 		}
 		// Using the average price approach 
 		else
@@ -764,7 +775,18 @@ void checkOpen(list<openEntry> &openLedger, list<profitEntry> &profitLedger, con
 					// Open satisfies profit threshold
 					moveProfitLedger(profitLedger, ID, iter->qtyOpen, barsInPtr[ID + 1 + shiftOpen]);
 					openLedger.erase(iter);
-					openPosition = sumQty(openLedger);
+					// Update openPosition
+					if(openLedger.empty())
+					{
+						openPosition = 0;
+						// We have deleted the last openLedger entry
+						// This protects against the iterator losing reference
+						break;
+					}
+					else
+					{
+						openPosition = sumQty(openLedger);
+					}
 				}
 			}
 			// Long
@@ -775,7 +797,18 @@ void checkOpen(list<openEntry> &openLedger, list<profitEntry> &profitLedger, con
 					// Open satisfies profit threshold
 					moveProfitLedger(profitLedger, ID, iter->qtyOpen, barsInPtr[ID + 1 + shiftOpen]);
 					openLedger.erase(iter);
-					openPosition = sumQty(openLedger);
+					// Update openPosition
+					if(openLedger.empty())
+					{
+						openPosition = 0;
+						// We have deleted the last openLedger entry
+						// This protects against the iterator losing reference
+						break;
+					}
+					else
+					{
+						openPosition = sumQty(openLedger);
+					}
 				}
 			}
 		}
@@ -880,7 +913,6 @@ bool knownAdvSig(double advSig)
 int sumQty(const list<openEntry>& theList)
 {
 	int sumOfQty = 0;  // the sum is accumulated here
-	// for (int i=0; i<x.size(); i++)
 	for (list<openEntry>::const_iterator it=theList.begin(); it!=theList.end(); it++)
 	{
 		sumOfQty += it->qtyOpen;
@@ -961,6 +993,6 @@ void chkOpenMethod(int &openPosition, const int curBar, double &minMax, list<ope
 //   -------------------------------------------------------------------------
 //
 //   Author:	Mark Tompkins
-//   Revision:	4929.25227
-//   Copyright:	(c)2013
+//   Revision:	5302.32520
+//   Copyright:	(c)2014
 //
