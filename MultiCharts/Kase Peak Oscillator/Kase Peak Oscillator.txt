@@ -1,0 +1,21 @@
+{K.PeakOscillator}
+
+Inputs: f(2) ;
+
+value50=50*(average(K.HIrwi,3)-average(K.LOrwi,3));
+value1=(WAVERAGE(absvalue(value50),50)) + (F*(StdDev(absvalue(value50),50)));
+value4 = maxlist(100,value1);
+
+if value50 >0 then begin
+    Plot1(value50, "PeakOsc");
+end;
+
+if value50 <0 then begin
+   Plot3(value50, "PeakOsc");
+end;
+
+if value50 > 0 then value6 = value4 else  value6 = -value4;
+Plot2(value6,"Peak-Out");
+
+if value50 > 0 then value23 = value1 else  value23 = -value1;
+Plot4(value23,"Peak-Outx");

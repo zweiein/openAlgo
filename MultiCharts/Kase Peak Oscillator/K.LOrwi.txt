@@ -1,0 +1,20 @@
+// For use with Kase Peak Oscillator
+{Function:LOrwi}
+{ This function is equal to Kase' Function XS.  IT is
+ the RWI indicator written about by Mile Poulos in TASC.
+ The indicator uses 0 as a minimum value althouhg the
+ RWI can be negative.}
+
+vars: mlval(0);
+mlval = 0;
+
+for value99 = 8 to 65 begin
+   value5 = (high[value99] - low)/SquareRoot(value99);
+   if value5> mlval then mlval = value5;
+end;
+
+value6 =average(TrueRange,34);
+
+if  value6 > 0 then
+K.LOrwi = mlval / value6 else K.LOrwi =K.LOrwi [1];
+
