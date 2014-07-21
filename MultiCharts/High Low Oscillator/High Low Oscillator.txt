@@ -1,0 +1,22 @@
+Inputs: OscLen(34);
+Vars:   Osc(0),Hosc(0),Losc(0);
+
+Osc = Average((H+L)/2,5) - Average((H+L)/2,OscLen);
+
+{*** Hosc returns the Highest Osc Value, while Osc > 0 ***} 
+If Osc crosses above 0 or Osc > Hosc then Hosc = Osc;
+
+{*** Losc returns the Lowest Osc Value, while Osc < 0 ***} 
+If Osc crosses below 0 or Osc < Losc then Losc = Osc;
+
+If Osc > 0 then begin
+   Plot1(Hosc,"Hosc");
+   Plot2(0,"Losc");
+   Plot3(Osc,"Up");
+end else
+if Osc < 0 then begin
+   Plot1(0,"Hosc");
+   Plot2(Losc,"Losc");
+   Plot4(Osc,"Dn");
+end;
+

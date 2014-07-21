@@ -1,0 +1,130 @@
+inputs: filter(2), stats(0);
+vars  : xBar(0) , xHigh(0), xLow(0), xCount(0), xSwitch(0);
+vars  : xSkip(0), xConfirm(0);
+vars  : pBar(0) , pHigh(0), pLow(0);
+vars  : bFirst(1);
+
+if xSwitch = 0  then
+ begin
+  if High >= xHigh then
+   begin
+    xHigh  = High;
+    xLow   = Low;
+    xBar   = BarNumber;
+    xSkip  = 0;
+   end
+  else
+   begin
+    xSkip  = xSkip + 1;
+    if xSkip      >= filter then
+     begin
+       xConfirm    = 1;
+       xCount      = 1;
+       while xCount < filter
+        begin
+         if (Low[xCount] <= Low[xCount-1]) or (xLow <= Low[filter-1])
+then
+           begin
+            xCount   = filter;
+            xConfirm = 0;
+           end;
+         xCount      = xCount + 1;
+        end;
+       if xConfirm   = 1 then
+        begin
+          xSwitch = 1;
+          if stats = 0 then
+             plot1[BarNumber-xBar](xHigh,"Swing")
+          else
+           begin
+            if bFirst = 0 then
+             begin
+               plot2[BarNumber-xBar](xHigh-pLow,"Range");
+               plot3[BarNumber-xBar](xBar -pBar,"Duration");
+             end;
+             bFirst = 0;
+           end;
+          pHigh   = xHigh;
+          pLow    = xLow;
+          pBar    = xBar;
+          xHigh   = High;
+          xLow    = Low;
+          xBar    = BarNumber;
+          xSkip   = 0;
+        end;
+     end;
+   end;
+ end
+else
+ begin
+  if Low <= xLow then
+   begin
+    xHigh = High;
+    xLow  = Low;
+    xBar  = BarNumber;
+    xSkip = 0;
+   end
+  else
+   begin
+    xSkip = xSkip + 1;
+    if xSkip >= filter then
+     begin
+      xConfirm = 1;
+      xCount   = 1;
+      while xCount < filter
+        begin
+         if (High[xCount] >= High[xCount-1]) or (xHigh >=
+High[filter-1]) then
+          begin
+           xCount   = filter;
+           xConfirm = 0;
+          end;
+         xCount   = xCount + 1;
+        end;
+      if xConfirm = 1 then
+       begin
+         xSwitch = 0;
+         if stats = 0 then
+           plot1[BarNumber-xBar](xLow,"Swing")
+         else
+          begin
+           plot2[BarNumber-xBar](pHigh-xLow,"Range");
+           plot3[BarNumber-xBar](xBar -pBar,"Duration");
+          end;
+         pHigh   = xHigh;
+         pLow    = xLow;
+         pBar    = xBar;
+         xLow    = Low;
+         xHigh   = High;
+         xBar    = BarNumber;
+         xSkip   = 0;
+       end;
+     end;
+   end;
+ end;
+
+if ((date = lastcalcdate) and (time = lastcalctime)) then
+ begin
+  if xSwitch = 0 then
+   begin
+     if stats = 0 then
+       plot1[BarNumber-xBar](xHigh,"Swing")
+     else
+       begin
+         plot2[BarNumber-xBar](xHigh-pLow,"Range");
+         plot3[BarNumber-xBar](xBar -pBar,"Duration");
+       end;
+   end
+  else
+   begin
+     if stats = 0 then
+       plot1[BarNumber-xBar](xLow,"Swing")
+     else
+       begin
+         plot2[BarNumber-xBar](pHigh-xLow,"Range");
+         plot3[BarNumber-xBar](xBar -pBar,"Duration");
+       end;
+   end;
+ end;
+
+
