@@ -1,0 +1,37 @@
+Inputs: DomCycle(15);
+Vars: RealPart(0), ImagPart(0), Weight(0), Phase1(0), Phase2(0), J(0);
+
+RealPart = 0;
+ImagPart = 0;
+
+For J = 0 To DomCycle - 1 Begin
+	Weight = Close[J];
+	IF DomCycle <> 0 Then Begin
+		RealPart = RealPart + Cosine(360 * J / DomCycle) * Weight;
+		ImagPart = ImagPart + Sine(360 * J / DomCycle) * Weight;
+	End;
+End;
+
+IF AbsValue(RealPart) > .001 Then Begin
+	Phase1 = ArcTangent(ImagPart / RealPart);
+End Else Begin
+	Phase1 = 90 * Sign(ImagPart);
+End;
+
+Phase2=Phase1+45;
+
+If RealPart < 0 Then begin
+	Phase1 = Phase1 + 180;
+      Phase2 = Phase2 + 180;
+End;
+Phase1 = Phase1 + 90;
+Phase2 = Phase2 + 90;
+IF Phase1 < 0 Then begin
+	Phase1 = Phase1 + 360;
+      Phase2 = Phase2 + 360;
+End;
+IF Phase1 > 360 Then Phase1 = Phase1 - 360;
+IF Phase2 > 360 Then Phase2 = Phase2 - 360;
+
+Plot1(Sine(Phase1),"Phase1");
+Plot2(Sine(Phase2),"Phase2");
