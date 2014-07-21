@@ -1,1 +1,1 @@
-![Screenshot](/../screenshots/screenshots/BBSqueeze_Ind?raw=true "BB Squeeze")
+![Screenshot](/../master/ScreenShots/BBSqueeze_Ind.jpg?raw=true "BB Squeeze")
