@@ -1,0 +1,27 @@
+[LegacyColorValue = true]; 
+
+{ User Function: AddTime
+   Inputs : xTime - time in 24 hour format.
+   Minutes - amount to add/subtract to xTime.
+   
+   Sample Usage :
+   if (Time[0] > AddTime (Sess1StartTime, +30))
+   then ...
+   
+   Returns: Adjusted time in 24 hour format.
+   Properties
+   [ ] Auto Detect
+   [*] Simple
+   [ ] Series
+   
+   Provided by Product Support Dept.
+   of Omega Research, Inc.
+   }
+   
+   Inputs : xTime (NumericSimple),
+
+   Minutes (NumericSimple) ;
+   
+   AddTime = MinutesToTime (TimeToMinutes (xTime) + Minutes) ;
+   
+

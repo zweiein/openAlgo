@@ -8,12 +8,13 @@ While this approach does create a higher likelihood of a failure to post a refer
 Where possible original author's comments have been left intact to give appropriate credit. Some of this content while old, is still believed to be valuable.
 
 ## Functions ##
-
+- AddTime
 ## Indicators ##
 - BB Squeeze
 - Gann Swing
 - High Low Oscillator
 - Kase Peak Oscillator
 - Mesa Phase 1 & 2
+- Msheiner Scalping Support & Resistance Lines
 
 ## Strategies ##

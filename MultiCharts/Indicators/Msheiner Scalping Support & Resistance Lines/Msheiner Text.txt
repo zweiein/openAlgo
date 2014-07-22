@@ -1,0 +1,155 @@
+[LegacyColorValue = true]; 
+
+{ !!_msheiner_text
+
+original by WayneChem
+
+https://www.tradestation.com/Discussions/Topic.aspx?Topic_ID=48589&Page=1
+
+	msheiner scalping method
+		S / R lines
+		2/4/06
+		forum topic: 48589
+
+
+Modified by Programmer:  Avery T. Horton, Jr.  aka TheRumpledOne, 
+gifts and donation accepted, PO Box 43575, Tucson, AZ 85733 
+
+}
+
+Inputs:
+idecimals( 2 ),	
+iColorPrevDay( magenta ) ,
+iColorTL( darkgray ),
+
+iTL_Style( tool_solid ) ;
+
+vars: 
+	
+
+textprevclose(0),
+textopen(0),
+
+texthigh(0),
+textlow(0),
+
+tlPH(0),tlPL(0),tlPO(0),
+	tlPC(0),LS(3),RS(3),count(0),
+	BeginTime(0000),tlCount(0),
+	tlStart(0);
+
+array: tl[](0);
+
+array: tltxt[](0);
+
+if date <> date[1] then
+begin
+	value1 = HighD(1);
+	tlPH = tl_new(date,time,value1,date,time,value1);
+	tl_SetColor(tlPH,iColorPrevDay);
+
+
+	textprevclose = Text_New(Date, time , value1, "PrevHigh ("+ NumToStr(value1, idecimals )+")");
+	Text_SetStyle(textprevclose, 1,  1  );
+	Text_SetColor(textprevclose, iColorPrevDay );
+
+	value1 = LowD(1);
+	tlPL = tl_new(date,time,value1,date,time,value1);
+	tl_SetColor(tlPL,iColorPrevDay);
+
+
+
+	textprevclose = Text_New(Date, time , value1, "PrevLow ("+ NumToStr(value1, idecimals )+")");
+	Text_SetStyle(textprevclose, 1,  1  );
+	Text_SetColor(textprevclose, iColorPrevDay );
+
+
+	value1 = OpenD(1);
+	tlPO = tl_new(date,time,value1,date,time,value1);
+	tl_SetColor(tlPO,iColorPrevDay);
+
+
+
+	textprevclose = Text_New(Date, time , value1, "PrevOpen ("+ NumToStr(value1, idecimals )+")");
+	Text_SetStyle(textprevclose, 1,  1  );
+	Text_SetColor(textprevclose, iColorPrevDay );
+
+
+	value1 = close[1];
+	tlPC = tl_new(date,time,value1,date,time,value1);
+	tl_SetColor(tlPC,iColorPrevDay);
+
+
+	textprevclose = Text_New(Date, time , value1, "PrevClose ("+ NumToStr(value1, idecimals )+")");
+	Text_SetStyle(textprevclose, 1,  1  );
+	Text_SetColor(textprevclose, iColorPrevDay );
+
+
+	BeginTime = time;
+
+	Array_SetMaxIndex(tl,0);
+	tlCount = 0;
+end;
+
+if BeginTime > 0 then
+begin
+	if time <= CalcTime(BeginTime,120) then
+	begin
+		value1 = PivotLowVSBar(1,low,LS,RS,RS+1);
+		if value1 = RS and
+			date[RS] = date then
+		begin
+			tlCount = tlCount + 1;
+			array_SetMaxIndex(tl,tlCount);
+			tl[tlCount] = tl_new(date[RS],time[RS],low[RS],
+				date,time,low[RS]);
+			tl_SetColor(tl[tlCount], iColorTL );
+			tl_SetStyle(tl[tlCount], iTL_Style );
+
+			array_SetMaxIndex(tltxt,tlCount);
+			tltxt[tlCount] = Text_New(Date, time , low[RS] , "TL ("+ NumToStr( low[RS] , idecimals )+")");
+			Text_SetStyle( tltxt[tlCount] , 1,  iTL_Style  );
+			Text_SetColor( tltxt[tlCount] , iColorTL );
+
+		end;
+
+		value1 = PivotHighVSBar(1,high,LS,RS,RS+1);
+		if value1 = RS and
+			date[RS] = date then
+		begin
+			tlCount = tlCount + 1;
+			array_SetMaxIndex(tl,tlCount);
+			tl[tlCount] = tl_new(date[RS],time[RS],high[RS],
+				date,time,high[RS]);
+			tl_SetColor(tl[tlCount], iColorTL );
+			tl_SetStyle(tl[tlCount], iTL_Style );
+
+
+			array_SetMaxIndex(tltxt,tlCount);
+			tltxt[tlCount] = Text_New(Date, time , high[RS] , "TL ("+ NumToStr( high[RS] , idecimals )+")");
+			Text_SetStyle( tltxt[tlCount] , 1,  iTL_Style  );
+			Text_SetColor( tltxt[tlCount] , iColorTL );
+
+
+		end;
+
+		if time = CalcTime(BeginTime,120) then
+		begin
+			tlStart = tl_new(date,time,high,date,time,low);
+			tl_SetExtRight(tlStart,true);
+			tl_SetExtLeft(tlStart,true);
+			tl_SetColor(tlStart, iColorTL );
+			tl_SetStyle(tlStart, iTL_Style );
+		end;
+	end;
+	for count = 1 to tlCount
+	begin
+		if tl[count] > 0 then
+			tl_SetEnd(tl[count],date,time,tl_GetBeginVal(tl[count]));
+	end;
+
+	tl_SetEnd(tlPO,date,time,tl_GetBeginVal(tlPO));
+	tl_SetEnd(tlPC,date,time,tl_GetBeginVal(tlPC));	
+	tl_SetEnd(tlPH,date,time,tl_GetBeginVal(tlPH));
+	tl_SetEnd(tlPL,date,time,tl_GetBeginVal(tlPL));
+end;

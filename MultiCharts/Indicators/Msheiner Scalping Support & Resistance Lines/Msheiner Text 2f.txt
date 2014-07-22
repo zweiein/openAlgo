@@ -1,0 +1,564 @@
+[LegacyColorValue = true]; 
+
+{ !!_msheiner_text_2f
+
+original by WayneChem
+
+https://www.tradestation.com/Discussions/Topic.aspx?Topic_ID=48589&Page=1
+
+	msheiner scalping method
+		S / R lines
+		2/4/06
+		forum topic: 48589
+
+}
+
+{Attn: TradeStation
+if this indicator is posted on the TradeStation Forum, I, TheRumpledOne, did NOT post it there, 
+so I can't be blamed for this indicator having my contact info.}
+
+
+{Programmer:  Avery T. Horton, Jr.  aka TheRumpledOne, 
+gifts and donations accepted, PO Box 43575, Tucson, AZ 85733 }
+
+{ © Copyright 2006 Avery T. Horton, Jr.}
+
+Inputs:
+
+iBarReset( true ),
+
+iSessionStartTime(  0630), 
+
+iMinutesToWait01 ( 120),  // minutes to wait after session begins
+
+iDecimals( 2),	
+iLS(3),
+iRS(3),
+
+iColorStartLine(  green), 
+
+iPlotToday( true),
+iColorToday(  yellow) ,
+
+iColorPrevDay(  magenta) ,
+iColorTL_Hi(  darkgray),
+iColorTL_Lo(  blue),
+
+iPlotKeyTimes( false),
+iTimeOffSet(0200),  		// HHMM offset hours from NY time
+iStyleTimeLine  (  tool_dotted),
+
+iStyleStartLine  (  tool_dashed),
+
+iTL_Style(  tool_solid) ;
+
+inputs:
+
+TLSize(    0),
+
+TL_Text_HVal ( 0) , 
+TL_Text_VVal ( 2) ;
+
+vars: 
+
+sFirstPass(true),
+
+sTimePlot(false),
+
+
+xBarNumber( 0 ),
+PrevSession( 0 ),
+
+xTO( 0 ),
+xTH( 0 ),
+xTL( 0 ),
+xTC( 0 ),
+
+
+xTextTO( 0 ),
+xTextTH( 0 ),
+xTextTL( 0 ),
+xTextTC( 0 ),
+
+
+textTopen(0),
+
+textThigh(0),
+textTlow(0),
+
+tlTH(0),
+tlTL(0),
+tlTO(0),
+tlTC(0),
+
+
+TL_TextTime( 0 ) ,
+	
+aLoop( 0 ),
+	
+xPO( 0 ),
+xPH( 0 ),
+xPM( 0 ),
+xPL( 0 ),
+xPC( 0 ),
+
+
+xTextPO( 0 ),
+xTextPH( 0 ),
+xTextPM( 0 ),
+xTextPL( 0 ),
+xTextPC( 0 ),
+
+
+TextName(0),
+textopen(0),
+
+texthigh(0),
+textmid(0),
+textlow(0),
+
+tlPH(0),
+tlPM(0),
+tlPL(0),
+tlPO(0),
+tlPC(0),
+count(0),
+BeginTime(0000),
+tlCount(0),
+tlStart(0);
+
+array: aStartLine[11](0);
+
+array: tl[](0);
+
+array: tltxt[](0);
+
+
+array: xKeyTimes[10](0);
+
+array: tKeyTimes[10]("");
+
+array: cKeyTimesColor[10]( lightgray );
+
+array: xTextKeyTimes[10](0);
+
+{first time through}
+
+if sFirstPass
+then begin
+	
+sFirstPass = false;
+
+{
+9:50-10:10AM
+Often times, a stock that is moving up into this reversal time zone will
+either stall or reverse and head lower. The same is true for the reverse.
+This reversal time is by far one of the most reliable times in existence.
+10:25-10:35AM
+A stock that is moving down into this reversal time zone will also tend to
+either stall or reverse back to the upside. If a stock is moving up into
+this time zone, it will often halt its advance or reverse and head
+lower. This is also one of the more reliable reversal times.
+11:15-11:30AM
+This reversal time tends to accomplish two things. First, it tends to halt
+the prevailing trend preceding it. A stall that this time zone puts in,
+will tend to be an enduring one. This period also kicks off the period
+called the midday doldrums. This is an elongated period that spans
+11:15-2:15PM. During this extended time zone, many stocks, as well as the
+market as a whole, often go into a major lull.
+12:00-12:15PM
+This time period is most important on days in which the morning has been
+quiet or directionless. Despite the fact that it is the midday doldrums
+period, this time zone can kick off some major moves in both directions,
+but usually only when the preceding period was very quiet. This reversal
+period is far less common than the preceding three.
+1:15-1:30PM
+This is one of the more minor reversal periods. It is usually most
+significant when it coincides with the retest of a prior high or low. An
+example, XYZ tops out around 11:15AM and after a pullback, it rallies back
+to retest the 11:15AM high in the 1:15-1:30PM time period. The odds of a
+double top dramatically increase, because the retest of the prior high is
+coinciding with this time period and can present some interesting trading
+opportunities.
+2:15-2:30PM
+This time period puts an end to the midday doldrums and serves as a very
+reliable reversal period for stocks and the general market. This period
+often marks the precise period when things start heating up again. It is
+so pronounced at times that many regard the period as the market's second open.
+3:00PM
+This reversal time often brings change because it coincides with the close
+of the bond market. This often results in stocks or the market taking on a
+different, more accelerated character.
+3:30PM
+This time often reverses any move that was kicked off at the previous
+3:00PM reversal time, particularly when the market is in a sideways trading
+range. The last half hour is one of the most active for many day traders.
+4:00PM
+Once extended 24-hour trading takes place, look for this time to be an
+important reversal time.
+}
+
+xKeyTimes[000] = 0937  ;
+xKeyTimes[001] = 0550  ;
+xKeyTimes[002] = 1025 ;
+xKeyTimes[003] = 1115 ;
+xKeyTimes[004] = 1130  ;
+xKeyTimes[005] = 1200 ;
+xKeyTimes[006] = 1315  ;
+xKeyTimes[007] = 1415 ;
+xKeyTimes[008] = 1500 ;
+xKeyTimes[009] = 1530 ;
+
+
+tKeyTimes[000] =  "" ;
+tKeyTimes[001] = "" ;
+tKeyTimes[002] = "" ;
+tKeyTimes[003] =  "" ;
+tKeyTimes[004] =  "" ;
+tKeyTimes[005] =  "" ;
+tKeyTimes[006] =  "" ;
+tKeyTimes[007] =  "" ;
+tKeyTimes[008] =  "" ;
+tKeyTimes[009] =   "" ;
+
+cKeyTimesColor[000] = lightgray ;
+cKeyTimesColor[001] = yellow ;
+cKeyTimesColor[002] = lightgray ;
+cKeyTimesColor[003] = yellow ;
+cKeyTimesColor[004] = lightgray ;
+cKeyTimesColor[005] = yellow ;
+cKeyTimesColor[006] = lightgray ;
+cKeyTimesColor[007] = yellow  ;
+cKeyTimesColor[008] = lightgray ;
+cKeyTimesColor[009] = yellow  ;
+
+
+
+for count = 0 to 9
+begin
+	
+xKeyTimes[count] = xKeyTimes[count] - iTimeOffSet ;		
+
+If tKeyTimes[count] = ""
+	then tKeyTimes[count] = numtostr(xKeyTimes[count] , 0 ) + " Reversal" ;
+end;  // 	for count = ...
+
+
+
+end; {if sFirstPass}
+
+
+{ PROCESSING }
+
+if iBarReset
+and CurrentSession(0) <> PrevSession
+then begin
+	PrevSession     = CurrentSession(0);
+	xBarNumber		= 0 ;
+end;
+
+	xBarNumber		= 	xBarNumber + 1 ;
+
+
+TL_TextTime = AddTime( time , 3 * BarInterval ); // use to right adjust text 
+
+if date <> date[1] 
+then begin
+	
+If xTextPO > 0 
+	then value9		= Text_Delete( xTextPO ) ;
+
+If xTextPH > 0 
+	then value9		= Text_Delete( xTextPH ) ;
+
+If xTextPL > 0 
+	then value9		= Text_Delete( xTextPL ) ;
+
+If xTextPC > 0 
+	then value9		= Text_Delete( xTextPC ) ;
+
+
+	xPH = HighD(1);
+	tlPH = tl_new( date , time ,  xPH, date , time ,  xPH);
+	tl_SetColor(tlPH,iColorPrevDay);
+
+	xPL = LowD(1);
+	tlPL = tl_new( date , time ,  xPL, date , time ,  xPL);
+	tl_SetColor(tlPL,iColorPrevDay);
+
+	xPM = ( xPH + xPL ) * .50 ;
+	tlPM = tl_new( date , time ,  xPM, date , time ,  xPM);
+	tl_SetColor(tlPM,iColorPrevDay);
+
+
+	xPO = OpenD(1);
+	tlPO = tl_new( date , time ,  xPO, date , time ,  xPO);
+	tl_SetColor(tlPO,iColorPrevDay);
+
+	xPC = close[1];
+	tlPC = tl_new( date , time ,  xPC, date , time ,  xPC);
+	tl_SetColor(tlPC,iColorPrevDay);
+
+
+	
+	xTextPH = Text_New(Date, TL_TextTime , xPH , "PrevHigh ("+ NumToStr(xPH, iDecimals )+")") ;
+
+	xTextPM = Text_New(Date, TL_TextTime , xPM, "PrevMid ("+ NumToStr(xPM, iDecimals )+")") ;
+
+	xTextPL = Text_New(Date, TL_TextTime , xPL, "PrevLow ("+ NumToStr(xPL, iDecimals )+")") ;
+
+	xTextPO = Text_New(Date, TL_TextTime , xPO, "PrevOpen ("+ NumToStr(xPO, iDecimals )+")" ) ;
+
+	xTextPC = Text_New(Date, TL_TextTime , xPC, "PrevClose ("+ NumToStr(xPC, iDecimals )+")") ;
+
+ 
+
+	Text_SetLocation(xTextPH , date , TL_TextTime , xPH );
+	Text_SetStyle(xTextPH,  TL_Text_HVal , TL_Text_VVal  );
+	Text_SetColor(xTextPH, iColorPrevDay );
+//	Text_SetString( xTextPH , "PrevHigh ("+ NumToStr(xPH, iDecimals )+")" );
+
+
+	Text_SetLocation(xTextPM , date , TL_TextTime , xPM );
+	Text_SetStyle(xTextPM,  TL_Text_HVal , TL_Text_VVal  );
+	Text_SetColor(xTextPM, iColorPrevDay );
+//	Text_SetString( xTextPM , "PrevHigh ("+ NumToStr(xPM, iDecimals )+")" );
+
+
+	Text_SetLocation(xTextPL , date , TL_TextTime , xPL );
+	Text_SetStyle(xTextPL,  TL_Text_HVal , TL_Text_VVal  );
+	Text_SetColor(xTextPL, iColorPrevDay );
+//	Text_SetString( xTextPH , "PrevLow ("+ NumToStr( xPL, iDecimals )+")" );
+
+
+	Text_SetLocation(xTextPO , date , TL_TextTime , xPO );
+	Text_SetStyle(xTextPO,  TL_Text_HVal , TL_Text_VVal  );
+	Text_SetColor(xTextPO, iColorPrevDay );
+//	Text_SetString( xTextPH , "PrevOpen ("+ NumToStr(xPO, iDecimals )+")" ) ;
+
+
+	Text_SetLocation(xTextPC , date , TL_TextTime , xPC );
+	Text_SetStyle(xTextPC,  TL_Text_HVal , TL_Text_VVal  );
+	Text_SetColor(xTextPC, iColorPrevDay );
+//	Text_SetString( xTextPH ,  "PrevClose ("+ NumToStr(xPC, iDecimals )+")") ;
+
+
+ 
+ 
+	BeginTime = time;
+
+	Array_SetMaxIndex(tl,0);
+	tlCount = 0;
+end;
+
+
+{ draw lines }
+
+
+if BeginTime > 0  then
+begin
+	if time <= CalcTime(BeginTime, iMinutesToWait01 ) then
+	begin
+		value1 = PivotLowVSBar(1,low, iLS, iRS, iRS+1);
+		if value1 =  iRS and
+			date[ iRS] = date then
+		begin
+			tlCount = tlCount + 1;
+			array_SetMaxIndex(tl,tlCount);
+			tl[tlCount] = tl_new(date[ iRS],time[ iRS],low[ iRS],
+				 date , time ,  low[ iRS]);
+			tl_SetColor(tl[tlCount], iColorTL_Lo );
+			tl_SetStyle(tl[tlCount], iTL_Style );
+
+
+			array_SetMaxIndex(tltxt,tlCount);
+			tltxt[tlCount] = Text_New(Date, TL_TextTime , low[ iRS] , NumToStr(xBarNumber, 0 )+" Sup ("+ NumToStr( low[ iRS] , iDecimals )+")");
+			Text_SetStyle( tltxt[tlCount] ,  TL_Text_HVal , TL_Text_VVal   );
+			Text_SetColor( tltxt[tlCount] , iColorTL_Lo );
+			Text_SetLocation(tltxt[tlCount] , date , TL_TextTime , low[ iRS] );
+
+		end; // if value1 =  iRS and ...
+
+		value1 = PivotHighVSBar(1,high, iLS, iRS, iRS+1);
+
+		if value1 =  iRS and
+			date[ iRS] = date then
+		begin
+			tlCount = tlCount + 1;
+			array_SetMaxIndex(tl,tlCount);
+			tl[tlCount] = tl_new(date[ iRS],time[ iRS],high[ iRS],
+				 date , time ,  high[ iRS]);
+			tl_SetColor(tl[tlCount], iColorTL_Hi );
+			tl_SetStyle(tl[tlCount], iTL_Style );
+
+
+			array_SetMaxIndex(tltxt,tlCount);
+			tltxt[tlCount] = Text_New(Date, TL_TextTime , high[ iRS] , NumToStr(xBarNumber, 0 )+" Res ("+ NumToStr( high[ iRS] , iDecimals )+")");
+			Text_SetStyle( tltxt[tlCount] ,  TL_Text_HVal , TL_Text_VVal  );
+			Text_SetColor( tltxt[tlCount] , iColorTL_Hi );
+			Text_SetLocation(tltxt[tlCount] , date , TL_TextTime , high[ iRS] );
+		end; // if value1 =  iRS .... 
+
+{ plot start trading line }
+
+		if time = CalcTime(BeginTime, iMinutesToWait01 ) then
+		begin
+			tlStart = tl_new( date , time ,  high, date , time ,  low);
+			tl_SetExtRight(tlStart,true);
+			tl_SetExtLeft(tlStart,true);
+			tl_SetColor(tlStart, iColorStartLine );
+			tl_SetStyle(tlStart, iStyleStartLine );
+		end; // if time <= CalcTime(BeginTime, iMinutesToWait01 ) 
+
+
+	end; // if time <= CalcTime(BeginTime, iMinutesToWait01 ) 
+
+
+	for count = 1 to tlCount
+	begin
+		if tl[count] > 0 then
+			tl_SetEnd(tl[count], date , time ,  tl_GetBeginVal(tl[count]));
+			Text_SetLocation(tltxt[count] , date , TL_TextTime , tl_GetBeginVal(tl[count]) );
+
+	end;  // 	for count = 1 to tlCount
+
+	tl_SetEnd(tlPO, date , time ,  tl_GetBeginVal(tlPO));
+	tl_SetEnd(tlPC, date , time ,  tl_GetBeginVal(tlPC));	
+
+	tl_SetEnd(tlPH, date , time ,  tl_GetBeginVal(tlPH));
+
+	tl_SetEnd(tlPM, date , time ,  tl_GetBeginVal(tlPM));
+
+	tl_SetEnd(tlPL, date , time ,  tl_GetBeginVal(tlPL));
+
+	Text_SetLocation(xTextPH , date , TL_TextTime , xPH );
+
+	Text_SetLocation(xTextPM , date , TL_TextTime , xPM );
+
+	Text_SetLocation(xTextPL , date , TL_TextTime , xPL );
+
+	Text_SetLocation(xTextPO , date , TL_TextTime , xPO );
+
+	Text_SetLocation(xTextPC , date , TL_TextTime , xPC );
+
+
+end;  // if BeginTime > 0 then
+
+
+if iPlotToday
+then begin
+
+{ delete/draw text } 
+
+If xTextTO > 0 
+	then value9		= Text_Delete( xTextTO ) ;
+
+xTextTO	= Text_New( date , TL_TextTime,  OPEND(0) , "Open "+ NumToStr( OPEND(0) , iDecimals )  ) ; 								    
+Text_SetColor( xTextTO , white ) ; 
+Text_SetStyle(xTextTO ,  TL_Text_HVal , TL_Text_VVal  ) ; //   HVal: 0=left, 1=right, 2=centered, / VVal: 0=Top, 1=Bottom, 2=Centered 
+Text_SetLocation(xTextTO , date , TL_TextTime , OPEND(0) );
+
+{ delete/draw trendline } 
+
+If tlTO > 0 
+	then value9		= TL_Delete( tlTO ) ;
+ 
+tlTO	= TL_new(  date , BeginTime , OPEND(0) , Date , Time , OPEND(0) ) ;	// plot from high to	
+TL_SetColor( tlTO , white ) ;
+TL_SetStyle( tlTO , iTL_Style );
+
+
+{ delete/draw text } 
+
+If xTextTH > 0 
+	then value9		= Text_Delete( xTextTH ) ;
+
+xTextTH	= Text_New( date , TL_TextTime ,  HIGHD(0) , "High "+ NumToStr( HIGHD(0) , iDecimals )   ) ; 								    
+
+Text_SetColor( xTextTH , iColorToday ) ; 
+Text_SetStyle( xTextTH ,  TL_Text_HVal , TL_Text_VVal  ) ; //   HVal: 0=left, 1=right, 2=centered, / VVal: 0=Top, 1=Bottom, 2=Centered 
+Text_SetLocation( xTextTH , date , TL_TextTime , HIGHD(0) );
+
+{ delete/draw trendline } 
+
+If tlTH > 0 
+	then value9		= TL_Delete( tlTH ) ;
+ 
+tlTH	= TL_new(  date , BeginTime , HIGHD(0) , Date , Time , HIGHD(0) ) ;	// plot from high to	
+TL_SetColor( tlTH , iColorToday ) ;
+TL_SetStyle( tlTH , iTL_Style );
+
+
+{ delete/draw text } 
+
+If xTextTL > 0 
+	then value9		= Text_Delete( xTextTL ) ;
+
+xTextTL	= Text_New( date , TL_TextTime ,  LOWD(0) , "Low "+ NumToStr( LOWD(0) , iDecimals )   ) ; 								    
+
+Text_SetColor( xTextTL , iColorToday ) ; 
+Text_SetStyle( xTextTL ,  TL_Text_HVal , TL_Text_VVal  ) ; //   HVal: 0=left, 1=right, 2=centered, / VVal: 0=Top, 1=Bottom, 2=Centered 
+Text_SetLocation( xTextTL , date , TL_TextTime , LOWD(0) );
+
+{ delete/draw trendline } 
+
+If tlTL > 0 
+	then value9		= TL_Delete( tlTL ) ;
+ 
+tlTL	= TL_new(  date , BeginTime , LOWD(0) , Date , Time , LOWD(0) ) ;	// plot from high to	
+TL_SetColor( tlTL , iColorToday ) ;
+TL_SetStyle( tlTL , iTL_Style );
+
+
+end; // if iPlotToday
+
+
+{ Key Times PROCESSING }
+
+
+if iPlotKeyTimes
+then begin
+
+value10 = highd(0) - close ;
+value20 = close - lowd(0) ;
+
+If value10 > value20
+	then value30 = value10 / 2 + close
+	else value30 = value20 / 2 + close ;
+
+sTimePlot = false ;
+	
+for count = 0 to 9
+begin
+		
+if time < xKeyTimes[count]
+and sTimePlot = false
+then begin
+	
+sTimePlot = true ;
+
+tlStart = tl_new( date , xKeyTimes[count] ,  high, date , xKeyTimes[count],  low);
+tl_SetExtRight(tlStart,true);
+tl_SetExtLeft(tlStart,true);
+tl_SetColor(tlStart, cKeyTimesColor[count] );
+tl_SetStyle(tlStart, iStyleTimeLine );
+
+{ delete/draw text } 
+
+If xTextKeyTimes[count] > 0 
+	then value9		= Text_Delete( xTextKeyTimes[count] ) ;
+
+
+xTextKeyTimes[count]= Text_New( date , xKeyTimes[count] ,  value3 , tKeyTimes[count]   ) ; 								    
+
+Text_SetColor( xTextKeyTimes[count] , cKeyTimesColor[count]  ) ; 
+Text_SetStyle( xTextKeyTimes[count],  TL_Text_HVal , TL_Text_VVal  ) ; //   HVal: 0=left, 1=right, 2=centered, / VVal: 0=Top, 1=Bottom, 2=Centered 
+Text_SetLocation(xTextKeyTimes[count] , date , TL_TextTime , value3 );
+
+end; // if time < xKeyTimes[count]
+
+end;  // 	for count = ...
+
+
+end; // iPlotKeyTimes
+

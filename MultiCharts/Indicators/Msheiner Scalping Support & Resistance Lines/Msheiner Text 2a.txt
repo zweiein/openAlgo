@@ -1,0 +1,272 @@
+[LegacyColorValue = true]; 
+
+{ !!_msheiner_text_2a
+
+original by WayneChem
+
+https://www.tradestation.com/Discussions/Topic.aspx?Topic_ID=48589&Page=1
+
+	msheiner scalping method
+		S / R lines
+		2/4/06
+		forum topic: 48589
+
+
+Modified by Programmer:  Avery T. Horton, Jr.  aka TheRumpledOne
+
+}
+
+Inputs:
+	
+
+iSessionStartTime(  0731), 
+
+iMinutesToWait01 ( 0180),  // minutes to wait after session begins
+
+iDecimals(  2),	
+iLS(3),
+iRS(3),
+
+iColorStartLine(    green ), 
+
+iColorPrevDay(    magenta ) ,
+iColorTL(    darkgray ),
+
+iStyleStartLine  (    tool_dashed ),
+
+iTL_Style(    tool_solid ) ;
+
+inputs:
+
+TLSize(        0 ),
+
+TL_Text_HVal (  0 ) , 
+TL_Text_VVal (  2 ) ;
+
+vars: 
+
+TL_TextTime( 0 ) ,
+	
+aLoop( 0 ),
+	
+xPO( 0 ),
+xPH( 0 ),
+xPL( 0 ),
+xPC( 0 ),
+
+
+xTextPO( 0 ),
+xTextPH( 0 ),
+xTextPL( 0 ),
+xTextPC( 0 ),
+
+
+TextName(0),
+textopen(0),
+
+texthigh(0),
+textlow(0),
+
+tlPH(0),
+tlPL(0),
+tlPO(0),
+tlPC(0),
+count(0),
+BeginTime(0000),
+tlCount(0),
+tlStart(0);
+
+array: aStartLine[11](0);
+
+array: tl[](0);
+
+array: tltxt[](0);
+
+
+{ PROCESSING }
+
+
+
+TL_TextTime = AddTime( time , 2 * BarInterval ); // use to right adjust text 
+
+if date <> date[1] then
+begin
+	
+	xPH = HighD(1);
+	tlPH = tl_new( date , time ,  xPH, date , time ,  xPH);
+	tl_SetColor(tlPH,iColorPrevDay);
+
+	xPL = LowD(1);
+	tlPL = tl_new( date , time ,  xPL, date , time ,  xPL);
+	tl_SetColor(tlPL,iColorPrevDay);
+
+	xPO = OpenD(1);
+	tlPO = tl_new( date , time ,  xPO, date , time ,  xPO);
+	tl_SetColor(tlPO,iColorPrevDay);
+
+	xPC = close[1];
+	tlPC = tl_new( date , time ,  xPC, date , time ,  xPC);
+	tl_SetColor(tlPC,iColorPrevDay);
+
+
+	
+	xTextPH = Text_New(Date, TL_TextTime , xPH , "PrevHigh ("+ NumToStr(xPH, iDecimals )+")") ;
+
+	xTextPL = Text_New(Date, TL_TextTime , xPL, "PrevLow ("+ NumToStr(xPL, iDecimals )+")") ;
+
+	xTextPO = Text_New(Date, TL_TextTime , xPO, "PrevOpen ("+ NumToStr(xPO, iDecimals )+")" ) ;
+
+	xTextPC = Text_New(Date, TL_TextTime , xPC, "PrevClose ("+ NumToStr(xPC, iDecimals )+")") ;
+
+	
+
+{
+	xTextPH = Text_New( Date[0], Time[0],  xPH , "PrevHigh ("+ NumToStr(xPH, iDecimals )+")" ) ;
+
+	xTextPL = Text_New( Date[0], Time[0],  xPL, "PrevLow ("+ NumToStr(xPL, iDecimals )+")") ;
+
+	xTextPO = Text_New( Date[0], Time[0],  xPO, "PrevOpen ("+ NumToStr(xPO, iDecimals )+")" ) ;
+
+	xTextPC = Text_New( Date[0], Time[0],  xPC, "PrevClose ("+ NumToStr(xPC, iDecimals )+")")  ;
+
+}	
+
+
+	Text_SetLocation(xTextPH , date , TL_TextTime , xPH );
+	Text_SetStyle(xTextPH,  TL_Text_HVal , TL_Text_VVal  );
+	Text_SetColor(xTextPH, iColorPrevDay );
+//	Text_SetString( xTextPH , "PrevHigh ("+ NumToStr(xPH, iDecimals )+")" );
+
+
+
+	Text_SetLocation(xTextPL , date , TL_TextTime , xPL );
+	Text_SetStyle(xTextPL,  TL_Text_HVal , TL_Text_VVal  );
+	Text_SetColor(xTextPL, iColorPrevDay );
+//	Text_SetString( xTextPH , "PrevLow ("+ NumToStr( xPL, iDecimals )+")" );
+
+
+	Text_SetLocation(xTextPO , date , TL_TextTime , xPO );
+	Text_SetStyle(xTextPO,  TL_Text_HVal , TL_Text_VVal  );
+	Text_SetColor(xTextPO, iColorPrevDay );
+//	Text_SetString( xTextPH , "PrevOpen ("+ NumToStr(xPO, iDecimals )+")" ) ;
+
+
+	Text_SetLocation(xTextPC , date , TL_TextTime , xPC );
+	Text_SetStyle(xTextPC,  TL_Text_HVal , TL_Text_VVal  );
+	Text_SetColor(xTextPC, iColorPrevDay );
+//	Text_SetString( xTextPH ,  "PrevClose ("+ NumToStr(xPC, iDecimals )+")") ;
+
+	BeginTime = time;
+
+	Array_SetMaxIndex(tl,0);
+	tlCount = 0;
+end;
+
+
+{
+
+	Text_SetLocation(xTextPH , date , TL_TextTime , xPH );
+
+
+	Text_SetLocation(xTextPL , date , TL_TextTime , xPL );
+
+
+	Text_SetLocation(xTextPO , date , TL_TextTime , xPO );
+
+
+	Text_SetLocation(xTextPC , date , TL_TextTime , xPC );
+}
+
+{ draw lines }
+
+
+if BeginTime > 0  then
+begin
+	if time <= CalcTime(BeginTime, iMinutesToWait01 ) then
+	begin
+		value1 = PivotLowVSBar(1,low, iLS, iRS, iRS+1);
+		if value1 =  iRS and
+			date[ iRS] = date then
+		begin
+			tlCount = tlCount + 1;
+			array_SetMaxIndex(tl,tlCount);
+			tl[tlCount] = tl_new(date[ iRS],time[ iRS],low[ iRS],
+				 date , time ,  low[ iRS]);
+			tl_SetColor(tl[tlCount], iColorTL );
+			tl_SetStyle(tl[tlCount], iTL_Style );
+
+			array_SetMaxIndex(tltxt,tlCount);
+			tltxt[tlCount] = Text_New(Date, TL_TextTime , low[ iRS] , "TL ("+ NumToStr( low[ iRS] , iDecimals )+")");
+			Text_SetStyle( tltxt[tlCount] ,  TL_Text_HVal , TL_Text_VVal   );
+			Text_SetColor( tltxt[tlCount] , iColorTL );
+			Text_SetLocation(tltxt[tlCount] , date , TL_TextTime , low[ iRS] );
+
+		end; // if value1 =  iRS and ...
+
+		value1 = PivotHighVSBar(1,high, iLS, iRS, iRS+1);
+
+		if value1 =  iRS and
+			date[ iRS] = date then
+		begin
+			tlCount = tlCount + 1;
+			array_SetMaxIndex(tl,tlCount);
+			tl[tlCount] = tl_new(date[ iRS],time[ iRS],high[ iRS],
+				 date , time ,  high[ iRS]);
+			tl_SetColor(tl[tlCount], iColorTL );
+			tl_SetStyle(tl[tlCount], iTL_Style );
+
+
+			array_SetMaxIndex(tltxt,tlCount);
+			tltxt[tlCount] = Text_New(Date, TL_TextTime , high[ iRS] , "TL ("+ NumToStr( high[ iRS] , iDecimals )+")");
+			Text_SetStyle( tltxt[tlCount] ,  TL_Text_HVal , TL_Text_VVal  );
+			Text_SetColor( tltxt[tlCount] , iColorTL );
+			Text_SetLocation(tltxt[tlCount] , date , TL_TextTime , high[ iRS] );
+		end; // if value1 =  iRS .... 
+
+{ plot start trading line }
+
+		if time = CalcTime(BeginTime, iMinutesToWait01 ) then
+		begin
+			tlStart = tl_new( date , time ,  high, date , time ,  low);
+			tl_SetExtRight(tlStart,true);
+			tl_SetExtLeft(tlStart,true);
+			tl_SetColor(tlStart, iColorStartLine );
+			tl_SetStyle(tlStart, iStyleStartLine );
+		end; // if time <= CalcTime(BeginTime, iMinutesToWait01 ) 
+
+
+	end; // if time <= CalcTime(BeginTime, iMinutesToWait01 ) 
+
+
+	for count = 1 to tlCount
+	begin
+		if tl[count] > 0 then
+			tl_SetEnd(tl[count], date , time ,  tl_GetBeginVal(tl[count]));
+			Text_SetLocation(tltxt[count] , date , TL_TextTime , tl_GetBeginVal(tl[count]) );
+
+	end;  // 	for count = 1 to tlCount
+
+	tl_SetEnd(tlPO, date , time ,  tl_GetBeginVal(tlPO));
+	tl_SetEnd(tlPC, date , time ,  tl_GetBeginVal(tlPC));	
+	tl_SetEnd(tlPH, date , time ,  tl_GetBeginVal(tlPH));
+	tl_SetEnd(tlPL, date , time ,  tl_GetBeginVal(tlPL));
+
+	Text_SetLocation(xTextPH , date , TL_TextTime , xPH );
+
+	Text_SetLocation(xTextPL , date , TL_TextTime , xPL );
+
+	Text_SetLocation(xTextPO , date , TL_TextTime , xPO );
+
+	Text_SetLocation(xTextPC , date , TL_TextTime , xPC );
+
+end;  // if BeginTime > 0 then
+
+
+{
+
+	xPO = OpenD(1);
+	xPH = HighD(1);
+	xPL = LowD(1);
+	xPC = CloseD(1);
+
+	}
