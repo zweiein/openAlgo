@@ -9,9 +9,10 @@ Where possible original author's comments have been left intact to give appropri
 
 ## Functions ##
 - AddTime
+
 ## Indicators ##
-- BB Squeeze
-- Darvas Box
+- [BB Squeeze](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/BB%20Squeeze "BB Squeeze")
+- [Darvas Box](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Darvas%20Box "Darvas Box")
 - Gann Swing
 - High Low Oscillator
 - Kase Peak Oscillator
