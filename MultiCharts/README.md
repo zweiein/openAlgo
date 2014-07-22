@@ -1,4 +1,5 @@
-This section will contain files coded with MultiChart's PowerLanguage.
+# MultiCharts Repository #
+This section will contain files coded with MultiChart's PowerLanguage. While not 100% equivalent to TradeStation's EasyLanguage, it is a very similar psuedocode and most scripts may be used with Multicharts with little if not infrequent modifications.
 
 Although there may be ELD files available from time to time in the depository, the preferred method of posting PowerLanguage content is through text file so that PowerLanguage code may be easily seen and freely distributed.  
 
@@ -10,5 +11,9 @@ Where possible original author's comments have been left intact to give appropri
 
 ## Indicators ##
 - BB Squeeze
+- Gann Swing
+- High Low Oscillator
+- Kase Peak Oscillator
+- Mesa Phase 1 & 2
 
 ## Strategies ##
