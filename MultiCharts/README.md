@@ -20,6 +20,7 @@ Where possible original author's comments have been left intact to give appropri
 - [Kase Peak Oscillator](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Kase%20Peak%20Oscillator "Kase Peak Oscillator")
 - [Mesa Phase 1 & 2](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Mesa%20Phase%201%20%26%202 "Mesa Phase 1 & 2")
 - [Msheiner Scalping Support & Resistance Lines](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Msheiner%20Scalping%20Support%20%26%20Resistance%20Lines "Msheiner Scalping Support & Resistance Lines")
+- Volume Price Confirmation Indicator (VPCI)
 - [William's Percent R Histogram](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/W%25R%20Histogram "William's Percent R Histogram")
 - [ZigZag One & Two](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/ZigZag%20One%20%26%20Two "ZigZag One & Two")
 

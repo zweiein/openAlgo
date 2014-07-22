@@ -1,0 +1,37 @@
+//Volume Price Confirmation Indicator 
+
+inputs:	Price(Close), 
+		Length1(5), 
+		Length2(20), 
+		VPCIAvgLen(20);
+		
+variables:    VolValue(0), 
+		VolumeSum1(0), 
+		VolumeSum2(0), 
+		VWMA1(0), 
+		VWMA2(0), 
+		VP(0), VPR(0), 
+		VM(0), VPCI(0), 
+		AvgVPCI(0);
+
+if BarType >= 2 then { not tick/minute data }
+	VolValue = Volume
+else VolValue = Ticks ;
+ 
+VolumeSum1 = Summation( VolValue, Length1 );
+
+if VolumeSum1 > 0 then VWMA1 = Summation( Price * VolValue , Length1 ) / VolumeSum1;
+
+VolumeSum2 = Summation( VolValue, Length2 );
+
+if VolumeSum2 > 0 then VWMA2 = Summation( Price * VolValue , Length2 ) / VolumeSum2;
+
+VP = VWMA2 - Average( Price, Length2 );
+VPR = VWMA1 / Average( Low, Length1 );
+VM = Average( VolValue, Length1 ) / Average( VolValue, Length2 );
+VPCI = VP * VPR * VM;
+AvgVPCI = Average( VPCI, VPCIAvgLen );
+Plot1( VPCI, "VPCI" );
+Plot2( AvgVPCI, "VPCISmooth" );
+Plot3( 0, "Zero" );
+
