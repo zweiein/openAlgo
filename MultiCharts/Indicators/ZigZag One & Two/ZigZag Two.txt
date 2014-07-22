@@ -1,0 +1,62 @@
+[LegacyColorValue = true]; 
+
+{!_AnotherZigZag_00 original code}
+	
+{
+https://www.tradestation.com/Discussions/Topic.aspx?Topic_ID=47749
+
+}
+
+Vars:	LowPivot(true),
+		PivotTest(false),
+		ID(-1),
+		Dir(0),
+		LowPivotDate(0),
+		LowPivotTime(0),
+		LowPivotValue(0),
+		HighPivotDate(0),
+		HighPivotTime(0),
+		HighPivotValue(0);
+
+// Is there a Pivot?
+If PivotTest = false then
+	If (High[0] > High[1] and High[1] > High[2]) 
+	or (Low[0] < Low[1] and Low[1] < Low[2]) then
+		PivotTest = true
+	else
+		PivotTest = false;
+
+// If yes, decide if it is a High or Low Pivot.
+While PivotTest = true 
+	begin
+		While High[0] > High[1] and High[1] > High[2] and LowPivot = true 
+		begin
+			Plot1[2]( Low[2], "LowPivot" );
+			LowPivotDate = Date[2];
+			LowPivotTime = Time[2];
+			LowPivotValue = Low[2];
+			LowPivot = false;
+		end;
+
+		While Low[0] < Low[1] and Low[1] < Low[2] and LowPivot = false
+		begin
+			Plot2[2]( High[2], "HighPivot" );
+			HighPivotDate = Date[2];
+			HighPivotTime = Time[2];
+			HighPivotValue = High[2];
+			LowPivot = true;
+		end;
+		PivotTest = false;
+	end;
+
+if LowPivot = false then
+	Dir = 1;	// Upswing
+
+if LowPivot = true then
+	Dir = -1;	// Downswing
+
+If Dir = 1 then 	
+	ID = TL_New(LowPivotDate, LowPivotTime, LowPivotValue, HighPivotDate, HighPivotTime, HighPivotValue);
+
+If Dir = -1 then	
+	ID = TL_New(HighPivotDate, HighPivotTime, HighPivotValue, LowPivotDate, LowPivotTime, LowPivotValue);

@@ -11,10 +11,12 @@ Where possible original author's comments have been left intact to give appropri
 - AddTime
 ## Indicators ##
 - BB Squeeze
+- Darvas Box
 - Gann Swing
 - High Low Oscillator
 - Kase Peak Oscillator
 - Mesa Phase 1 & 2
 - Msheiner Scalping Support & Resistance Lines
+- ZigZag One & Two
 
 ## Strategies ##

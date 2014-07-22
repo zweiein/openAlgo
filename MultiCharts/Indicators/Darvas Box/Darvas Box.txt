@@ -1,0 +1,344 @@
+// DarvasBox
+
+inputs:
+
+iHiFirstColor( cyan ),
+iLoFirstColor( magenta ),
+	ShowAll  ( true ) ;
+
+variables:
+	BoxTop   ( 0 ) ,
+	BoxBtm   ( 0 ) ,
+	Ctr      ( 0 ) ,
+	BBD      ( 0 ) ,
+	BBT      ( 0 ) ,
+	EBD      ( 0 ) ,
+	EBT      ( 0 ) ,
+	TextId   ( -1 ) ,
+	TopId    ( -1 ) ,
+	TopIdP   ( -1 ) ,
+	BtmId    ( -1 ) ,
+	BtmIdP   ( -1 ) ,
+	LSId     ( -1 ) ,
+	LSIdP    ( -1 ) ,
+	RSId     ( -1 ) ,
+	RSIdP    ( -1 ) ,
+	UpBand   ( 0 ) ,
+	DnBand   ( 0 ) ,
+	CurrState( 1 ) ,
+	HiFirst  ( true ) ,
+	LoFirst  ( false ) ,
+	State1   ( false ) ,
+	State2   ( false ) ,
+	State3   ( false ) ,
+	State4   ( false ) ,
+	State5   ( false ) ,
+	DrawBox  ( false ) ,
+	ValidBox ( false ) ,
+	HadBreak ( false ) ,
+	NewBox   ( false ) ;
+
+if BarNumber = 1 then
+	begin
+		BoxTop = high ;
+		BoxBtm = low ;
+		State1 = true ;
+		BBD    = date ;
+		BBT    = time ;
+	end ;
+
+		
+if NewBox and high > UpBand then
+	begin
+		BBD      = date ;
+		BBT      = time ;
+
+		TL_SetEnd( TopId, BBD, BBT, UpBand ) ;
+		TL_SetEnd( BtmId, BBD, BBt, DnBand ) ;
+		
+		RSIdP  = RSId ;
+		RSId  = TL_New( BBD, BBT, DnBand, BBD, BBT, UpBand ) ;
+		
+		if ShowAll = false and RSIdP <> -1 then
+			TL_Delete( RSIdP ) ;	
+
+		if HiFirst then
+			TL_SetColor( RSId, iHiFirstColor ) 
+		else
+			TL_SetColor( RSId, iLoFirstColor ) ;
+	
+		NewBox   = false ;
+		State1   = true ;
+		LoFirst  = false ;
+		HiFirst  = true ;		
+	end ;
+
+if NewBox and low < DnBand then
+	begin
+		BBD      = date ;
+		BBT      = time ;
+
+		TL_SetEnd( TopId, BBD, BBT, UpBand ) ;
+		TL_SetEnd( BtmId, BBD, BBt, DnBand ) ;
+
+		RSIdP  = RSId ;
+		RSId  = TL_New( BBD, BBT, DnBand, BBD, BBT, UpBand ) ;
+		
+		if ShowAll = false and RSIdP <> -1 then
+			TL_Delete( RSIdP ) ;	
+
+		if HiFirst then
+			TL_SetColor( RSId, iHiFirstColor ) 
+		else
+			TL_SetColor( RSId, iLoFirstColor ) ;
+
+		NewBox   = false ;
+		State1   = true ;
+		HiFirst  = false ;
+		LoFirst  = true ;		
+	end ;
+
+
+if HiFirst then
+	begin		
+		if State4 then
+			begin
+				if high > BoxTop then
+					begin
+						BoxTop = high ;
+						State1 = true ;
+						State4 = false ;
+						CurrState = 1 ;
+					end
+				else
+					begin
+						if low < BoxBtm then
+							begin
+								State4 = false ;
+								State3 = true ;
+								BoxBtm = low ;
+								CurrState = 3 ;
+							end
+						else
+							begin
+								State4 = false ;
+								State5 = true ;
+								CurrState = 5 ;
+							end ;
+					end ;
+			end ;
+		
+		if State3 then
+			begin
+				if high > BoxTop then
+					begin
+						BoxTop = high ;			
+						State1 = true ;
+						State3 = false ;
+						CurrState = 1 ;
+					end
+				else
+					begin
+						if low < BoxBtm then
+							begin
+								State3 = true ;
+								BoxBtm = low ;
+								CurrState = 3 ;
+							end
+						else
+							begin
+								State3 = false ;
+								State4 = true ;
+								CurrState = 4 ;
+							end ;
+					end ;
+			end ;
+		
+		if State2 then
+			if high > BoxTop then
+				begin
+					BoxTop = high ;				
+					State1 = true ;
+					State2 = false ;
+					CurrState = 1 ;
+				end
+			else
+				begin
+					State2 = false ;
+					State3 = true ;
+					BoxBtm = low ;
+					CurrState = 3 ;
+				end ;
+		
+		if State1 then
+			if high > BoxTop then
+				begin
+					BoxTop = high ;			
+					State1 = true ;
+					CurrState = 1 ;
+				end 
+			else
+				begin
+					State1 = false ;
+					State2 = true ;
+					CurrState = 2 ;
+				end ;
+	end 
+else { Using LoFirst }
+	begin
+		if State4 then
+			begin
+				if low < BoxBtm then
+					begin
+						BoxBtm = low ;
+						State1 = true ;
+						State4 = false ;
+						CurrState = 1 ;
+					end
+				else
+					begin
+						if high > BoxTop then
+							begin
+								State3 = true ;
+								State4 = false ;
+								BoxTop = high ;
+								CurrState = 3 ;
+							end
+						else
+							begin
+								State4 = false ;
+								State5 = true ;
+								CurrState = 5 ;
+							end ;
+					end ;
+			end ;
+		
+		if State3 then
+			begin
+				if low < BoxBtm then
+					begin
+						BoxBtm = low ;			
+						State1 = true ;
+						State3 = false ;
+						CurrState = 1 ;
+					end
+				else
+					begin
+						if high > BoxTop then
+							begin
+								State3 = true ;
+								BoxTop = high ;
+								CurrState = 3 ;
+							end
+						else
+							begin
+								State3 = false ;
+								State4 = true ;
+								CurrState = 4 ;
+							end ;
+					end ;
+			end ;
+		
+		if State2 then
+			if low < BoxBtm then
+				begin
+					Boxbtm = low ;				
+					State1 = true ;
+					State2 = false ;
+					CurrState = 1 ;
+				end
+			else
+				begin
+					State2 = false ;
+					State3 = true ;
+					BoxTop = high ;
+					CurrState = 3 ;
+				end ;
+		
+		if State1 then
+			if low < BoxBtm then
+				begin
+					BoxBtm = low ;			
+					State1 = true ;
+					CurrState = 1 ;
+				end 
+			else
+				begin
+					State1 = false ;
+					State2 = true ;
+					CurrState = 2 ;
+				end ;
+	end ; { END IF HIFIRST OR LOFIRST }	
+
+if State5 then	
+	begin
+		DrawBox  = true ;
+		EBD      = date ;
+		EBT      = time ;
+	end ;
+			
+
+if DrawBox then
+	begin
+		TopIdP = TopId ;
+		BtmIdP = BtmId ;
+		LSIdP  = LSId ;	
+		
+		TopId = TL_New( BBD, BBT, BoxTop, EBD, EBT, BoxTop ) ;
+		BtmId = TL_New( BBD, BBT, BoxBtm, EBD, EBT, BoxBtm ) ;
+		LSId  = TL_New( BBD, BBT, BoxBtm, BBD, BBT, BoxTop ) ;
+		
+		if ShowAll = false then
+			begin
+				if TopIdP <> -1 then
+					TL_Delete( TopIdP ) ;
+				if BtmIdP <> -1 then
+					TL_Delete( BtmIdP ) ;
+				if LSIdP <> -1 then
+					TL_Delete( LSidP ) ;
+							  
+			end ;
+		
+		if HiFirst then
+			begin
+				TL_SetColor( TopId, iHiFirstColor ) ;
+				TL_SetColor( BtmId, iHiFirstColor ) ;
+			TL_SetColor( LSId,  iHiFirstColor ) ;				
+			end
+		else
+			begin		
+				TL_SetColor( TopId, iLoFirstColor ) ;
+				TL_SetColor( BtmId, iLoFirstColor ) ;
+				TL_SetColor( LSId,  iLoFirstColor ) ;		
+			end ;
+			
+		State1   = false ;
+		State2   = false ;
+		State3   = false ;
+		State4   = false ;
+		State5   = false ;
+		DrawBox  = false ;
+		ValidBox = true ;		
+	end ;
+		
+
+if ValidBox then
+	begin
+		UpBand   = BoxTop ;
+		DnBand   = BoxBtm ;
+		ValidBox = false ;
+		NewBox   = true ;
+		BoxTop   = high ;
+		BoxBtm   = low ;	
+	end ;
+
+
+
+{
+if HiFirst then
+	TextId = Text_New( date, time, high * 1.002, NumToStr( CurrState, 0 ) )
+else
+	TextId = Text_New( date, time, low * .998 , NumToStr( CurrState, 0 ) ) ;
+}
+
+

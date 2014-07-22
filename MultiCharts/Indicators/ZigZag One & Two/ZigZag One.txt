@@ -1,0 +1,80 @@
+[LegacyColorValue = true]; 
+
+{!_AnotherZigZag }
+	
+{
+https://www.tradestation.com/Discussions/Topic.aspx?Topic_ID=47749
+
+}
+
+
+Vars:	LowPivot(true),
+		PivotTest(false),
+		ID1(-1),
+		ID2(-1),
+		OldID(-1),
+		Dir(0),
+		LowPivotDate(0),
+		LowPivotTime(0),
+		LowPivotValue(0),
+		HighPivotDate(0),
+		HighPivotTime(0),
+		HighPivotValue(0);
+
+// Is there a Pivot?
+If PivotTest = false then
+	If (High[0] > High[1] and High[1] > High[2]) 
+	or (Low[0] < Low[1] and Low[1] < Low[2]) then
+		PivotTest = true
+	else
+		PivotTest = false;
+
+// If yes, decide if it is a High or Low Pivot.
+If PivotTest = true then
+	begin
+		If High[0] > High[1] and High[1] > High[2] and LowPivot = true then
+		begin
+			Plot1[2]( Low[2], "LowPivot" );
+			LowPivotDate = Date[2];
+			LowPivotTime = Time[2];
+			LowPivotValue = Low[2];
+			LowPivot = false;
+		end;
+
+		If Low[0] < Low[1] and Low[1] < Low[2] and LowPivot = false then
+		begin
+			Plot2[2]( High[2], "HighPivot" );
+			HighPivotDate = Date[2];
+			HighPivotTime = Time[2];
+			HighPivotValue = High[2];
+			LowPivot = true;
+		end;
+		PivotTest = false;
+	end;
+
+if LowPivot = false then
+	Dir = 1;		// Upswing
+
+If Dir = 1 then
+begin
+	ID1 = TL_New(LowPivotDate, LowPivotTime, LowPivotValue, HighPivotDate, HighPivotTime, HighPivotValue); // Solid permanent upswing
+	OldID = ID2;
+	ID2 = TL_New(LowPivotDate, LowPivotTime, LowPivotValue, Date, Time, High); // Dotted temporary upswing
+	Value1 = TL_SetStyle(ID2, Tool_Dotted);
+	If OldID <> -1 then
+		Value1 = TL_Delete(OldID);
+end;
+
+if LowPivot = true then
+	Dir = -1;		// Downswing
+
+If Dir = -1 then
+begin
+	ID1 = TL_New(HighPivotDate, HighPivotTime, HighPivotValue, LowPivotDate, LowPivotTime, LowPivotValue); // Solid permanent downswing
+	OldID = ID2;
+	ID2 = TL_New(HighPivotDate, HighPivotTime, HighPivotValue, Date, Time, Low); // Dotted temporary downswing
+	Value1 = TL_SetStyle(ID2, Tool_Dotted);
+	If OldID <> -1 then
+		Value1 = TL_Delete(OldID);
+end;
+
