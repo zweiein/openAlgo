@@ -1,0 +1,32 @@
+[LegacyColorValue = true]; 
+
+
+{ !Stops & Tgt Levels
+Jacob Singer, "DayTrading Strategies", TASC
+Plots the author's stops & targets}
+
+variables:
+	FirstStop( 0 ),
+	FirstTarget( 0 ),
+	SecondStop( 0 ),
+	SecondTarget( 0 ),
+TrueClose( 0 ) ;
+
+{ Calculate the 'True Close' }
+If High[1] = Close[1] then
+	TrueClose = MaxList( High[1], Open )
+	Else if Low[1] = Close[1] then
+	TrueClose = MinList( Low[1], Open )
+	Else TrueClose = Close[1] ;
+
+{ Calculate Stops and Targets }
+FirstStop = ( 2 * TrueClose ) - High ;
+FirstTarget = ( 2 * TrueClose ) - Low ;
+SecondStop =  TrueClose - ( High - Low ) ;
+SecondTarget = TrueClose + ( High - Low ) ;
+
+Plot1( FirstStop, "1stStop" ) ;
+Plot2( FirstTarget, "1stTarget" ) ;
+Plot3( SecondStop, "2ndStop" ) ;
+Plot4( SecondTarget, "2ndTarget" ) ;
+

@@ -1,0 +1,34 @@
+[LegacyColorValue = true]; 
+
+{ !Perf, Vol & Pivot
+Jacob Singer, "DayTrading Strategies", TASC
+Plots the Performance (net gain) since x-days ago;
+Volume; and pivot point (High + Low + Close)/3 }
+
+inputs:
+	PerfLength( 104 ),
+ 	VolLength( 25 ) ;
+
+variables:
+	Perf( 0 ),
+	PivotPoint( 0 ),
+PerfColor( Green ) ;
+
+{ Calculate Performance (Net change since
+'PerfLength' Days Ago) }
+
+Perf = 100 * ( Close - Close[ PerfLength ] ) /
+	Close[ PerfLength ] ;
+
+
+{ Set Perf's Color ( Red or Green ) }
+if Perf > 0 then PerfColor = Green
+	else PerfColor = Red ;
+
+{ Calculate Pivot }
+PivotPoint = ( High[1] + Low[1] + Close[1] ) / 3 ;
+
+Plot1( Perf, "Perf", PerfColor ) ;
+Plot2( Volume, "Volume" ) ;
+Plot3( PivotPoint, "Pivot" ) ;
+
