@@ -1,0 +1,35 @@
+[LegacyColorValue = true]; 
+
+{!3Closes - PLOT A DOT WHEN YOU HAVE 3 CONSECUTIVE HIGHER o/h/l/c }
+	
+
+{Programmer:  Avery T. Horton, Jr.  aka TheRumpledOne, 
+gifts and donation accepted, PO Box 43575, Tucson, AZ 85733 }
+
+{ ? Copyright 2006 Avery T. Horton, Jr.}
+
+inputs:
+	
+iColorO( white ),
+
+iColorH( cyan ),
+
+iColorL( magenta ),
+
+iColorC( darkgray );
+
+
+if close > close[1] and close[1] > close[2] and close[2] > close[3]
+	then plot1( close , "close", iColorC ) ;
+
+	
+if high > high[1] and high[1] > high[2] and high[2] > high[3]
+	then plot2( high , "high", iColorH ) ;
+
+if low > low[1] and low[1] > low[2] and low[2] > low[3]
+	then plot3( low , "low", iColorL ) ;
+
+if open > open[1] and open[1] > open[2] and open[2] > open[3]
+	then plot4( open , "open", iColorL ) ;
+
+

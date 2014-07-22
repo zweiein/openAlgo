@@ -11,6 +11,7 @@ Where possible original author's comments have been left intact to give appropri
 - AddTime
 
 ## Indicators ##
+- [3 Higher](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/3%20Higher "3 Higher" "3 Higher")
 - [BB Squeeze](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/BB%20Squeeze "BB Squeeze")
 - [Darvas Box](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Darvas%20Box "Darvas Box")
 - [Gann Swing](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Gann%20Swing "Gann Swing")
