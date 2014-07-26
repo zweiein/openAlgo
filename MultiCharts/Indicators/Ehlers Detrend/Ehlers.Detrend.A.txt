@@ -1,0 +1,42 @@
+[LegacyColorValue = true]; 
+
+{ *******************************************************************
+
+	Function		: Ehlers.Detrend.A
+	
+	Last Edit	: 7/1/2000
+
+	Provided By	: Bob Fulks
+
+	Description	: 
+	
+		This function is a revised version of the code from "Optimal 
+		Detrending", by John F. Ehlers in the July, 2000 issue of TASC. 
+		This version replaces the calculated median price with a 
+		"Price" input, makes the lookback period an input parameter 
+		for more generality, and filters the price series with the 
+		T3 average before processing it.
+		
+		It also creates declared variables instead of using Value1 and 
+		Value2 in order that they can be properly initialized. These 
+		are then initialized to the proper values to eliminate the long 
+		initialization time of the original code in the article. 
+
+	Inputs:
+
+		Price - Price series to be detrended. (Default = MedianPrice)
+
+		Lbck - Lookback interval (Default = 6), which was the value in 
+				 the article.
+
+		Periods - Periods for use by the T3 Average 
+				(Default = 1 [no filtering])
+
+********************************************************************}
+Inputs: 	Price(NumericSeries), Lbck(Numeric), Periods(Numeric);
+	
+Vars: 	Var1(1.09649123 * Price), Var2(0);
+
+Var1 = T3Average.series(Price, Periods) + 0.088 * Var1[Lbck];
+Var2 = Var1 - Var1[Lbck] + 1.2 * Var2[Lbck] - 0.7 * Var2[2 * Lbck];
+Ehlers.Detrend.A = Var2[2 * Lbck] - 2 * Var2[Lbck] + Var2;

@@ -1,0 +1,67 @@
+[LegacyColorValue = true]; 
+
+{ *******************************************************************
+
+	Function    : T3Average.series
+	
+	Last Edit   : 12/16/97
+
+	Provided By : Bob Fulks
+
+	Description : This function is an EasyLanguage version of the 
+     moving average described in the January. 1998 issue of TASC, 
+     p57, "Smoothing Techniques for More Accurate Signals", by Tim 
+     Tillson. It is translated from the MetaStock code presented 
+     in the article and recoded for efficiency. 
+
+     The variable, "Hot", is a damping coefficient which is set to 
+     the suggested default value of 0.7. The variable "b" is 
+     substituted for the variable, "a" used in the article since 
+     "a" is a reserved word. The variables e1 through e6 calculate 
+     the exponential moving averages in-line rather than calling 
+     other functions.
+
+     The resulting indicator plotting this function appears to 
+     duplicate the results shown in Figure 4 of the article.
+
+     The series version of this function uses previous values 
+     and, hence, cannot call variables.
+
+     The "Periods" input can need not be an integer.
+
+********************************************************************}
+
+Inputs: 		Price(NumericSeries), Periods(NumericSimple);
+
+Variables:	b(0), b2(0), b3(0), e1(Price), e2(Price), e3(Price), 
+				e4(Price), e5(Price), e6(Price), c1(0), c2(0), c3(0), 
+				c4(0), f1(0), f2(0), Hot(0.7);
+
+if Periods + 1 <> 0 then begin
+
+	if CurrentBar <= 1 then begin
+
+		b  = Hot;
+		b2 = b * b;
+		b3 = b * b * b;
+		c1	= -b3;
+		c2 = 3 * b2 + 3 * b3;
+		c3 = -6 * b2 - 3 * b - 3 * b3;
+		c4 = 1 + 3 * b + b3 + 3 * b2;
+		f1 = 2 / (Periods + 1);
+		f2 = 1 - f1;
+
+	end else begin
+
+		e1 = f1 * Price + f2 * e1[1];
+		e2 = f1 * e1 + f2 * e2[1];
+		e3 = f1 * e2 + f2 * e3[1];
+		e4 = f1 * e3 + f2 * e4[1];
+		e5 = f1 * e4 + f2 * e5[1];
+		e6 = f1 * e5 + f2 * e6[1];
+
+	end;
+
+	T3Average.series = c1 * e6 + c2 * e5 + c3 * e4 + c4 * e3;
+
+end;

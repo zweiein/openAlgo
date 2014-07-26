@@ -1,0 +1,28 @@
+[LegacyColorValue = true]; 
+
+{ *******************************************************************
+
+	Indicator	: 	Ehlers Detrend 2
+	
+	Last Edit	: 	7/1/2000
+
+	Provided By	: 	Bob Fulks
+
+	Description	: 	Plots the Ehlers.Detrend.A function.
+	
+	Inputs:
+
+		Price: 		Price series to be detrended. (Default = MedianPrice)
+
+		Lbck: 		Lookback interval (Default = 6), which was the value in 
+				  		the article.
+
+		Periods:		Periods input to T3 Average (Default = 3) 
+
+********************************************************************}
+Input: Price(MedianPrice), Lbck(6), Periods(3);
+
+Plot1(Ehlers.Detrend.A(Price, Lbck, Periods), "Detrend.A");
+
+Plot4(0, "Zero");
+
