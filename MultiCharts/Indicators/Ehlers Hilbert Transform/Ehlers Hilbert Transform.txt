@@ -1,0 +1,26 @@
+[LegacyColorValue = true]; 
+
+{THE HILBERT TRANSFORM
+
+ Here's the EasyLanguage code for the Hilbert transform.}
+
+ Inputs: Price(MedianPrice);
+
+ Vars:   Imult(.635),
+                 Qmult(.338),
+                 InPhase(0),
+                 Quadrature(0);
+
+ If CurrentBar > 5 then begin
+
+         {Detrend Price}
+         Value1 = Price - Price[7];
+
+         {Compute Hilbert Transform}
+         Inphase = 1.25*(Value1[4] - Imult*Value1[2]) + Imult*InPhase[3];
+         Quadrature = Value1[2] - Qmult*Value1 + Qmult*Quadrature[2];
+
+         {Plot the results}
+         Plot1(Inphase, "I");
+         Plot2(Quadrature, "Q");
+ end;
