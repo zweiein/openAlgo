@@ -1,0 +1,37 @@
+{FOR SNR INDICATOR
+
+ Here's the EasyLanguage code for the signal-to-noise ratio indicator.}
+
+ Inputs: Price((H+L)/2);
+
+ Vars:   Imult (.635),
+                 Qmult (.338),
+                 InPhase(0),
+                 Quadrature(0),
+                 Amplitude(0),
+                 Range(0);
+
+ If CurrentBar > 8 then begin
+         
+         {Detrend Price}
+         Value1 = Price - Price[7];
+
+         {Compute "Noise" as the average range}
+         Range = .2*(H - L) + .8*Range[1];       
+
+         {Compute Hilbert Transform outputs}
+         Inphase = 1.25*(Value1[4] - Imult*Value1[2]) + Imult*InPhase[3];
+         Quadrature = Value1[2] - Qmult*Value1 + Qmult*Quadrature[2];
+
+         {Compute smoothed signal amplitude}
+         Value2 = .2*(InPhase*InPhase + Quadrature*Quadrature) + .8*Value2[1];
+
+         {Compute smoothed SNR in Decibels, guarding against a divide by zero error, and compensating for filter loss}
+         If Value2 < .001 then Value2 = .001;
+         If Range > 0 then Amplitude = .25*(10*Log(Value2/(Range*Range))/Log(10) + 1.9) + .75*Amplitude[1];
+
+         {Plot Results}
+         Plot1(Amplitude, "Amp");
+         Plot2(6, "Ref");
+
+ end;
