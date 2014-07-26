@@ -1,0 +1,45 @@
+// Stop Type: 1 = Moving Average
+//		2 = Standard Deviation
+// MA Type:	0 = Simple Moving Average
+//		1 = Exponential Moving Average
+//		2 = Triangular Moving Average
+
+Inputs: 	SType(1),
+		MAType(0),
+		Length(10),
+		Disp(3),
+		SD(1);
+
+Vars:   _$Up(0),_$Dn(0),_$Rng(0),_$ATR(0),_$SDRng(0),_$RSD(0);
+
+{Stop: Displaced Moving Average}
+If SType=1 then begin
+	If MAType = 0 then begin
+   		_$Up=AverageFC(C,Length)[Disp];
+   		_$Dn=AverageFC(C,Length)[Disp];
+	End
+	else if MAType = 1 then begin
+		_$Up=XAverage(C,Length)[Disp];
+   		_$Dn=XAverage(C,Length)[Disp];
+	end
+	else if MAType = 2 then begin
+		_$Up=TriAverage(C,Length)[Disp];
+   		_$Dn=TriAverage(C,Length)[Disp];
+	end;
+End;
+
+{Stop: Standard Deviation}
+If SType=2 then begin
+   _$Rng=Highest(H,2)-Lowest(L,2);
+   _$ATR=AverageFC(_$Rng,20);
+   _$SDRng=StdDev(_$Rng,20);
+   _$RSD=_$ATR+(SD*_$SDRng);
+   _$Up=Highest(H,20)-_$RSD;
+   _$Dn=Lowest(L,20)+_$RSD;
+End;
+
+If date > entrydate then begin
+	If MarketPosition > 0 then sell next bar at _$Dn stop;
+	If MarketPosition < 0 then buy to cover next bar at _$Up stop;
+end;
+

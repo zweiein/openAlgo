@@ -24,4 +24,6 @@ Where possible original author's comments have been left intact to give appropri
 - [William's Percent R Histogram](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/W%25R%20Histogram "William's Percent R Histogram")
 - [ZigZag One & Two](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/ZigZag%20One%20%26%20Two "ZigZag One & Two")
 
-## Strategies ##
+## Signals & Strategies ##
+- MA & Std Stops
+- Stop Targets

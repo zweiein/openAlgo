@@ -1,0 +1,44 @@
+[Intrabarordergeneration=true] 
+  
+
+input:		ShareOrPosition( 1 ), 	{ pass in 1 for per contract basis, 2 for position basis }
+		ProfitTargetAmt( 0 ), 	{ pass in 0 if you don't want a profit target }  
+		StopLossAmt( 0 ), 		{ pass in 0 if you don't want a stop loss }
+ 		BreakevenFloorAmt( 0 ), 	{ pass in 0 if you don't want a breakeven stop }
+ 		DollarTrailingAmt( 0 ), 	{ pass in 0 if you don't want a dollar trailing stop }
+ 		PctTrailingFloorAmt( 0 ), 	{ pass in 0 here and/or in next input if you don't want a percent trailing stop }
+ 		PctTrailingPct( 20 ), 	{ pass in 0 here and/or in previous input if you don't want 
+ 						  a percent trailing stop; else pass in XX for XX percent }
+ 		ExitOnClose( false) ; 	{ pass in true if you want to exit the position at the close of the day, 
+ 						  else pass in false. CAUTION: We recommend that you set this to TRUE only for back-testing, 
+ 						  if at all; in automated execution, the exit order will NOT be filled at the close of the day; 
+ 						  instead, the order can be sent into the extended session as a limit order. }
+  	
+ 
+{*************************************************}
+{              T A K E   P R O F I T              }
+{*************************************************}
+
+if ShareOrPosition = 1 
+	then  SetStopShare
+	else  SetStopPosition ;
+
+
+if ProfitTargetAmt  > 0 then
+ SetProfitTarget( ProfitTargetAmt  ) ;
+
+if StopLossAmt > 0 then
+ SetStopLoss( StopLossAmt ) ;
+
+if BreakevenFloorAmt > 0 then
+ SetBreakeven( BreakevenFloorAmt ) ;
+
+if DollarTrailingAmt > 0 then
+  SetDollarTrailing( DollarTrailingAmt ) ;
+
+if PctTrailingFloorAmt > 0 and PctTrailingPct > 0 then 
+ SetPercentTrailing( PctTrailingFloorAmt, PctTrailingPct ) ;
+
+if ExitOnClose = true then 
+ SetExitOnClose ;
+
