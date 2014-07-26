@@ -15,9 +15,11 @@ Where possible original author's comments have been left intact to give appropri
 - [BB Squeeze](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/BB%20Squeeze "BB Squeeze")
 - [Darvas Box](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Darvas%20Box "Darvas Box")
 - [Ehler's Cycle Period](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Cycle%20Period "Ehler's Cycle Period")
+- Ehler's Detrend
 - [Ehler's Hilbert Transform](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Hilbert%20Transform "Ehler's Hilbert Transform")
 - [Ehler's Instantaneous Trendline](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Instantaneous%20Trendline "Ehler's Instantaneous Trendline")
 - [Ehler's Sinewave](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Sinewave "Ehler's Sinewave")
+- Ehler's Smooth
 - [Ehler's SNR](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20SNR "Ehler's SNR")
 - [Gann Swing](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Gann%20Swing "Gann Swing")
 - [High Low Oscillator](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/High%20Low%20Oscillator "High Low Oscillator")

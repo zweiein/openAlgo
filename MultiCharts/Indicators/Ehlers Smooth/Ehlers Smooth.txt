@@ -1,0 +1,21 @@
+{ *******************************************************************
+
+	Indicator	: 	Ehlers.Smooth
+	
+	Last Edit	: 	7/1/2000
+
+	Provided By	: 	Bob Fulks
+
+	Description	: 	Plots the Ehlers.Smooth function.
+	
+	Inputs:
+
+		Price: 		Price series to be smoothed. (Default = MedianPrice)
+
+
+********************************************************************}
+
+Input: Price(MedianPrice);
+
+Plot1(Ehlers.Smooth(Price), "Smooth");
+
