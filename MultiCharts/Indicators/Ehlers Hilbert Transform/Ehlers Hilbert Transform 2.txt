@@ -1,0 +1,27 @@
+{In my first article, using the Hilbert Transform, I showed how the technique
+ could be used for measuring the cyclic content in prices at any given bar on
+ your chart. This, in turn, I used to create an indicator showing you what the
+ cyclic content was and, inferentially, whether you were in a cycle or
+ trending pricing mode.  I also included a signal-to-noise ratio computation
+ so you could estimate whether there existed enough signal in the pricing
+ activity to justify trading on the cycle content. Since the article was
+ published, I've come up with a simpler expression for achieving the same
+ result and with slightly less delay. The revised TradeStation code is:}
+
+ Inputs: Price((H+L)/2);
+
+ Vars:   InPhase(0),
+         Quadrature(0);
+
+ If CurrentBar > 5 then begin
+
+         Value1 = Price - Price[6];
+         Value2 =Value1[3];
+         Value3 =.75*(Value1 - Value1[6]) + .25*(Value1[2] - Value1[4]);         
+         InPhase = .33*Value2 + .67*InPhase[1];
+         Quadrature = .2*Value3 + .8*Quadrature[1]; 
+
+         Plot1(Inphase, "I");
+         Plot2(Quadrature, "Q");
+
+ end;
