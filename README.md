@@ -15,7 +15,7 @@ The repository is divides in to sections for a modest amount of organization acr
 
 If you can't contribute directly, please consider a donation to support costs:
 
-![Screenshot](/../master/ScreenShots/paypal.jpg?raw=true "Support")
+[![Screenshot](/../master/ScreenShots/paypal.jpg?raw=true "Support")](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZMYDCUCMWCN8Q)
 
 
 
