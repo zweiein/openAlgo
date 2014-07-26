@@ -1,0 +1,25 @@
+[LegacyColorValue = true]; 
+
+{ how big is today's range, and where are we in that range? }
+input:
+      Comment("");
+var: dayRange(0),hi(0),lo(0),
+   p1(0.382),p2(0.5),p3(0.618),p4(0.786),
+   bottom(0),top(0),it(0);
+
+hi = HighD(0); lo = LowD(0);
+dayRange = hi - lo;
+top = dayRange/2;
+bottom = -top;
+it = bottom + c - lo;
+
+plot1(bottom,"range bottom");
+plot2(top,   "range top");
+plot3(0,     "range middle");
+
+var: color(yellow);
+if it>it[1] then color=green;
+if it<it[1] then color=red;
+plot4(it,"now",color);
+
+plot4[1](it[1],"now",color);
