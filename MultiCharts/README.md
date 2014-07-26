@@ -8,13 +8,13 @@ While this approach does create a higher likelihood of a failure to post a refer
 Where possible original author's comments have been left intact to give appropriate credit. Some of this content while old, is still believed to be valuable.
 
 ## Functions ##
-- AddTime
+- [AddTime](G:\openAlgo\MultiCharts\Functions\AddTime "AddTime")
 
 ## Indicators ##
 - [3 Higher](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/3%20Higher "3 Higher" "3 Higher")
 - [BB Squeeze](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/BB%20Squeeze "BB Squeeze")
 - [Darvas Box](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Darvas%20Box "Darvas Box")
-- Ehler's Sinewave
+- [Ehler's Sinewave](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Sinewave "Ehler's Sinewave")
 - [Gann Swing](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Gann%20Swing "Gann Swing")
 - [High Low Oscillator](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/High%20Low%20Oscillator "High Low Oscillator")
 - [Jacob Singer's Strategies For Daytrading](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Jacob%20Singer's%20Strategies%20For%20Daytrading "Jacob Singer's Strategies For Daytrading")
@@ -26,5 +26,5 @@ Where possible original author's comments have been left intact to give appropri
 - [ZigZag One & Two](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/ZigZag%20One%20%26%20Two "ZigZag One & Two")
 
 ## Signals & Strategies ##
-- MA & Std Stops
-- Stop Targets
+- [MA & Std Stops](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/MA%20%26%20Std%20Stops "MA & Std Stops")
+- [Stop Targets](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/Stop%20Targets "Stop Targets")
