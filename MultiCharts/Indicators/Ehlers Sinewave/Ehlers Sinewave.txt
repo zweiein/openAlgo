@@ -1,0 +1,52 @@
+{
+Sine Wave indicator 
+//// From 'Cybernetic Analysis for Stocks and Futures' by John Ehlers 
+//// code compiled by dn
+} 
+
+// plot on a subgraph separate from the price region.
+
+{
+This indicator tries to determine the current phase of the cycles you are in. 
+A sinewave indicator has an advantage over other oscillators such as RSI and Stochastic because it predicts rather than waits for confirmation. 
+This assumes that the measured phase has existed at least briefly in the past and will continue at least briefly into the future. 
+The phase languishes when the market is in a trend mode, and can even have a negative rate of change.
+This indicator gives entry and exit signals 1/16th of a cycle period in advance of the cycle turning point and seldom gives false whipsaw signals when the market is in a trend mode.
+}
+
+
+Inputs: Price((H+L)/2), alpha(.07); 
+
+Vars: Smooth(0),Cycle(0),I1(0),Q1(0),I2(0),Q2(0),DeltaPhase(0),MedianDelta(0),MaxAmp(0),AmpFix(0),Re(0),Im(0),DC(0),
+ alpha1(0),InstPeriod(0),DCPeriod(0),count(0),SmoothCycle(0),RealPart(0),ImagPart(0),DCPhase(0);
+
+Smooth = (Price+2*Price[1]+2*Price[2]+Price[3])/6;
+ Cycle = (1-.5*alpha)*(1-.5*alpha)*(Smooth-2*Smooth[1]+Smooth[2])+2*(1-alpha)*Cycle[1]-(1-alpha)*(1-alpha)*Cycle[2];
+ If CurrentBar <7 then Cycle=(Price-2*Price[1]+Price[2])/4; 
+Q1=(.0962*Cycle+.5769*Cycle[2]-.5769*Cycle[4]-.0962*Cycle[6])*(.5+.08*InstPeriod[1]);
+ I1 = Cycle[3];
+ If Q1<>0 and Q1[1]<>0 then DeltaPhase=(I1/Q1-I1[1]/Q1[1])/(1+I1*I1[1]/(Q1*Q1[1]));
+ If DeltaPhase <0.1 then DeltaPhase=0.1;
+ If DeltaPhase > 1.1 then DeltaPhase = 1.1;
+ MedianDelta = Median(DeltaPhase,5);
+ If MedianDelta =0 then DC=15 else DC=6.28318/MedianDelta+.5;
+ InstPeriod=.33*DC+.67*InstPeriod[1];
+ Value1 = .15*InstPeriod+.85*Value1[1];
+ DCPeriod = IntPortion(Value1); 
+RealPart = 0; 
+ImagPart = 0; 
+For count = 0 To DCPeriod - 1 begin 
+RealPart = RealPart + Sine(360 * count / DCPeriod) * (Cycle[count]); 
+ImagPart = ImagPart + Cosine(360 * count / DCPeriod) * (Cycle[count]); 
+End; 
+If AbsValue(ImagPart) > 0.001 then DCPhase = Arctangent(RealPart / ImagPart); 
+If AbsValue(ImagPart) <= 0.001 then DCPhase = 90 * Sign(RealPart); 
+
+DCPhase = DCPhase + 90; 
+If ImagPart < 0 then DCPhase = DCPhase + 180; 
+If DCPhase > 315 then DCPhase = DCPhase - 360; 
+
+Plot1(Sine(DCPhase), "Sine",blue); 
+Plot2(Sine(DCPhase + 45), "LeadSine",green); 
+
+
