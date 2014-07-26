@@ -21,7 +21,7 @@ Where possible original author's comments have been left intact to give appropri
 - [Ehler's Sinewave](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Sinewave "Ehler's Sinewave")
 - [Ehler's Smooth](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Smooth "Ehler's Smooth")
 - [Ehler's SNR](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20SNR "Ehler's SNR")
-- eKamWhere
+- [eKamWhere](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/eKamWhere "eKamWhere")
 - [Gann Swing](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Gann%20Swing "Gann Swing")
 - [High Low Oscillator](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/High%20Low%20Oscillator "High Low Oscillator")
 - [Jacob Singer's Strategies For Daytrading](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Jacob%20Singer's%20Strategies%20For%20Daytrading "Jacob Singer's Strategies For Daytrading")
