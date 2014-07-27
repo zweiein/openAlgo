@@ -1,6 +1,6 @@
 inputs:  	Price( Close ), 
-		Length( 9 ), 
-		Displace( 0 ) ;
+			Length( 9 ), 
+			Displace( 0 ) ;
 variables:  	MyAverage( 0 ) ;
 	
 MyAverage = 	(3 * XAverage(Price,Length)) - 
