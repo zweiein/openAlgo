@@ -1,0 +1,157 @@
+[LegacyColorValue = true]; 
+
+{***********************************************************************
+Indicator..........: Power RSI Pivot by FEDSignal.com
+Destination........: Counter-Trend System
+E-Mail.............: <a href="mailto:info@fedsignal.com">info@fedsignal.com</a>
+Last Modified Date.: 06/26/2003
+Type Signals.......: Only RSI Pivot
+Interval Settings..: Tick Bar, Volume Bar, TimeBar.
+Aplication.........: RadarScreen 7.XX, TradeSation 7.XX
+RadarScreen?R, TradeSation?R are registered trademarks of TradeStation Technologies, Inc.
+*************************************************************************}
+
+{
+ Orc,  6/27/2003 - posted on topic 13560
+ eKam, 6/29/2003 - code cleaned up
+                 - added short signals
+ ekam, 7/26/2003 - plot support / resistence lines
+                 - added reverse divergence signals
+ ekam, 7/30/2003 - added alerts in the style of combs and RalphP
+ }
+
+Input:
+      Length(7),price((o+c)/2),mult(0.0005),
+      DrawHLines(true);
+
+var:
+    k_15(15), k_50(50), 
+    RSIWAvg(0),
+    lastRSIAtPivotLo(0),lastPriceAtPivotLo(0),lastLoAtPivotLo(0),
+    lastRSIAtPivotHi(0),lastPriceAtPivotHi(0),lastHiAtPivotHi(0);
+
+{ figure out long/short threshold }
+var:
+    idx(0), RSIAvg(0),
+    longThreshold(0),shrtThreshold(0),
+    _RSI(0);
+
+var:
+    alertTextID(-1);
+
+if barnumber = 1 then begin
+   alertTextID = Text_New(date,time,0,"RSI");
+end;
+
+_RSI =  RSI(Price,Length);
+RSIAvg  = Average(_RSI,k_50);
+longThreshold = 60 - (100-RSIAvg)/1.68;
+shrtThreshold = 40 + (RSIAvg)/1.68;
+RSIWAvg  = WAverage(RSI(Price,Length),3);
+
+{ drawing related variables }
+var: lngDiverColor(green),lngRSIColor(darkgreen),lngRevDiverColor(cyan);
+var: srtDiverColor(red),  srtRSIColor(darkred),  srtRevDiverColor(yellow);
+
+{ long signal } 
+if RSIWAvg[1] < RSIWAvg and 
+   RSIWAvg[1] < RSIWAvg[2] and
+   RSIWAvg[2] < RSIWAvg[3] and
+   RSIWAvg[3] < RSIWAvg[4] then begin { last bar was a RSI pivot low }
+
+   if      RSIWAvg[1] < (longThreshold + k_15) and { RSI was "low enough" }
+      { RSI low enough for a pivot low, look for divergence }
+      Price < lastPriceAtPivotLo and { price was higher in last RSI pivot low, but }
+      lastRSIAtPivotLo < _RSI then   { RSI   was lower => divergence } begin
+         { plot a "significant" long signal }
+         Plot1(L-L*mult,"long",lngDiverColor);
+         if Text_GetTime(alertTextID) <> time then begin
+            text_setLocation(alertTextID, date, time, 0);
+            alert("RSI diver long");
+         end;
+   end
+   else if RSIWAvg[1] < longThreshold then begin
+        { no divergence, but RSI very low, and so it's worth noting }
+         { plot a normal long signal }
+      Plot1(L-L*mult,"long",lngRSIColor);
+      if Text_GetTime(alertTextID) <> time then begin
+         text_setLocation(alertTextID, date, time, 0);
+         alert("RSI long");
+      end;
+   end
+   else if RSIWAvg[1] > (shrtThreshold - k_15) { RSI was "high enough" }
+      { a pivot low while RSI reading is high, look for rev divergence }
+      and Price > lastPriceAtPivotLo     { price was higher in last RSI pivot low, but }
+      and lastRSIAtPivotLo < _RSI then   { RSI was lower => rev divergence } begin
+         Plot1(L-L*mult,"long",lngRevDiverColor);
+         if Text_GetTime(alertTextID) <> time then begin
+            text_setLocation(alertTextID, date, time, 0);
+            alert("RSI rev diver long");
+        end;
+   end;
+   lastPriceAtPivotLo = Price;
+   lastLoAtPivotLo    = L;
+   lastRSIAtPivotLo   = _RSI;
+end;
+
+if DrawHLines and lastLoAtPivotLo <> 0 then begin
+   plot3(lastLoAtPivotLo,"lastL@pivotL");
+   if     lastLoAtPivotLo <> lastLoAtPivotLo[1]
+      and Text_GetTime(alertTextID) <> time then begin
+         text_setLocation(alertTextID, date, time, 0);
+         alert("RSI support");
+      end;
+end;
+
+if DrawHLines and lastHiAtPivotHi <> 0 then begin
+   plot4(lastHiAtPivotHi,"lastH@pivotH");
+   if     lastHiAtPivotHi <> lastHiAtPivotHi[1] 
+      and Text_GetTime(alertTextID) <> time then begin
+         text_setLocation(alertTextID, date, time, 0);
+         alert("RSI resistance");
+      end;
+end;
+
+{ short signal }
+if RSIWAvg[1] > RSIWAvg and 
+   RSIWAvg[1] > RSIWAvg[2] and
+   RSIWAvg[2] > RSIWAvg[3] and
+   RSIWAvg[3] > RSIWAvg[4] then begin { last bar was a RSI pivot high }
+
+   if RSIWAvg[1] > (shrtThreshold - k_15) and { RSI was "high enough" }
+      { RSI high enough for a pivot high, look for divergence }
+      Price > lastPriceAtPivotHi and { price was higher in last RSI pivot high, but }
+      lastRSIAtPivotHi > _RSI then   { RSI   was higher => divergence } begin
+         { plot a "significant" short signal }
+         Plot2(H+H*mult,"short",srtDiverColor);
+         if Text_GetTime(alertTextID) <> time then begin
+            text_setLocation(alertTextID, date, time, 0);
+            alert("RSI diver short");
+         end;
+   end
+   else begin
+      if RSIWAvg[1] > shrtThreshold then begin
+        { no divergence, but RSI very high, and so it's worth noting }
+         { plot a normal short signal }
+         Plot2(H+H*mult,"short",srtRSIColor);
+         if Text_GetTime(alertTextID) <> time then begin
+            text_setLocation(alertTextID, date, time, 0);
+            alert("RSI short");
+         end;
+      end;
+   end;
+   if RSIWAvg[1] < (longThreshold + k_15) and { RSI was "low enough" }
+      { a pivot high while RSI reading is low, look for rev divergence }
+      Price < lastPriceAtPivotHi and { price was lower in last RSI pivot high, but }
+      lastRSIAtPivotHi > _RSI then   { RSI   was higher => rev divergence } begin
+         Plot2(H+H*mult,"short",srtRevDiverColor);
+         if Text_GetTime(alertTextID) <> time then begin
+            text_setLocation(alertTextID, date, time, 0);
+            alert("RSI rev diver short");
+         end;
+   end;
+   lastPriceAtPivotHi = Price;
+   lastHiAtPivotHi    = H;
+   lastRSIAtPivotHi   = _RSI;
+end;
+

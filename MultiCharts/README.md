@@ -35,3 +35,4 @@ Where possible original author's comments have been left intact to give appropri
 ## Signals & Strategies ##
 - [MA & Std Stops](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/MA%20%26%20Std%20Stops "MA & Std Stops")
 - [Stop Targets](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/Stop%20Targets "Stop Targets")
+- Triple Exponential Moving Average Displaced Exit

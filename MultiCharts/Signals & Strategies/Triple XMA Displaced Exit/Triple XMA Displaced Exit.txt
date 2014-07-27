@@ -1,0 +1,13 @@
+inputs:  	Price( Close ), 
+		Length( 9 ), 
+		Displace( 0 ) ;
+variables:  	MyAverage( 0 ) ;
+	
+MyAverage = 	(3 * XAverage(Price,Length)) - 
+		(3 * XAverage(XAverage(Price,Length),Length)) + 
+		(XAverage(XAverage(XAverage(Price,Length),Length),Length));
+
+
+if MarketPosition < 0 then buy to cover("TEMA Cover") next bar MyAverage[Displace] on stop;
+if MarketPosition > 0 then sell("TEMA Liq") next bar MyAverage[Displace] on stop;
+
