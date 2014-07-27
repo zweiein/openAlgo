@@ -1,0 +1,39 @@
+Inputs:	Price(MedianPrice), 
+		N(20); {N must be an even number}
+		
+// Check for even input
+If N/2 <> IntPortion(N/2) Then begin
+	Alert;
+	Abort;
+end;
+
+
+Vars:		count(0), 
+		N1(0), N2(0), 
+		N3(0), HH(0), 
+		LL(0), Dimen(0), 
+		alpha(0), Filt(0);
+
+N3 = (Highest(High, N) - Lowest(Low, N)) / N;
+HH = High;
+LL = Low;
+For count = 0 to N/2 - 1 begin
+	If High[count] > HH then HH = High[count];
+	If Low[count] < LL then LL = Low[count];
+End;
+N1 = (HH - LL)/(N/2);
+HH = High[N/2];
+LL = Low[N/2];
+For count = N/2 to N - 1 begin
+	If High[count] > HH then HH = High[count];
+	If Low[count] < LL then LL = Low[count];
+End;
+N2 = (HH - LL)/(N/2);
+
+If N1 > 0 and  N2 > 0 and N3 > 0 then Dimen = (Log(N1 + N2) - Log(N3)) / Log(2);
+
+If CurrentBar < N + 1 then Dimen = 0;
+
+Plot1(Dimen, "FRAMA Dimen");
+
+

@@ -1,0 +1,66 @@
+{This indicator calculates "The SafeZone Stop" as described by Alexander Elder in his book 
+"Come Into My Trading Room", copyright 2002.  The stop indicator is calculated at the  
+beginning of each day based upon the number of days defined in the 'Length' input and the 
+coefficient defined in the 'Multiplier' input.  See the book for more details on the  
+derivation of this stop loss technique. 
+} 
+INPUTS: Length(10), Multiplier(2); 
+VARIABLES:	j(0), UpCount(0), UpSum(0), UpAvg(0), UpPlot(0), DnCount(0), DnSum(0), DnAvg(0);   
+ARRAYS: SafeStopUp[3](0), SafeStopDn[3](0);  
+ 
+//if XAverage(Close, Length * 100) > XAverage(Close, Length * 100)[1] then 
+	 
+if Date <> Date[1] THEN  // only recalculate at beginning of new day 
+	//for UpTrends 
+	begin 
+	UpSum = 0;  // initialize variables 
+	UpCount = 0; 
+	for j = 1 to Length begin 
+		if LowD(j) < LowD(j+1) then  // if penetration then add to sum 
+			begin 
+			UpSum = UpSum + (LowD(j+1) - LowD(j)); 
+			UpCount = UpCount + 1; 
+			end; 
+	end; 
+ 
+	if UpCount > 0 then  
+		UpAvg = UpSum / UpCount;   // calculate average 
+ 
+	SafeStopUp[3] = SafeStopUp[2]; 
+	SafeStopUp[2] = SafeStopUp[1]; 
+	SafeStopUp[1] = LowD(1) - UpAvg * Multiplier;   // calculate today's stop price 
+	Value1 = MaxList(SafeStopUp[1], SafeStopUp[2], SafeStopUp[3]); //don't decrease stop for 3 days. 
+													// after 3 days it is assumed the uptrend is over. 
+	Plot1( Value1, "UpStop" ); 
+ 
+	//for DownTrends 
+	DnSum = 0;  // initialize variables 
+	DnCount = 0; 
+	for j = 1 to Length begin    
+		if HighD(j) > HighD(j+1) then  // if penetration then add to sum 
+			begin 
+			DnSum = DnSum + (HighD(j) - HighD(j+1)); 
+			DnCount = DnCount + 1; 
+			end; 
+	end; 
+ 
+	if DnCount > 0 then  
+		DnAvg = DnSum / DnCount;   // calculate average 
+ 
+	SafeStopDn[3] = SafeStopDn[2]; 
+	SafeStopDn[2] = SafeStopDn[1]; 
+	SafeStopDn[1] = HighD(1) + DnAvg * Multiplier;   // calculate today's stop price 
+	Value2 = MinList(SafeStopDn[1], SafeStopDn[2], SafeStopDn[3]); //don't increase stop for 3 days. 
+													// after 3 days it is assumed the downtrend is over. 
+	Plot2( Value2, "DownStop" ); 
+	end 
+ 
+else 
+	begin	 
+	Plot1( Value1[1], "UpStop" ); 
+	Plot2( Value2[1], "DownStop" ); 
+	end; 
+	
+
+
+
