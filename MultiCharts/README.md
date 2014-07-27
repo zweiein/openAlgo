@@ -1,9 +1,9 @@
 # MultiCharts Repository #
-This section will contain files coded with MultiChart's PowerLanguage. While not 100% equivalent to TradeStation's EasyLanguage, it is a very similar psuedocode and most scripts may be used with Multicharts with little if not infrequent modifications.
+This section will contain files coded with MultiChart's PowerLanguage. While not 100% equivalent to TradeStation's EasyLanguage, it is a very similar psuedocode and most scripts may be used with TradeStation with little modification.
 
 Although there may be ELD files available from time to time in the repository, the preferred method of posting PowerLanguage content is through text file so that PowerLanguage code may be easily seen and freely distributed without the need to import code in to the editor.  
 
-While this approach does create a higher likelihood of a failure to post a referenced called function that is not of a common nature, I believe the value of publicly viewable code to be considerably more in line with the spirit of openAlgo.org.
+While this approach does create a higher likelihood of a missing referenced called function that is not of a common nature, I believe the value of publicly viewable code to be considerably more in line with the spirit of openAlgo.org.
 
 Where possible original author's comments have been left intact to give appropriate credit. Some of this content while old, is still believed to be valuable.
 
@@ -22,6 +22,7 @@ Where possible original author's comments have been left intact to give appropri
 - [Ehler's Smooth](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Smooth "Ehler's Smooth")
 - [Ehler's SNR](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20SNR "Ehler's SNR")
 - [eKamWhere](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/eKamWhere "eKamWhere")
+- eKamPowerRSI
 - [Gann Swing](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Gann%20Swing "Gann Swing")
 - [High Low Oscillator](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/High%20Low%20Oscillator "High Low Oscillator")
 - [Jacob Singer's Strategies For Daytrading](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Jacob%20Singer's%20Strategies%20For%20Daytrading "Jacob Singer's Strategies For Daytrading")
