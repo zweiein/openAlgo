@@ -16,7 +16,7 @@ Where possible original author's comments have been left intact to give appropri
 - [Darvas Box](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Darvas%20Box "Darvas Box")
 - [Ehler's Cycle Period](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Cycle%20Period "Ehler's Cycle Period")
 - [Ehler's Detrend](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Detrend "Ehler's Detrend")
-- Ehler's Fractal Adaptive Moving Average
+- [Ehler's Fractal Adaptive Moving Average](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Fractal%20Adaptive%20Moving%20Average "Ehler's FRAMA")
 - [Ehler's Hilbert Transform](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Hilbert%20Transform "Ehler's Hilbert Transform")
 - [Ehler's Instantaneous Trendline](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Instantaneous%20Trendline "Ehler's Instantaneous Trendline")
 - [Ehler's Sinewave](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Sinewave "Ehler's Sinewave")
@@ -31,7 +31,7 @@ Where possible original author's comments have been left intact to give appropri
 - [MATrendline](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/MATrendline "MATrendline")
 - [Mesa Phase 1 & 2](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Mesa%20Phase%201%20%26%202 "Mesa Phase 1 & 2")
 - [Msheiner Scalping Support & Resistance Lines](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Msheiner%20Scalping%20Support%20%26%20Resistance%20Lines "Msheiner Scalping Support & Resistance Lines")
-- SafeZone
+- [SafeZone](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/SafeZone "SafeZone")
 - [Volume Price Confirmation Indicator (VPCI)](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/VPCI "Volume Price Confirmation Indicator (VPCI)")
 - [William's Percent R Histogram](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/W%25R%20Histogram "William's Percent R Histogram")
 - [ZigZag One & Two](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/ZigZag%20One%20%26%20Two "ZigZag One & Two")
