@@ -27,6 +27,7 @@ Where possible original author's comments have been left intact to give appropri
 - [Gann Swing](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Gann%20Swing "Gann Swing")
 - [High Low Oscillator](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/High%20Low%20Oscillator "High Low Oscillator")
 - [Jacob Singer's Strategies For Daytrading](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Jacob%20Singer's%20Strategies%20For%20Daytrading "Jacob Singer's Strategies For Daytrading")
+- Kaufman Adaptive Moving Average
 - [Kase Peak Oscillator](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Kase%20Peak%20Oscillator "Kase Peak Oscillator")
 - [MATrendline](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/MATrendline "MATrendline")
 - [Mesa Phase 1 & 2](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Mesa%20Phase%201%20%26%202 "Mesa Phase 1 & 2")

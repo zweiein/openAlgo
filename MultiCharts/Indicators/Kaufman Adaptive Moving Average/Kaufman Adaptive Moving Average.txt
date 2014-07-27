@@ -1,0 +1,24 @@
+Inputs:	Price(MedianPrice), 
+		Len(10),
+		FastLen(2), 
+		SlowLen(30);
+
+Vars:		count(0), Num(0), 
+		Denom(0),ER(0), 
+		Fastest(0), Slowest(0), 
+		alpha(0), Filt(0);
+
+Num = AbsValue(Price - Price[Len]);
+Denom = 0;
+For count = 0 to Len begin
+	Denom = Denom + AbsValue(Price[count] - Price[count + 1]);
+End;
+If Denom <> 0 then ER = Num / Denom;
+Fastest = 2 / (FastLen + 1);
+Slowest = 2 / (SlowLen + 1);
+alpha = Square(ER*(Fastest - Slowest) + Slowest);
+Filt = alpha*Price + (1 - alpha)*Filt[1];
+If CurrentBar = 1 then Filt = Price;
+
+Plot1(Filt, "KAMA");
+
