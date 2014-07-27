@@ -1,0 +1,13 @@
+Input: Price(NumericSeries),Length(NumericSimple),StdDevUp (NumericSimple),StdDevDn(NumericSimple); 
+
+value1 = BollingerBand(Price,Length,StdDevUp); 
+value2 = BollingerBand(Price,Length,StdDevDn); 
+
+Condition1 = value1 < value1[1] and value2 > value2[1]; {Contraction}{Built as conditions for later revision --WD} 
+Condition2 = value1 > value1[1] and value2 < value2[1]; {Expansion} 
+Condition3 = Condition1 = False and Condition2 = False; {Transition} 
+
+IF Condition1 then NewMarketParadigm = 1; {Contraction} 
+IF Condition2 then NewMarketParadigm = 2; {Expansion} 
+IF Condition3 then NewMarketParadigm = 3; {Transition}
+

@@ -1,0 +1,19 @@
+Input: Price(close),Length(28),StdDevUp(2),StdDevDn(-2); 
+Vars: NmpC(0),NmpE(0),NmpT(0),Trigger(0); 
+{*1.} 
+If NewMarketParadigm(Price,Length,StdDevUp,StdDevDn) = 1 then NmpC = NmpC + 1 
+Else NmpC = 0; {Contraction phase} 
+If NewMarketParadigm(Price,Length,StdDevUp,StdDevDn) = 2 then NmpE = NmpE + 1 
+Else NmpE = 0; {Expansion Phase} 
+If NewMarketParadigm(Price,Length,StdDevUp,StdDevDn) = 3 then NmpT = 1 
+Else NmpT = 0; {Transition Phase}{Reversal traders will be using this phase, so I left it in, although I donOt use it. No Counter is implemented, but one could certainly do that N WD} 
+{*2.} 
+Condition1 = NmpE > 1; {2 consecutive NmpE ranges qualify as an Expansion Phase. -- WD} 
+If Condition1 then begin 
+Trigger = 1; 
+End; 
+{*3.} 
+If Trigger = 1 then begin 
+Buy Next Bar  Highest(High,10) + 1 point Stop; 
+Sell Short Next Bar  Lowest(Low,10) - 1 point Stop; 
+End;

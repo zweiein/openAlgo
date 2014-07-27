@@ -1,0 +1,97 @@
+Input: PlotInFrontOfCB(True);// Use False to start from MA. True to 1 bar to right 
+Input: MALength		  (21); 
+Input: MASize		  (1);	 
+Input: BarStatus_1or2 (1); //Use "1" for live market and "2" For Closed markets	 
+Input: Up_Clr   	  (Blue); 
+Input: Dn_Clr   	  (Red ); 
+Input: Even_Clr 	  (rgb(160,42,182)); 
+Input: TL_Size	 	  (1); 
+Input: SetItRight1	  (1); // Greater than zero,default = 1 
+Input: Extend_TL 	  (True); 
+//============================================= 
+var:   TL_1 (0); 
+var:   BarAGoLevel(0);	 
+var:   MA (0); 
+var:   MAx(0); 
+var:   DA (0); //DistAbove  
+var:   DB (0); //DistBelow 
+ 
+//============================================= 
+//=============================================	 
+var:Bars_To_Right1  (SetItRight1);	 
+var:Bars_To_Right2 	(SetItRight1-1); 
+//============================================= 
+var: Next_Time1(0),Next_Date1(0); 
+var: Next_Time2(0),Next_Date2(0); 
+//============================================= 
+If BarStatus(1) = BarStatus_1or2 then begin 
+Next_Time1 = CalcTime( Time, Bars_To_Right1 ) ; 
+if Next_Time1 < Time then		 
+Next_Date1 = Next_Date1 - CalcDate( Date, 1 ) 
+else Next_Date1 = Date ; 
+//============================================= 
+Next_Time2 = CalcTime( Time, Bars_To_Right2 ) ; 
+if Next_Time2 < Time then		 
+Next_Date2 = Next_Date2 - CalcDate( Date, 1 ) 
+else Next_Date2 = Date ; 
+//============================================= 
+//============================================= 
+	 
+End;//end of TLs to the right	 
+//============================================= 
+//============================================= 
+	 
+MA = AverageFC( Close, MALength ) ;  
+//============================================= 
+//=============================================  
+// Adjust the plot levels 
+//========================   
+If MA < MA[1] then begin  
+DA = MA[1] - MA; 
+MAx = MA - DA;      
+End;    
+//=============================================    
+IF MA > MA[1] then begin  
+DB = MA - MA[1];  
+MAx = MA + DB;   
+End;   	   
+//=============================================   
+//=============================================   
+	 
+//========================================================== 
+//========================================================== 
+If CurrentBar = 1 then begin 
+	TL_1 = TL_new(Date,Time,Close,Date,Time,Close); 
+End; 
+//========================================================== 
+	 
+If LastBarOnChart and BarStatus(1) = BarStatus_1or2  
+and Ticks > 0 
+then begin  
+If PlotInFrontOfCB = True  
+	then begin 
+	TL_SetEnd  ( TL_1, Next_Date1, Next_Time1, MAx ) ;			 
+	TL_SetBegin( TL_1, Next_Date2, Next_Time2, MA ) ; 
+End; // PlotInFrontOfCB 
+//========================================================== 
+	 
+If PlotInFrontOfCB = False  
+	then begin 
+	TL_SetEnd  ( TL_1, Date, Time, MA  ) ;			 
+	TL_SetBegin( TL_1, Date[1], Time[1], MA[1] ) ; 
+End; // PlotInFrontOfCB 
+ 
+//========================================================== 
+ 
+If Close > MA then TL_SetColor(TL_1,Up_Clr); 
+If Close < MA then TL_SetColor(TL_1,Dn_Clr); 
+If Close = MA then TL_SetColor(TL_1,Even_Clr); 
+				   TL_SetSize (TL_1,TL_Size); 
+				   TL_SetExtRight(TL_1, Extend_TL); 
+ 
+//========================================================== 
+End; // BarStatus 
+//==========================================================	 
+Plot1[-0](MA,"MA",rgb(150,42,182),0,MASize); 
+//========================================================== 
+	
