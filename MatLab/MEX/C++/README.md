@@ -15,5 +15,5 @@ The following functions should be *MEX'd* prior to usage. Those files ending wit
 	- Injects the result of profit taking action based on number of ticks to an input signal
 - [relStrIdx](https://github.com/mtompkins/openAlgo/tree/master/MatLab/MEX/C%2B%2B/relStrIdx "relStrIdx")
 	- Relative Strength Index (RSI)
-- [taInvoke](https://github.com/mtompkins/openAlgo/blob/master/MatLab/MEX/C%2B%2B/taInvoke/taInvoke.cpp "taInvoke")
+- [taInvoke](https://github.com/mtompkins/openAlgo/blob/master/MatLab/MEX/C%2B%2B/taInvoke "taInvoke")
 	- A wrapper for calling the ta-lib function library from MatLab
