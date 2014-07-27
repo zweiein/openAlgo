@@ -1,0 +1,28 @@
+
+{ Bio-Rhythm Calculation }
+
+{Birthday Format : mmddyyyy}
+
+{Cycle Selection
+1 = Physical 
+2 = Emotional
+3 = Intellectual
+4 = Spritual 
+5 = Awareness 
+6 = Aesthetic 
+7 = Intuition }
+
+Input :
+	Birthday(01010000),
+	Cycle1(1),			{ Set default to Physical}
+	Color1(blue),
+	Cycle2(2),	{ Set default to emotional}
+	Color2(red),
+	Cycle3(3),	{ Set default to Intellectual}
+	Color3(green),
+	
+	idummy("");		
+
+Plot1(My_BioRhy(Birthday, Cycle1), "Score1", Color1 );
+Plot2(My_BioRhy(Birthday, Cycle2), "Score2", Color2 );
+Plot3(My_BioRhy(Birthday, Cycle3), "Score3", Color3 );

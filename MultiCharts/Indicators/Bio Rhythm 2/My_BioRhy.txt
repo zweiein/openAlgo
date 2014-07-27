@@ -1,0 +1,54 @@
+// Used by Bio_Rhythm2 Indicator
+{ Bio-Rhythm Calculation }
+
+{Birthday Format : mmddyyyy}
+
+{Cycle Selection
+1 = Physical 
+2 = Emotional
+3 = Intellectual
+4 = Spritual 
+5 = Awareness 
+6 = Aesthetic 
+7 = Intuition }
+
+Input :
+	Birthday(numeric),
+	Cycle(numeric);
+
+Variables :
+	Year_(0),
+	Month_Day(0), 	
+	Date_(0),
+	Age_In_Days(0),
+	Cycle_(0),
+	Cycle_Length(0);
+
+{Convert birthday to EL date format}
+
+Year_ = mod(Birthday,10000); 
+Month_Day = IntPortion(Birthday / 10000);
+If Year_ < 2000
+then 
+	Date_ = 10000 * mod(Year_, 100) + Month_Day
+else
+	Date_ = 10000 * (100 + mod(Year_, 100)) + Month_Day;
+
+{Convert to Date format}
+
+
+{ Set Cycle Length }
+
+If Cycle = 1 then Cycle_Length = 23;	{ Physical }
+If Cycle = 2 then Cycle_Length = 28;	{ Emotional }
+If Cycle = 3 then Cycle_Length = 33;	{ Intellectual }
+If Cycle = 4 then Cycle_Length = 53;	{ Spritual }
+If Cycle = 5 then Cycle_Length = 48;	{ Awareness }
+If Cycle = 6 then Cycle_Length = 43;	{ Aesthetic }
+If Cycle = 7 then Cycle_Length = 38;	{ Intuition }
+
+Age_In_Days = DateToJulian(Date) - DatetoJulian(Date_);
+	
+My_BioRhy = 100 * Sine(360 * (Age_In_Days / Cycle_Length));
+
+
