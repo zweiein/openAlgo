@@ -12,7 +12,7 @@ Where possible original author's comments have been left intact to give appropri
 
 ## Indicators ##
 - [3 Higher](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/3%20Higher "3 Higher" "3 Higher")
-- [BB Squeeze](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/BB%20Squeeze "BB Squeeze")
+- [BB Squeeze](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/BB%20Squeeze "BB Squeeze") 
 - [Darvas Box](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Darvas%20Box "Darvas Box")
 - [Ehler's Cycle Period](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Cycle%20Period "Ehler's Cycle Period")
 - [Ehler's Detrend](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Detrend "Ehler's Detrend")
@@ -22,7 +22,7 @@ Where possible original author's comments have been left intact to give appropri
 - [Ehler's Smooth](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Smooth "Ehler's Smooth")
 - [Ehler's SNR](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20SNR "Ehler's SNR")
 - [eKamWhere](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/eKamWhere "eKamWhere")
-- eKamPowerRSI
+- [eKamPowerRSI](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/eKamPowerRSI "eKamPowerRSI")
 - [Gann Swing](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Gann%20Swing "Gann Swing")
 - [High Low Oscillator](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/High%20Low%20Oscillator "High Low Oscillator")
 - [Jacob Singer's Strategies For Daytrading](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Jacob%20Singer's%20Strategies%20For%20Daytrading "Jacob Singer's Strategies For Daytrading")
