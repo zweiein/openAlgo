@@ -1,0 +1,25 @@
+Inputs:	Price((H+L)/2), Length(20);
+Vars:	Diff(0), HH(0), LL(0), count(0), alpha(0), L0(0), L1(0), L2(0), L3(0), Filt(0), FIR(0);
+	
+Diff = AbsValue(Price - Filt[1]);
+HH = Diff;
+LL = Diff;
+For count = 0 to Length - 1 begin
+	If Diff[count] > HH then HH = Diff[count];
+	If Diff[count] < LL then LL = Diff[count];
+End;
+If CurrentBar > Length and HH - LL <> 0 then alpha = Median(((Diff - LL) / (HH - LL)), 5);
+L0 = alpha*Price + (1 - alpha)*L0[1];
+L1 = -(1 - alpha)*L0 + L0[1] + (1 - alpha)*L1[1];
+L2 = -(1 - alpha)*L1 + L1[1] + (1 - alpha)*L2[1];
+L3 = -(1 - alpha)*L2 + L2[1] + (1 - alpha)*L3[1];
+Filt = (L0 + 2*L1 + 2*L2 + L3) / 6;
+If CurrentBar < Length then begin
+	L0 = Price;
+	L1 = Price;
+	L2 = Price;
+	L3 = Price;
+	Filt = Price;
+End;
+
+Plot1(Filt, "Laguerre");
