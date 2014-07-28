@@ -3,9 +3,9 @@ This section will contain files coded with MultiChart's PowerLanguage. While not
 
 Although there may be ELD files available from time to time in the repository, the preferred method of posting PowerLanguage content is through text file so that PowerLanguage code may be easily seen and freely distributed without the need to import code in to the editor.  
 
-While this approach does create a higher likelihood of a missing referenced called function that is not of a common nature, I believe the value of publicly viewable code to be considerably more in line with the spirit of openAlgo.org.
+While this approach does create a higher likelihood of a missing referenced called function that is not of a common nature, I believe the value of publicly viewable code to be considerably more in line with the spirit of openAlgo. In my experience too much code has been lost to the mechanics of any given vendor's approach to import and export.
 
-Where possible original author's comments have been left intact to give appropriate credit. Some of this content while old, is still believed to be valuable.
+Where possible original author's comments have been left intact to give appropriate credit. Some of this content while old, is still believed to be valuable. In addition, code has been acquired from many sources including culling from the internet. In the event proprietary code has been posted here that shouldn't be public and there is a claim to intellectual property, please do reach out to me directly and we will address it professionally.
 
 ## Functions ##
 - [AddTime](G:\openAlgo\MultiCharts\Functions\AddTime "AddTime")
@@ -13,6 +13,7 @@ Where possible original author's comments have been left intact to give appropri
 ## Indicators ##
 - [3 Higher](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/3%20Higher "3 Higher" "3 Higher")
 - [BB Squeeze](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/BB%20Squeeze "BB Squeeze") 
+- Bands
 - [Darvas Box](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Darvas%20Box "Darvas Box")
 - [Ehler's Cycle Period](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Cycle%20Period "Ehler's Cycle Period")
 - [Ehler's Detrend](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Detrend "Ehler's Detrend")
@@ -26,6 +27,7 @@ Where possible original author's comments have been left intact to give appropri
 - [eKamPowerRSI](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/eKamPowerRSI "eKamPowerRSI")
 - [Gann Swing](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Gann%20Swing "Gann Swing")
 - [High Low Oscillator](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/High%20Low%20Oscillator "High Low Oscillator")
+- [Hull Moving Average](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Hull%20Moving%20Average "Hull Moving Average")
 - [Ichimoku](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ichimoku "Ichimoku")
 - [Jacob Singer's Strategies For Daytrading](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Jacob%20Singer's%20Strategies%20For%20Daytrading "Jacob Singer's Strategies For Daytrading")
 - [Kaufman Adaptive Moving Average](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Kaufman%20Adaptive%20Moving%20Average "Kaufman Adaptive Moving Average")

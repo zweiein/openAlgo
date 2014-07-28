@@ -1,0 +1,37 @@
+{Programmed by Dale Legn - The Cycle Surfer
+
+}
+
+
+vars:string1("");
+value1=StdDev(medianprice,5);
+value2=StdDev(medianprice,13);
+
+value97=StdDev(medianprice,21);
+
+value7=average(medianprice,13);
+value8=average(medianprice,5);
+value96=average(medianprice,21);
+
+value9=(value7+value8+value96)/3;
+
+value5=value9+((2*value2+2*value1+2*value97)/3);
+value6=value9-((2*value2+2*value1+2*value97)/3);
+value3=derivativema(value5,5);
+value4=derivativema(value6,5);
+value55=derivativema(value9,5);
+value10=value9-value9[1];  {slope}
+value11=value9-((2*value9[1])-value9[2]); {momentum}
+
+value55=derivativema(value9,5);
+value13=derivativema(value5,5);
+value14=derivativema(value6,5);
+
+if barnumber>40 then begin
+	plot1(value13[1],"UpperBand");
+	plot2(value55[1],"Median");
+	plot3(value14[1],"LowerBand");
+
+
+end;
+

@@ -1,0 +1,21 @@
+// Used by Bands Indicator
+
+Inputs:  Price(Numeric), Length(Numeric);
+
+VARS: DERIV(0),SUMD(0),LENG2(0),N1(0),DR(0);
+
+
+DERIV= ((AVERAGE(Price,Length))*2) - AVERAGE(Price,Length)[1];
+
+SUMD=Length*DERIV;
+
+LENG2=length - 1 ;
+
+N1= (AVERAGE(Price,LENG2))*LENG2;
+
+DR=SUMD-N1;
+
+DerivativeMA = DR;
+
+
+
