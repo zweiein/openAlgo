@@ -4,7 +4,10 @@ The Hull Moving Average solves the age old dilemma of making a moving average mo
 
 16 week Simple Moving Average
 
-Firstly, solving the problem of curve smoothing can be done by taking an average of the average, i.e. 16 period SMA (16 period SMA (Price)). The bad news is that it causes a huge increase in lag as seen below.
+Firstly, solving the problem of curve smoothing can be done by taking an average of the average, i.e.
+ 
+    16 period SMA (16 period SMA (Price)) 
+The bad news is that it causes a huge increase in lag as seen below.
 
 16 week Nested Simple Moving Average
 
