@@ -50,13 +50,16 @@ Here is a list of signals and how you can spot them:
 
 - **Strong signals**
 	- A strong buy signal occurs when the Tenkan-Sen crosses above the Kijun-Sen from below. 
-	- A strong sell signal occurs when the opposite occurs. The signals must be above the Kumo.
+	- A strong sell signal occurs when the opposite occurs. 
+	- The signals must be above the Kumo.
 - **Normal signals**
 	- A normal buy signal occurs when the Tenkan-Sen crosses above the Kijun-Sen from below.
-	- A normal sell signal occurs when the opposite occurs. The signals must be within the Kumo.
+	- A normal sell signal occurs when the opposite occurs. 
+	- The signals must be within the Kumo.
 - **Weak signals**
 	- A weak buy signal occurs when the Tenkan-Sen crosses above the Kijun-Sen from below.
-	- A weak sell signal occurs when the opposite occurs. The signals must be below the Kumo.
+	- A weak sell signal occurs when the opposite occurs. 
+	- The signals must be below the Kumo.
 - **Overall strength**
 	- Strength is shown to be with the sellers if the Chikou Span is below the current price.
 	- Strength is shown to be with the buyers when the opposite is true.
