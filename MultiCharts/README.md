@@ -14,7 +14,7 @@ Where possible original author's comments have been left intact to give appropri
 ## Indicators ##
 - [3 Higher](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/3%20Higher "3 Higher" "3 Higher")
 - [BB Squeeze](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/BB%20Squeeze "BB Squeeze") 
-- Bands
+- [Bands](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Bands "Bands")
 - [Darvas Box](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Darvas%20Box "Darvas Box")
 - [Ehler's Cycle Period](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Cycle%20Period "Ehler's Cycle Period")
 - [Ehler's Detrend](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Detrend "Ehler's Detrend")
