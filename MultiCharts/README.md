@@ -8,8 +8,8 @@ While this approach does create a higher likelihood of a missing referenced call
 Where possible original author's comments have been left intact to give appropriate credit. Some of this content while old, is still believed to be valuable. In addition, code has been acquired from many sources including culling from the internet. In the event proprietary code has been posted here that shouldn't be public and there is a claim to intellectual property, please do reach out to me directly and we will address it professionally.
 
 ## Functions ##
-- AddTime
-- Colors
+- [AddTime](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/AddTime "AddTime")
+- [Colors](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/Colors "Colors")
 
 ## Indicators ##
 - [3 Higher](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/3%20Higher "3 Higher" "3 Higher")
