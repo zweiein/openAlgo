@@ -1,0 +1,29 @@
+{******************************************************************* 
+Description : This Indicator plots the SchaffTrend Cycle 
+Provided By : FX-Strategy, Inc. (c) Copyright 1999 - Modified
+********************************************************************} 
+Inputs: TCLen(10), MA1(23), MA2(50), DownColor(Red), UpColor(Green);
+Variables: 
+	XMac(0), 
+	Frac1(0), 
+	PF(0), 
+	PFF(0), 
+	Frac2(0), 
+	Factor(.5);
+
+	XMac = MACD(c,MA1,MA2) ;
+			Value1 = Lowest(XMac, TCLen);
+			Value2 = Highest(XMac, TCLen) - Value1;
+	Frac1 = IFF(Value2 > 0, ((XMac - Value1) / Value2) * 100, Frac1[1]);
+		PF = IFF(CurrentBar<=1, Frac1, PF[1] + (Factor * (Frac1 - PF[1])));
+			Value3 = Lowest(PF, TCLen);
+			Value4 = Highest(PF, TCLen) - Value3;
+	Frac2 = IFF(Value4 > 0, ((PF - Value3) / Value4) * 100, Frac2[1]);
+		PFF = IFF(CurrentBar<=1, Frac2, PFF[1] + (Factor * (Frac2 - PFF[1])));
+
+	setplotcolor[1](1,GradientColor(PFF,0,100,DownColor,UpColor));
+		plot1(PFF,"Schaff_TLC");
+		plot2(25);
+		plot3(75);
+
+

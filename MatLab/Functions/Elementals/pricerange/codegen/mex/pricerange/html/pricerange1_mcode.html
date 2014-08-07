@@ -1,0 +1,19 @@
+<!-- saved from url=(0014)about:internet -->
+<pre class="code">
+<span class="srcline"><span class="lineno"><a href="1,1" id="srcline1"> 1</a></span><span class="line"><span class="keyword">function</span> [ <span class="var type1" id="S2T2U3">diff</span> ] = pricerange(<span class="var type1" id="S3T1U6">price</span>)</span></span>
+<span class="srcline"><span class="lineno"><a href="1,2" id="srcline2"> 2</a></span><span class="line"><span class="comment">%PRICERANGE returns the absolute value difference between two vectors</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,3" id="srcline3"> 3</a></span><span class="line"><span class="comment">%</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,4" id="srcline4"> 4</a></span><span class="line"><span class="comment">%   INPUTS:     prices          An array of price in the form [H | L]     </span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,5" id="srcline5"> 5</a></span><span class="line"><span class="comment">%</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,6" id="srcline6"> 6</a></span><span class="line"><span class="comment">%   OUTPUTS:    diff            PRICERANGE vector</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,7" id="srcline7"> 7</a></span><span class="line"><span class="comment">%</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,8" id="srcline8"> 8</a></span><span class="line"><span class="comment">%   PRICERANGE(PRICE)           Returns a 1 dimensional vector of the 'pricerange.m' function.</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,9" id="srcline9"> 9</a></span><span class="line"></span></span>
+<span class="srcline"><span class="lineno"><a href="1,10" id="srcline10">10</a></span><span class="line"><span class="keyword">if</span> size(<span class="var type1" id="S3T1U12">price</span>,2) ~= 2</span></span>
+<span class="srcline"><span class="lineno"><a href="1,11" id="srcline11">11</a></span><span class="line">    error(<span class="string">'PRICERANGE:improperInputs'</span>, <span class="keyword">...</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,12" id="srcline12">12</a></span><span class="line">        <span class="string">'PRICERANGE returns the aboslute value difference between 2 vectors. Supply price data in the form H | L as input. Exiting.'</span>);</span></span>
+<span class="srcline"><span class="lineno"><a href="1,13" id="srcline13">13</a></span><span class="line"><span class="keyword">end</span>; <span class="comment">%if</span></span></span>
+<span class="srcline"><span class="lineno"><a href="1,14" id="srcline14">14</a></span><span class="line"></span></span>
+<span class="srcline"><span class="lineno"><a href="1,15" id="srcline15">15</a></span><span class="line"><span class="mxinfo" id="T2:U4"><span class="var type1" id="S2T2U22">diff</span> = <span class="mxinfo" id="T2:U6">abs(<span class="mxinfo" id="T2:U7"><span class="mxinfo" id="T2:U8"><span class="var type1" id="S3T1U27">price</span>(:,<span class="mxinfo" id="T3:U10">1</span>)</span>-<span class="mxinfo" id="T2:U11"><span class="var type1" id="S3T1U31">price</span>(:,<span class="mxinfo" id="T3:U13">2</span>)</span></span>)</span></span>;</span></span>
+<span class="srcline"><span class="lineno"><a href="1,16" id="srcline16">16</a></span><span class="line"></span></span>
+</pre>

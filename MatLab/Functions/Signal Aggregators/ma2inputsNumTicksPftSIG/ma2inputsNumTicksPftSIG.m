@@ -29,7 +29,8 @@ function [barsOut,sigOut,R,SH,LEAD,LAG] = ma2inputsNumTicksPftSIG(price,F,S,type
 %               bigPoint    value of a full tick for P&L calculation
 %
 %   OUTPUTS:
-%               SIG        -1.5 LEAD crossed below LAG.  Sell 1 lot short (reverse if necessary)
+%               barsOut
+%               sigOut      -1.5 LEAD crossed below LAG.  Sell 1 lot short (reverse if necessary)
 %                            0  no action
 %                           1.5 LEAD crossed above LAG.  Buy 1 lot long (reverse if necessary)
 %                        +/- N  A profit of 'N' contracts was recorded offsetting existing position(s)

@@ -1,0 +1,13 @@
+Inputs: Length(10), ColorUp(RGB(0,255,125)), ColorDown(RGB(255,0,125)), Width(2);
+Var: Swing(0);
+
+	Value1=Average(H,Length);
+	Value2=Average(L,Length);
+
+	If C<Value2[1] And C[1]>=Value2[2] then Swing=-1;
+	If C>Value1[1] And C[1]<=Value1[2] then Swing=1; 
+
+	If Swing=1 Then
+			plotpb(H,L,"neverMind",ColorUp  ,0,Width)
+	else	plotpb(H,L,"neverMind",ColorDown,0,Width)
+

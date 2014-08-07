@@ -22,6 +22,11 @@ function [varargout] = bollBandNumTicksPftSIG_DIS(price,period,maType,devUp,devD
 %               maType
 %               devUp       Number of upward standard deviations (default 2)
 %               devDwn      Number of downward standard deviations (default -2)
+%               minTick     the minimum increment of the asset being analyzed
+%               numTicks    the number of ticks to close a position profitably
+%               openAvg     the manner in which to calculate profit targets:
+%                            0  per contract (default)
+%                            1  position average
 %               scaling     sharpe ratio adjuster
 %               cost        round turn commission cost for proper P&L calculation
 %               bigPoint    Full tick dollar value of security

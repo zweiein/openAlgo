@@ -1,0 +1,9 @@
+libemlrt.lib
+libut.lib
+libmwblas.lib
+libmwmathutil.lib
+/export:mexFunction
+/export:emlrtMexFcnProperties
+/export:pricerange
+/export:pricerange_initialize
+/export:pricerange_terminate

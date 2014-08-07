@@ -1,0 +1,60 @@
+//_TASC_DonchianSystem (Indicator)
+
+{Reference: Technical Analysis of Stocks & Commodities, 
+Feb 2014.
+Article: The Degree Of Complexity
+
+Basic and Complex 4 parameter system
+
+Usage Notes:
+To test the 'Basic' System set the following
+inputs to:
+
+ATRVolCoef = 0
+ATRStopLossMult = 0
+}
+
+inputs:
+    int EntryChannelLength( 40 ),
+    int ExitChannelLength( 15 ),
+    int ATRLength( 20 ),
+    double ATRVolCoef( .9 ),
+    double ATRStopLossMult( 4 ) ;
+    
+variables:
+    double UpperEntryChannel( 0 ),
+    double LowerEntryChannel( 0 ),
+    double UpperExitChannel( 0 ),
+    double LowerExitChannel( 0 ),
+    double StopATR( 0 ),
+    bool EntryVolOK( false ) ;
+    
+        
+UpperEntryChannel = Highest( High, EntryChannelLength ) ;
+LowerEntryChannel = Lowest( Low, EntryChannelLength ) ;
+UpperExitChannel = Highest( High, ExitChannelLength ) ;
+LowerExitChannel = Lowest( Low, ExitChannelLength ) ;
+
+StopATR = AvgTrueRange( ATRLength ) ;
+EntryVolOK = AvgTrueRange( 1 ) < StopATR[1] * ATRVolCoef ;
+
+if EntryVolOK or ATRVolCoef = 0 then
+    begin
+    Buy next bar at UpperEntryChannel Stop ;
+    SellShort next bar at LowerEntryChannel Stop ;
+    end ;
+
+if MarketPosition = 1 then
+    begin
+    Sell next bar at LowerExitChannel Stop ;
+    if ATRStopLossMult <> 0 then
+        Sell next bar at 
+        EntryPrice - StopATR * ATRStopLossMult Stop ;
+    end 
+else if MarketPosition = -1 then
+    begin
+    BuyToCover next bar at UpperExitChannel Stop ;
+    if ATRStopLossMult <> 0 then
+        BuyToCover next bar at 
+        EntryPrice + StopATR * ATRStopLossMult Stop ;
+    end ;  

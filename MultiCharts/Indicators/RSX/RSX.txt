@@ -1,0 +1,48 @@
+{
+	this version of rsx made by mladen - www.forex-tsd.com
+}
+
+inputs:		Period(14), 
+			Price(Close),
+			DownColor(Magenta),
+			MiddleColor(Yellow),
+			UpColor(Green);
+			
+array: 		double work[13](0);
+
+variables:	mom(0),
+			moa(0),
+			Kg(3/(2+Period)),
+			Hg(1-Kg);
+
+//
+//
+//
+//
+//
+//
+		
+work[12] = Price;
+	
+mom = work[12]-work[12][1];
+moa = AbsVAlue(mom);
+
+for value1 = 0 to 2 begin
+	value2 = value1*2;
+    work[value2+0] = Kg * mom + Hg * work[value2+0][1];
+    work[value2+1] = Kg * work[value2+0] + Hg * work[value2+1][1]; 
+	mom = 1.5 * work[value2+0] - 0.5 * work[value2+1];
+    work[value2+6] = Kg * moa + Hg * work[value2+6][1];
+    work[value2+7] = Kg * work[value2+6] + Hg * work[value2+7][1]; 
+	moa = 1.5 * work[value2+6] - 0.5 * work[value2+7];
+end;
+
+if moa <> 0 then value3 = MaxList(MinList((mom/moa+1.0)*50.0,100.00),0.00)-50.0
+	else value3 = 0;
+	
+if value3 > 0 then setplotcolor[1](1,GradientColor(value3, 0,50,MiddleColor,UpColor))
+	else setplotcolor[1](1,GradientColor(value3,-50,0,DownColor,MiddleColor));
+		
+Plot1( Value3, "Rsx" );
+Plot2( 0, "ZeroLine" ) ;
+

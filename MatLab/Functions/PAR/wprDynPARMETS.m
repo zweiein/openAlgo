@@ -1,9 +1,7 @@
-function shMETS = maRsiPARMETS(x,data,bigPoint,cost,scaling)
-% define ma+rsi to accept vectorized inputs and return only sharpe ratio
-%%
-% marsiMETS(price,N,M,typeMA,Mrsi,thresh,typeRSI,bigPoint,cost,scaling)
+function shMETS = wprDynPARMETS(x,data,bigPoint,cost,scaling)
+% define wprDyn to accept vectorized inputs and return only sharpe ratio
 %
-% Wrapper for ma2inputs with numTicksProfit to accept vectorized inputs and return only sharpe ratio
+% Wrapper for wprDyn to accept vectorized inputs and return only sharpe ratio
 % in order to facilitate embarrassingly parallel parametric sweeps.
 % PAR wrappers allow the parallel execution of parametric sweeps across HPC clusters
 % ordinarily using 'parfor' with MatLab code.  While it is tempting to more granularly
@@ -13,6 +11,9 @@ function shMETS = maRsiPARMETS(x,data,bigPoint,cost,scaling)
 % The wrapper will indicate if it is looking to maximize:
 %   Standard Sharpe     function(s)PAR
 %   METS Sharpe         function(s)PARMETS
+%%
+% wprDynMETS(x=[Mult,OB,OS],data,bigPoint,cost,scaling)
+%
 
 row = size(x,1);
 shTest = zeros(row,1);
@@ -23,14 +24,10 @@ testPts = floor(0.8*length(data(:,1)));
 vBarsTest = data(1:testPts,:);
 vBarsVal = data(testPts+1:end,:);
 
-% Prevent loss of global variables when calling parforprogress
-show_debug = 0;
-run_javaaddpath = 0;
 
 %% Progress Bar
 try % Initialization
-    ppm = ParforProgressStarter2('Parametric Sweep: maRsiPARMETS', row, 0.1, show_debug, run_javaaddpath);
-    %ppm = ParforProgressStarter2('Parametric Sweep: maRsiPARMETS', row, 0.1);
+    ppm = ParforProgressStarter2('Parametric Sweep: wprDynPARMETS', row, 0.1);
 catch me % make sure "ParforProgressStarter2" didn't get moved to a different directory
     if strcmp(me.message, 'Undefined function or method ''ParforProgressStarter2'' for input arguments of type ''char''.')
         error('ParforProgressStarter2 not in path.');
@@ -48,29 +45,17 @@ end %try
 %% Parallel iterations
 try
 parfor ii = 1:row
-    if x(ii,1) > x(ii,2)
-        shTest(ii) = NaN;
-        shVal(ii) = NaN;
-    else
-        % maRsiSIG(price,N,M,typeMA,Mrsi,thresh,typeRSI,scaling,cost,bigPoint)
-        % movAvg2inputsMEX_mex(price,N,M,typeMA,scaling,cost,bigPoint);
-        % rsiMETS(price,Mrsi,thresh,typeRSI,scaling,cost,bigPoint);
-        %                        price   N      M     typeMA   Mrsi    Mdet      thres   typeRSI
-        [~,~,shTest(ii)] =	maRsiSIG_mex(vBarsTest,x(ii,1),x(ii,2),x(ii,3),...
-            [x(ii,4) x(ii,5)],x(ii,6),x(ii,7),x(ii,8),...
+
+    [~,~,shTest(ii)] = wprDynSIG(vBarsTest,x(ii,1),x(ii,2),x(ii,3),...
             bigPoint,cost,scaling);
-        [~,~,shVal(ii)] =	maRsiSIG_mex(vBarsVal,x(ii,1),x(ii,2),x(ii,3),...
-            [x(ii,4) x(ii,5)],x(ii,6),x(ii,7),x(ii,8),...
+    [~,~,shVal(ii)] =	wprDynSIG(vBarsVal,x(ii,1),x(ii,2),x(ii,3),...
             bigPoint,cost,scaling);  %#ok<PFBNS>
-   end
+
     ppm.increment(ii); %#ok<PFBNS>
+    
 end
 catch ER
-	% An error occurred during the parallel process ...
-	subj = 'ALERT - Notice of MATLAB error';
-    message = sprintf('Error while executing the parallel parametric sweep.\nThe error reported by MATLAB is:\n\n%s', ER.message);
-    % Send the notice
-    sendNotice(subj, message);
+
 end
 
 %% Destroy progress bar
@@ -133,7 +118,7 @@ shMETS = ((shTest*2)+shVal)/3;
 %   -------------------------------------------------------------------------
 %
 %   Author:        Mark Tompkins
-%   Revision:      4906.24976
-%   Copyright:     (c)2013
+%   Revision:      5332.12541
+%   Copyright:     (c)2014
 %
 
