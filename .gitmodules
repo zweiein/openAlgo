@@ -1,0 +1,3 @@
+[submodule "MultiCharts/C++ DLLs/mcfunctions"]
+	path = MultiCharts/C++ DLLs/mcfunctions
+	url = https://mtompkins@bitbucket.org/mtompkins/mcfunctions.git

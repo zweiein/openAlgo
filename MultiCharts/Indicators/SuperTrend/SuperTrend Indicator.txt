@@ -1,0 +1,10 @@
+inputs: 
+ATRLength(9), ATRMult(1), Strength(9), ColorUp(DarkGreen), ColorDown(red);
+
+vars: 
+strend(0),
+st(0);
+
+st = SuperTrend(ATRLength, ATRMult, Strength, strend);
+
+Plot1(st,"SuperTrend",iff(strend = 1,ColorUp,ColorDown)); 

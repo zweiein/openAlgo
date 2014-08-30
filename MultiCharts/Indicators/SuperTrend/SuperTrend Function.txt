@@ -1,0 +1,41 @@
+inputs:	ATRLength(NumericSimple), 
+		ATRMult(NumericSimple), 
+		Strength(NumericSimple), 
+		STrend(NumericRef);
+
+vars: 	ATR(0), 
+		avg(0), 
+		dn(0), 
+		up(0), 
+		trend(1), 
+		flag(0), 
+		flagh(0), 
+		ST(0),
+		hl(0); 
+
+
+hl = Highest(High, ATRLength) - Lowest(Low, ATRLength);
+ATR = XAverage(hl, ATRLength);
+avg = (XAverage(high, Strength) + XAverage(low, Strength))/2;
+up = avg + ATR; 
+dn = avg - ATR; 
+
+if c > up[1] and c > Highest(High, Strength)[1] then
+trend = 1
+else if c < dn[1] and c < Lowest(Low, Strength)[1] then
+trend = -1;
+
+
+if trend < 0 and trend[1] > 0 then flag=1 else flag=0; 
+if trend > 0 and trend[1] < 0 then flagh = 1 else flagh = 0; 
+
+if trend > 0 and dn < dn[1] then dn=dn[1];
+if trend < 0 and up > up[1] then up=up[1];
+
+if flag = 1 then up = avg + ATR; 
+if flagh = 1 then dn = avg - ATR; 
+
+if trend = 1 then ST = dn else ST = up;
+SuperTrend = ST;
+STrend = trend; 
+

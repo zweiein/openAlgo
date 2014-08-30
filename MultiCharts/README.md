@@ -7,6 +7,14 @@ While this approach does create a higher likelihood of a missing referenced call
 
 Where possible original author's comments have been left intact to give appropriate credit. Some of this content while old, is still believed to be valuable. In addition, code has been acquired from many sources including culling from the internet. In the event proprietary code has been posted here that shouldn't be public and there is a claim to intellectual property, please do reach out to me directly and we will address it professionally.
 
+## C++ DLLs
+This directory contains a git repository submodule. When cloning the openAlgo this subfolder may not automatically pull the contents as referenced here [http://www.git-scm.com/book/en/Git-Tools-Submodules](http://www.git-scm.com/book/en/Git-Tools-Submodules "Git-Tools-Submodules"). To pull the content execute:
+
+    git submodule init
+    git submodule update
+
+See the directory README for available functions.
+
 ## Functions ##
 - [AddTime](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/AddTime "AddTime")
 - [Colors](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/Colors "Colors")
