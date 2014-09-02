@@ -1,11 +1,11 @@
 # MultiCharts Repository #
-This section will contain files coded with MultiChart's PowerLanguage. While not 100% equivalent to TradeStation's EasyLanguage, it is a very similar psuedocode and most scripts may be used with TradeStation with little modification.
+This section contains files coded with MultiChart's PowerLanguage. While not 100% equivalent to TradeStation's EasyLanguage, it is a very similar type pseudocode and most scripts may be used with TradeStation with little modification.
 
 Although there may be ELD files available from time to time in the repository, the preferred method of posting PowerLanguage content is through text file so that PowerLanguage code may be easily seen and freely distributed without the need to import code in to the editor.  
 
 While this approach does create a higher likelihood of a missing referenced called function that is not of a common nature, I believe the value of publicly viewable code to be considerably more in line with the spirit of openAlgo. In my experience too much code has been lost to the mechanics of any given vendor's approach to import and export.
 
-Where possible original author's comments have been left intact to give appropriate credit. Some of this content while old, is still believed to be valuable. In addition, code has been acquired from many sources including culling from the internet. In the event proprietary code has been posted here that shouldn't be public and there is a claim to intellectual property, please do reach out to me directly and we will address it professionally.
+Where possible original author's comments have been left intact to give appropriate credit. Some of this content while old, is still believed to be valuable. In addition, code has been acquired from many sources including culling from the internet. In the event proprietary code has been posted here that shouldn't be public and there is a claim to intellectual property, please reach out to me directly and I will address it professionally.
 
 ## C++ DLLs
 This directory contains a git repository submodule. When cloning openAlgo this subfolder will not automatically pull the contents [Reference: http://www.git-scm.com/book/en/Git-Tools-Submodules](http://www.git-scm.com/book/en/Git-Tools-Submodules "Git-Tools-Submodules"). 
@@ -18,7 +18,7 @@ To pull the submodule content execute:
 To update the submodule content execute:
 
 	git submodule update --remote --merge
-See the directory README for available functions.
+For a listing of DLL based functions see the submodule directory README file.
 
 ## Functions ##
 - [AddTime](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/AddTime "AddTime")
