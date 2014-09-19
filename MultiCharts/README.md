@@ -57,5 +57,6 @@ For a listing of DLL based functions see the submodule directory README file.
 
 ## Signals & Strategies ##
 - [MA & Std Stops](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/MA%20%26%20Std%20Stops "MA & Std Stops")
+- [METS Exits](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/METS%20Exits "METS Exits")
 - [Stop Targets](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/Stop%20Targets "Stop Targets")
 - [Triple Exponential Moving Average Displaced Exit](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/Triple%20XMA%20Displaced%20Exit "Triple Exponential Moving Average Displaced Exit")
