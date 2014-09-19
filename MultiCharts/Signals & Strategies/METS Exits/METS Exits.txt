@@ -95,7 +95,20 @@ Input:	UseStrategyName(False),
 	{*************************************************}
 
 	if Enable_Tick_Trail = 1 then begin
-		if NumTicksTrail > 0 {and NumTicksActivate > 0} then begin
+		vars: TrailTrigger(0);
+		
+		If marketposition < 0 then begin
+			TrailTrigger = entryprice - Lowest(low,BarsSinceEntry);
+		end;
+		
+		If marketposition > 0 then begin
+			TrailTrigger = Highest(high,BarsSinceEntry) - EntryPrice;
+		end;
+		
+		If InitStopLossTicks > 0 then Condition1 = TrailTrigger >= InitStopLossTicks
+		else Condition1 = true;
+		
+		if NumTicksTrail > 0 and Condition1 then begin
 			// Convert symbol ticks to dollars
 			TrailingDollarAmt = NumTicksTrail * OneTickValue;		
 			SetDollarTrailing(TrailingDollarAmt);
