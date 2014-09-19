@@ -1,0 +1,116 @@
+[Intrabarordergeneration=true] 
+
+{
+	Type - Signal
+	Name - METS Exits
+	Desc - This Signal has selectable multiple exits
+							 
+	Adapted from Neil Wrightson 
+}
+
+{Required inputs for exit}
+Input:	UseStrategyName(False),
+	StrategyName("Sample"),
+	PositionOrContract(0),						// 0 - position based, 1 - per contract based
+	ProfitTarget("-- Profit Target --"),				// Label
+	Enable_Pft_Tgt(0),							// 0 - Disabled | 1 - Enabled
+	ProfitTargetTicks(0),						// INT - number of ticks profit
+	InitStop("-- Init Stop Loss --"),					// Label
+	Enable_Init_Loss(0),							// 0 - Disabled | 1 - Enabled
+	InitStopLossTicks(0),						// INT - number of ticks initial stop loss
+	PctTrailing("-- Pct Trailing --"),					// Label
+	Enable_Pct_Trail(0),							// 0 - Disabled | 1 - Enabled
+	InitPctTicks(0),							// INT - number of ticks in position direction to activate % trail stop
+	PctTrailPct(0),							// INT - Percentage to trail from peak positive equity
+	TickTrailing("-- Tick Trailing --"),				// Label
+	Enable_Tick_Trail(0),						// 0 - Disabled | 1 - Enabled
+	NumTicksTrail(0),							// INT - number of ticks trail stop
+	NumTicksActivate(0),							// INT - number of ticks in position direction to activate tick trail stop
+	NumBarsExitLbl("-- # Bars Exit --"),				// Label
+	Enable_NumBarsExit(0),						// 0 - Disabled | 1 - Enabled
+	NumBarsExit(1);							// INT - number of bars since entry force exit
+	
+	
+	Vars:	Double OnePriceTick(MinMove / PriceScale), 			// minimum price move or 1 price tick for this symbol
+		Double OneTickValue(OnePriceTick * BigPointValue),
+		Double TrailingDollarAmt(0);		
+		
+	if PositionOrContract = 0 then SetStopPosition else SetStopShare;
+
+	// Check for integer input
+	If ProfitTargetTicks <> IntPortion(ProfitTargetTicks) Then begin
+		Alert;
+		Abort;
+	end;
+
+	If InitStopLossTicks <> IntPortion(InitStopLossTicks) Then begin
+		Alert;
+		Abort;
+	end;
+
+	If InitPctTicks <> IntPortion(InitPctTicks) Then begin
+		Alert;
+		Abort;
+	end;
+
+	If PctTrailPct <> IntPortion(PctTrailPct) Then begin
+		Alert;
+		Abort;
+	end;
+
+
+	{*************************************************}
+	{              T A K E   P R O F I T              }
+	{*************************************************}
+
+	if Enable_Pft_Tgt = 1 then begin
+		// Convert symbol ticks to dollars
+		Vars: Double ProfitPrice(ProfitTargetTicks * OneTickValue);		
+		SetProfitTarget(ProfitPrice);
+	end;
+	
+	{*************************************************}
+	{             I N I T  S T O P  L O S S           }
+	{*************************************************}
+	if Enable_Init_Loss = 1 then begin
+		// Convert symbol ticks to dollars
+		Vars: Double StopLossPrice(InitStopLossTicks * OneTickValue);		
+		SetStopLoss(StopLossPrice);
+	end;
+
+	{*************************************************}
+	{         P E R C E N T  T R A I L I N G          }
+	{*************************************************}
+
+	if Enable_Pct_Trail = 1 then begin
+		if InitPctTicks > 0 and PctTrailPct> 0 then begin
+			// Convert symbol ticks to dollars
+			TrailingDollarAmt = InitPctTicks * OneTickValue;			
+			SetPercentTrailing( TrailingDollarAmt, PctTrailPct);
+		end;
+	end;
+
+	{*************************************************}
+	{            T I C K   T R A I L I N G            }
+	{*************************************************}
+
+	if Enable_Tick_Trail = 1 then begin
+		if NumTicksTrail > 0 {and NumTicksActivate > 0} then begin
+			// Convert symbol ticks to dollars
+			TrailingDollarAmt = NumTicksTrail * OneTickValue;		
+			SetDollarTrailing(TrailingDollarAmt);
+		end;
+	end;
+	
+	{*************************************************}
+	{          N U M B E R   B A R S   E X I T        }
+	{*************************************************}
+	
+	if Enable_NumBarsExit = 1 then begin
+		if NumBarsExit > 0 and barssinceentry > NumBarsExit then begin
+			If MarketPosition > 0 then sell ("# Bars LX") this bar on close;
+			If MarketPosition < 0 then buy to cover ("# Bars SX") this bar on close;
+		end; 
+	end;
+
+
