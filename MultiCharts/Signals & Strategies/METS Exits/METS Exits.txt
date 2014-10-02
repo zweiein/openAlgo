@@ -28,12 +28,33 @@ Input:	UseStrategyName(False),
 	NumTicksActivate(0),							// INT - number of ticks in position direction to activate tick trail stop
 	NumBarsExitLbl("-- # Bars Exit --"),				// Label
 	Enable_NumBarsExit(0),						// 0 - Disabled | 1 - Enabled
-	NumBarsExit(1);							// INT - number of bars since entry force exit
+	NumBarsExit(1),							// INT - number of bars since entry force exit
+	ReverseOnStopBit(0),
+	StopLineType(tool_dotted),
+	ShowActiveStopsOnly(true),                      { show active stops when a position exists.  if false, show all inactive AND active stops }
+    	PlotLength(1000),                               { number of bars back from current bar to plot ratchet stops }
+    	PlotWidth(1),                                   { thickness of ratchet stop plots }
+	Debug(false);
 	
-	
+	// Bit to Bool inits
+    	vars:	bool ReverseOnStop(false),
+    		bool AllowStopEntry(false);
+
 	Vars:	Double OnePriceTick(MinMove / PriceScale), 			// minimum price move or 1 price tick for this symbol
 		Double OneTickValue(OnePriceTick * BigPointValue),
-		Double TrailingDollarAmt(0);		
+		Double TrailingDollarAmt(0),
+		intrabarpersist MP(0),
+		bool TickTrailActive(false),		
+		
+		{ dynamic strategy switches } 
+    		bool ReverseOnStopOK(ReverseOnStop),
+    		bool DebugOK(Debug),
+    		bool Optimizing(GetAppInfo(aiOptimizing) = 1),
+    		bool PlotOK(true),
+    		bool LastBar(false),
+    		HStopRatchet(0),
+    		LStopRatchet(0);
+
 		
 	if PositionOrContract = 0 then SetStopPosition else SetStopShare;
 
@@ -58,12 +79,13 @@ Input:	UseStrategyName(False),
 		Abort;
 	end;
 
+	MP = MarketPosition;
 
 	{*************************************************}
 	{              T A K E   P R O F I T              }
 	{*************************************************}
 
-	if Enable_Pft_Tgt = 1 then begin
+	if Enable_Pft_Tgt = 1 and MP <> 0 then begin
 		// Convert symbol ticks to dollars
 		Vars: Double ProfitPrice(ProfitTargetTicks * OneTickValue);		
 		SetProfitTarget(ProfitPrice);
@@ -72,7 +94,7 @@ Input:	UseStrategyName(False),
 	{*************************************************}
 	{             I N I T  S T O P  L O S S           }
 	{*************************************************}
-	if Enable_Init_Loss = 1 then begin
+	if Enable_Init_Loss = 1 and MP <> 0 then begin
 		// Convert symbol ticks to dollars
 		Vars: Double StopLossPrice(InitStopLossTicks * OneTickValue);		
 		SetStopLoss(StopLossPrice);
@@ -82,7 +104,7 @@ Input:	UseStrategyName(False),
 	{         P E R C E N T  T R A I L I N G          }
 	{*************************************************}
 
-	if Enable_Pct_Trail = 1 then begin
+	if Enable_Pct_Trail = 1 and MP <> 0 then begin
 		if InitPctTicks > 0 and PctTrailPct> 0 then begin
 			// Convert symbol ticks to dollars
 			TrailingDollarAmt = InitPctTicks * OneTickValue;			
@@ -94,26 +116,38 @@ Input:	UseStrategyName(False),
 	{            T I C K   T R A I L I N G            }
 	{*************************************************}
 
-	if Enable_Tick_Trail = 1 then begin
-		vars: TrailTrigger(0);
+	if Enable_Tick_Trail = 1 and MP <> 0 then begin
+			
+		vars: TrailTrigger(0), HHigh(0), LLow(0);
 		
-		If marketposition < 0 then begin
-			TrailTrigger = entryprice - Lowest(low,BarsSinceEntry);
+		if barssinceentry = 0 then begin
+			//TickTrailActive = false;
+			HHigh = H;
+			LLow = L;
+		end else begin
+			If H > HHigh then HHigh = H;
+			If L < LLow then LLow = L;
 		end;
+			
+		//If MP < 0 then TrailTrigger = (entryprice - Lowest(low,MinList(BarsSinceEntry,MaxBarsBack-1))) / OnePriceTick;
+		If MP < 0 then TrailTrigger = (entryprice - LLow) / OnePriceTick;
 		
-		If marketposition > 0 then begin
-			TrailTrigger = Highest(high,BarsSinceEntry) - EntryPrice;
-		end;
+		//If MP > 0 then TrailTrigger = (Highest(high,MinList(BarsSinceEntry,MaxBarsBack-1)) - EntryPrice) / OnePriceTick;
+		If MP > 0 then TrailTrigger = (HHigh - EntryPrice) / OnePriceTick;
+
 		
-		If InitStopLossTicks > 0 then Condition1 = TrailTrigger >= InitStopLossTicks
-		else Condition1 = true;
+		If NumTicksTrail > 0 then Condition1 = TrailTrigger >= NumTicksActivate;
 		
-		if NumTicksTrail > 0 and Condition1 then begin
+		if Condition1 then begin
 			// Convert symbol ticks to dollars
 			TrailingDollarAmt = NumTicksTrail * OneTickValue;		
 			SetDollarTrailing(TrailingDollarAmt);
+			TickTrailActive = true;
 		end;
+		
 	end;
+	
+	If marketposition = 0 then TickTrailActive = false;
 	
 	{*************************************************}
 	{          N U M B E R   B A R S   E X I T        }
@@ -126,4 +160,59 @@ Input:	UseStrategyName(False),
 		end; 
 	end;
 
+
+	/////////
+	
+
+	{ EndOfBar Processing ------------------------------------------ }
+	
+	if BarStatus(1) = 2 then begin
+	
+		once begin
+		                
+	       	{ turn off debugging and plotting while optimizing }
+	              if Optimizing then begin
+	              	DebugOK = false;
+	                     PlotOK = false;
+	              end;
+             
+		end;
+		
+		// Update Stop Paint
+		If TickTrailActive then begin
+		
+			if MP < 0 then begin	
+				//HStopRatchet = Lowest(low,MinList(BarsSinceEntry,MaxBarsBack-1)) + (NumTicksTrail * OnePriceTick);
+				HStopRatchet = LLow + (NumTicksTrail * OnePriceTick);
+				LStopRatchet = 0;
+				//Print(maxbarsback+currentbar, " Short " + NumToStr(HStopRatchet,2));
+			end;
+			
+			if MP > 0 then begin
+				//LStopRatchet = Highest(H, MinList(BarsSinceEntry,MaxBarsBack-1)) - (NumTicksTrail * OnePriceTick);
+				LStopRatchet = HHigh - (NumTicksTrail * OnePriceTick);
+				HStopRatchet = 0;
+				//Print(maxbarsback+currentbar, " Long " + NumToStr(LStopRatchet,2));
+
+			end;	
+		end;
+		
+		{ plot stops }
+            	if PlotOK and TickTrailActive then begin
+			if ShowActiveStopsOnly then begin
+				if MP < 0 then begin
+					if HStopRatchet[1] > 0 then
+					value1 = _TLPlot(5, HStopRatchet, PlotLength, 0, 0, StopLineType, green, PlotWidth);
+				end;
+				 
+                    		if MP > 0 then begin
+                    			if LStopRatchet[1] > 0 then
+                   			value1 = _TLPlot(6, LStopRatchet, PlotLength, 0, 0, StopLineType, red, PlotWidth);
+                    		end;
+			end else begin
+                    		value1 = _TLPlot(5, HStopRatchet, PlotLength, 1, 0, StopLineType, green, PlotWidth); 
+                    		value1 = _TLPlot(6, LStopRatchet, PlotLength, 1, 0, StopLineType, red, PlotWidth);
+			end;
+		end;
+	end;
 
