@@ -46,7 +46,7 @@ For a listing of DLL based functions see the submodule directory README file.
 - [Jacob Singer's Strategies For Daytrading](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Jacob%20Singer's%20Strategies%20For%20Daytrading "Jacob Singer's Strategies For Daytrading")
 - [Kaufman Adaptive Moving Average](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Kaufman%20Adaptive%20Moving%20Average "Kaufman Adaptive Moving Average")
 - [Kase Peak Oscillator](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Kase%20Peak%20Oscillator "Kase Peak Oscillator")
-- [Laguerre Filter](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Laguerre%20Filter "Laguerre Filter")
+- [Laguerre Filter](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Laguerre%20Filter%201%20%26%202 "Laguerre Filter 1 & 2")
 - [MATrendline](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/MATrendline "MATrendline")
 - [Mesa Phase 1 & 2](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Mesa%20Phase%201%20%26%202 "Mesa Phase 1 & 2")
 - [Msheiner Scalping Support & Resistance Lines](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Msheiner%20Scalping%20Support%20%26%20Resistance%20Lines "Msheiner Scalping Support & Resistance Lines")
