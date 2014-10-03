@@ -42,6 +42,7 @@ For a listing of DLL based functions see the submodule directory README file.
 - [Gann Swing](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Gann%20Swing "Gann Swing")
 - [High Low Oscillator](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/High%20Low%20Oscillator "High Low Oscillator")
 - [Hull Moving Average](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Hull%20Moving%20Average "Hull Moving Average")
+- [Hurst Channel](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Hurst%20Channel "Hurst Channel")
 - [Ichimoku](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ichimoku "Ichimoku")
 - [Jacob Singer's Strategies For Daytrading](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Jacob%20Singer's%20Strategies%20For%20Daytrading "Jacob Singer's Strategies For Daytrading")
 - [Kaufman Adaptive Moving Average](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Kaufman%20Adaptive%20Moving%20Average "Kaufman Adaptive Moving Average")
