@@ -1,0 +1,113 @@
+[LegacyColorValue = TRUE];
+
+{Hurst_Channel Indicator       
+
+ Author:   Clyde Lee, www.theswingmachine.com
+           clydelee@clydelee.com
+           
+ Purpose:  This indicator will plot two different 
+           channels based on the centered moving
+           average of the median price of each day
+           plus & minus a selected multiple of the
+           N day average true range.
+           
+           Suggested initial values have been supplied.
+           
+ Reference:  the Profit Magic of STOCK TRANSACTION TIMING
+             J.M. Hurst, Prentice-Hall, Inc. 1970 ....
+
+ Copyrighted 4/2001 by Clyde Lee.  Permission to use for 
+ personal  evaluations granted so long as credit is given 
+ if such evaluations are published.
+ 
+ Please let me know if you find useful changes or errors.
+
+}
+Input:  Price1(MedianPrice of Data1);
+Input:  Length1(10),
+        ChanWid1(1);  {Multiplier for ATR is positive          }
+                      {Percent*100 of Current price if Negative}
+Input:  Price2(MedianPrice of Data1);
+Input:  Length2(60),
+        ChanWid2(3);
+Input:  CompMode(0);  {Compute mode for extension}
+                      {0 = CMA shortening        }
+											{>0= 2nd degree polynomial }
+Input:  StopDate(0);
+
+Vars:   ChanHi1(0),  ChanLo1(0), WidChan1(Iff(ChanWid1>0,ChanWid1,-ChanWid1*.001)),
+        Ave1(0),     ATR1(0),
+        SetBack1(IntPortion((Length1-1)/2)+1);
+Vars:   ChanHi2(0),  ChanLo2(0), WidChan2(Iff(ChanWid2>0,ChanWid2,-ChanWid2*.001)),
+        Ave2(0),     ATR2(0),
+        SetBack2(IntPortion((Length2-1)/2)+1);
+Vars:   DateStop(iff(stopdate<=0,1211231,StopDate)),Ipass(0);
+
+
+If Length1>0 and Ipass=0 then begin
+	
+  Ave1   = Average(Price1,Length1);
+  If ChanWid1>0
+		then	ATR1   = AvgTrueRange(Length1)
+		else  ATR1   = C;
+  ChanHi1= Ave1+ATR1*WidChan1;
+  ChanLo1= Ave1-ATR1*WidChan1;
+  
+  
+  Plot1[SetBack1](ChanHi1,"HH1");
+  Plot2[SetBack1](ChanLo1,"HL1");
+  
+  If LastBarOnChart or Date>=DateStop then Begin
+		Value5 = (Ave1-Ave1[SetBack1])/SetBack1;
+    For Value1 = SetBack1-1 downto 0 begin
+      Value3=0;
+      Value4=Value1*2;
+      For Value2=0 to Value4 begin
+        Value3=Value3+Price1[Value2];
+      End;
+      Ave1=Value3/(Value4+1);
+			If CompMode>0 then	Ave1=Ave1*.33+(Ave1[1]+Value5*(SetBack1-Value1))*.67;
+      ChanHi1= Ave1+ATR1*WidChan1;
+      ChanLo1= Ave1-ATR1*WidChan1;
+      Plot1[Value1](ChanHi1,"HH1");
+      Plot2[Value1](ChanLo1,"HL1");
+    End;
+		If Length2=0 then IPass=1;
+  End;
+End;
+
+
+
+{Now for second channel}
+If Length2>0 and Ipass=0 then begin
+  Ave2   = Average(Price2,Length2);
+  If ChanWid2>0
+		then	ATR2   = AvgTrueRange(Length2)
+		else  ATR2   = C;
+  ChanHi2= Ave2+ATR2*WidChan2;
+  ChanLo2= Ave2-ATR2*WidChan2;
+  
+  Plot3[SetBack2](ChanHi2,"HH2");
+  Plot4[SetBack2](ChanLo2,"HL2");
+  
+  If LastBarOnChart or Date>=DateStop then Begin
+		Value5 = (Ave2-Ave2[SetBack2])/SetBack2;
+    For Value1 = SetBack2-1 downto 0 begin
+      Value3=0;
+      Value4=Value1*2;
+      For Value2=0 to Value4 begin
+        Value3=Value3+Price2[Value2];
+      End;
+      Ave2=Value3/(Value4+1);
+			If CompMode>0 then	Ave2=Ave2*.33+(Ave2[1]+Value5*(SetBack2-Value1))*.67;
+      ChanHi2= Ave2+ATR2*WidChan2;
+      ChanLo2= Ave2-ATR2*WidChan2;
+      Plot3[Value1](ChanHi2,"HH2");
+      Plot4[Value1](ChanLo2,"HL2");
+    End;
+		IPass=1;
+  End;
+End;
+
+
+
