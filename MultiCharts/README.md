@@ -23,6 +23,7 @@ For a listing of DLL based functions see the submodule directory README file.
 ## Functions ##
 - [AddTime](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/AddTime "AddTime")
 - [Colors](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/Colors "Colors")
+- [MinTick](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/MinTick "MinTick")
 
 ## Indicators ##
 - [3 Higher](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/3%20Higher "3 Higher" "3 Higher")
