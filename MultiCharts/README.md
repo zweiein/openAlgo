@@ -23,6 +23,7 @@ For a listing of DLL based functions see the submodule directory README file.
 ## Functions ##
 - [AddTime](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/AddTime "AddTime")
 - [Colors](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/Colors "Colors")
+- [EquityCurveStdDev](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/EquityCurveStdDev "EquityCurveStdDev")
 - [MinTick](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/MinTick "MinTick")
 
 ## Indicators ##
