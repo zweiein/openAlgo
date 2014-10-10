@@ -57,8 +57,15 @@ For a listing of DLL based functions see the submodule directory README file.
 - [William's Percent R Histogram](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/W%25R%20Histogram "William's Percent R Histogram")
 - [ZigZag One & Two](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/ZigZag%20One%20%26%20Two "ZigZag One & Two")
 
+## Optimizers ##
+-  [Van Tharp Expectancy](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Optimizations/Van%20Tharp%20Expectancy "Van Tharp Expectancy")
+
 ## Signals & Strategies ##
+- [Donchain System](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/Donchain%20System "Donchain System")
+- [GD Exit Suite](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/GD-exit-suite "GD Exit Suite")
 - [MA & Std Stops](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/MA%20%26%20Std%20Stops "MA & Std Stops")
 - [METS Exits](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/METS%20Exits "METS Exits")
+- [NMP System](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/NMP%20System "NMP System")
+- [Nija Turtle](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/Nija%20Turtle "Nija Turtle")
 - [Stop Targets](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/Stop%20Targets "Stop Targets")
 - [Triple Exponential Moving Average Displaced Exit](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/Triple%20XMA%20Displaced%20Exit "Triple Exponential Moving Average Displaced Exit")

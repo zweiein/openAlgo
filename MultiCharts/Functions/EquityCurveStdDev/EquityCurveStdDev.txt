@@ -1,0 +1,19 @@
+Input: CalculateRatio(TrueFalseSimple) {final calculation};
+
+if CalculateRatio then begin
+	array: equty_per_bar[](0);
+	var: intrabarpersist last_idx(0);
+	
+	for value1 = maxpositionsago downto 0 begin
+		value3 = PosTradeCount(value1)-1;
+		for value2 = 0 to value3 begin
+			last_idx += 1;
+			array_setmaxindex(equty_per_bar, last_idx);
+			equty_per_bar[last_idx] = PosTradeProfit(value1, value2);
+			//print( "trade [", maxpositionsago - value1, ",", value2, "] = ", equty_per_bar[last_idx]);
+		end;
+	end;
+	EquityCurveStdDev = StandardDevArray( equty_per_bar, last_idx, 0 );
+	//if 0=getappinfo(aioptimizing) then	print( "EquityCurveStdDev = ", EquityCurveStdDev );
+end;
+
