@@ -58,6 +58,7 @@ For a listing of DLL based functions see the submodule directory README file.
 - [ZigZag One & Two](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/ZigZag%20One%20%26%20Two "ZigZag One & Two")
 
 ## Optimizers ##
+- [Equity Curve STD](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Optimizations/Equity%20Curve%20STD "Equity Curve STD")
 -  [Van Tharp Expectancy](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Optimizations/Van%20Tharp%20Expectancy "Van Tharp Expectancy")
 
 ## Signals & Strategies ##

@@ -5,5 +5,5 @@ Conducts an optimization of the equity curve based on standard deviations.
 
 ## Notes: ##
 
-- Requires function EquityCurveStdDev
+- Requires function [EquityCurveStdDev](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/EquityCurveStdDev "EquityCurveStdDev")
 - Positive outliers reduce the effectiveness of this approach
