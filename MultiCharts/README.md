@@ -57,6 +57,7 @@ For a listing of DLL based functions see the submodule directory README file.
 - [SafeZone](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/SafeZone "SafeZone")
 - [Volume Price Confirmation Indicator (VPCI)](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/VPCI "Volume Price Confirmation Indicator (VPCI)")
 - [William's Percent R Histogram](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/W%25R%20Histogram "William's Percent R Histogram")
+- [XCAP iPolyFit]( "XCAP iPolyFit")
 - [ZigZag One & Two](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/ZigZag%20One%20%26%20Two "ZigZag One & Two")
 
 ## Optimizers ##
