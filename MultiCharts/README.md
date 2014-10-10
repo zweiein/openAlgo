@@ -31,7 +31,7 @@ For a listing of DLL based functions see the submodule directory README file.
 - [BB Squeeze](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/BB%20Squeeze "BB Squeeze") 
 - [Bands](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Bands "Bands")
 - [Darvas Box](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Darvas%20Box "Darvas Box")
-- [Ehler's Center of Gravity]( "Ehler's Center of Gravity")
+- [Ehler's Center of Gravity](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Center%20of%20Gravity "Ehler's Center of Gravity")
 - [Ehler's Cycle Period](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Cycle%20Period "Ehler's Cycle Period")
 - [Ehler's Detrend](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Detrend "Ehler's Detrend")
 - [Ehler's Fractal Adaptive Moving Average](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Fractal%20Adaptive%20Moving%20Average "Ehler's FRAMA")

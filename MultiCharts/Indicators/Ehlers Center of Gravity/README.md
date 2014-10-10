@@ -1,7 +1,7 @@
-# Ehlers Center of Gravity #
+# Ehler's Center of Gravity #
 ## Indicator description: ##
 
-Price bands derived from simple moving average and standard deviation
+Turning point oscillator with near zero lag.
 
 ## Notes: ##
 
