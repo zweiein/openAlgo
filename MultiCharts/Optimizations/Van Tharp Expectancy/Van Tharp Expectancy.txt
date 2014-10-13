@@ -20,3 +20,5 @@ var WinAvg = PW * AW ;
 
 return (LossAvg + WinAvg) / AL;
 }
+
+
