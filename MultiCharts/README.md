@@ -62,7 +62,8 @@ For a listing of DLL based functions see the submodule directory README file.
 
 ## Optimizers ##
 - [Equity Curve STD](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Optimizations/Equity%20Curve%20STD "Equity Curve STD")
--  [Van Tharp Expectancy](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Optimizations/Van%20Tharp%20Expectancy "Van Tharp Expectancy")
+- [NP / GP Ratio](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Optimizations/NP-GP-ratio "NP / GP Ratio")
+- [Van Tharp Expectancy](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Optimizations/Van%20Tharp%20Expectancy "Van Tharp Expectancy")
 
 ## Signals & Strategies ##
 - [Donchain System](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/Donchain%20System "Donchain System")
