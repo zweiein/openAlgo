@@ -26,8 +26,8 @@ Input:	UseStrategyName(False),
 	Enable_Pct_Trl_Two_Lvls(0),					// 0 - Disabled | 1 - Enabled
 	PftActivate(100),							// INT - Threshold to activate trailing stop
 	PftAdjust(161),								// INT - Threshold to tighten trailing stop
-	Pct_Trl_Pct_One(61),						// Percent trailing level one
-	Pct_Trl_Pct_Two(18),						// Percent trailing level two
+	PctTrlPctOne(61),							// Percent trailing level one
+	PctTrlPctTwo(18),							// Percent trailing level two
 	TickTrailing("-- Tick Trailing --"),		// Label
 	Enable_Tick_Trail(0),						// 0 - Disabled | 1 - Enabled
 	NumTicksTrail(0),							// INT - number of ticks trail stop
@@ -138,7 +138,7 @@ Input:	UseStrategyName(False),
 	
 	if Enable_Pct_Trl_Two_Lvls = 1 and MP <> 0 then begin
 		
-		Vars:	PftThresh(PftActivate), PftPct(Pct_Trl_Pct_One), LvlTwoFlag(0),
+		Vars:	PftThresh(PftActivate), PftPct(PctTrlPctOne), LvlTwoFlag(0),
 		intrabarpersist HitLvlTwo(false);
 		
 		If barssinceentry = 0 then LvlTwoFlag = 0;
@@ -149,10 +149,10 @@ Input:	UseStrategyName(False),
 
 		If LvlTwoFlag <> 0 then begin
 			PftThresh = PftAdjust;
-			PftPct = Pct_Trl_Pct_Two;
+			PftPct = PctTrlPctTwo;
 		end;
 		
-		setpercenttrailing(PftThresh, PftPct);
+		SetPercentTrailing(PftThresh, PftPct);
 		
 	end;
 
