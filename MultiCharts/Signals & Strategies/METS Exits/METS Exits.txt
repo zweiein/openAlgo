@@ -12,39 +12,49 @@
 Input:	UseStrategyName(False),
 	StrategyName("Sample"),
 	PositionOrContract(0),						// 0 - position based, 1 - per contract based
-	ProfitTarget("-- Profit Target --"),				// Label
+	ProfitTarget("-- Profit Target --"),		// Label
 	Enable_Pft_Tgt(0),							// 0 - Disabled | 1 - Enabled
 	ProfitTargetTicks(0),						// INT - number of ticks profit
-	InitStop("-- Init Stop Loss --"),					// Label
-	Enable_Init_Loss(0),							// 0 - Disabled | 1 - Enabled
+	InitStop("-- Init Stop Loss --"),			// Label
+	Enable_Init_Loss(0),						// 0 - Disabled | 1 - Enabled
 	InitStopLossTicks(0),						// INT - number of ticks initial stop loss
-	PctTrailing("-- Pct Trailing --"),					// Label
-	Enable_Pct_Trail(0),							// 0 - Disabled | 1 - Enabled
+	PctTrailing("-- Pct Trailing --"),			// Label
+	Enable_Pct_Trail(0),						// 0 - Disabled | 1 - Enabled
 	InitPctTicks(0),							// INT - number of ticks in position direction to activate % trail stop
-	PctTrailPct(0),							// INT - Percentage to trail from peak positive equity
-	TickTrailing("-- Tick Trailing --"),				// Label
+	PctTrailPct(0),								// INT - Percentage to trail from peak positive equity
+	PctTrlTwoLvls("-- Pct Trl Two Lvls --"),	// Label
+	Enable_Pct_Trl_Two_Lvls(0),					// 0 - Disabled | 1 - Enabled
+	PftActivate(100),							// INT - Threshold to activate trailing stop
+	PftAdjust(161),								// INT - Threshold to tighten trailing stop
+	Pct_Trl_Pct_One(61),						// Percent trailing level one
+	Pct_Trl_Pct_Two(18),						// Percent trailing level two
+	TickTrailing("-- Tick Trailing --"),		// Label
 	Enable_Tick_Trail(0),						// 0 - Disabled | 1 - Enabled
 	NumTicksTrail(0),							// INT - number of ticks trail stop
-	NumTicksActivate(0),							// INT - number of ticks in position direction to activate tick trail stop
-	NumBarsExitLbl("-- # Bars Exit --"),				// Label
+	NumTicksActivate(0),						// INT - number of ticks in position direction to activate tick trail stop
+	NumBarsExitLbl("-- # Bars Exit --"),		// Label
 	Enable_NumBarsExit(0),						// 0 - Disabled | 1 - Enabled
-	NumBarsExit(1),							// INT - number of bars since entry force exit
+	NumBarsExit(1),								// INT - number of bars since entry force exit
 	ReverseOnStopBit(0),
 	StopLineType(tool_dotted),
 	ShowActiveStopsOnly(true),                      { show active stops when a position exists.  if false, show all inactive AND active stops }
-    	PlotLength(1000),                               { number of bars back from current bar to plot ratchet stops }
-    	PlotWidth(1),                                   { thickness of ratchet stop plots }
+    PlotLength(1000),                               { number of bars back from current bar to plot ratchet stops }
+    PlotWidth(1),                                   { thickness of ratchet stop plots }
 	Debug(false);
 	
 	// Bit to Bool inits
-    	vars:	bool ReverseOnStop(false),
+    vars:	bool ReverseOnStop(false),
     		bool AllowStopEntry(false);
 
-	Vars:	Double OnePriceTick(MinMove / PriceScale), 			// minimum price move or 1 price tick for this symbol
-		Double OneTickValue(OnePriceTick * BigPointValue),
+	Vars:	//Double OnePriceTick(MinMove / PriceScale), 			// minimum price move or 1 price tick for this symbol
+		//Double OnePriceTick(MinTick),
+		Double OneTick(MinTick),
+		Double OneTickValue(OneTick * BigPointValue),
 		Double TrailingDollarAmt(0),
+		Double PctTicksTrail(0),
 		intrabarpersist MP(0),
 		bool TickTrailActive(false),		
+		bool PctTrailActive(false),
 		
 		{ dynamic strategy switches } 
     		bool ReverseOnStopOK(ReverseOnStop),
@@ -58,26 +68,36 @@ Input:	UseStrategyName(False),
 		
 	if PositionOrContract = 0 then SetStopPosition else SetStopShare;
 
-	// Check for integer input
-	If ProfitTargetTicks <> IntPortion(ProfitTargetTicks) Then begin
-		Alert;
-		Abort;
-	end;
+	// Input validation
+	Once begin
+		// Check for integer input
+		If ProfitTargetTicks <> IntPortion(ProfitTargetTicks) Then begin
+			Alert;
+			Abort;
+		end;
 
-	If InitStopLossTicks <> IntPortion(InitStopLossTicks) Then begin
-		Alert;
-		Abort;
-	end;
+		If InitStopLossTicks <> IntPortion(InitStopLossTicks) Then begin
+			Alert;
+			Abort;
+		end;
 
-	If InitPctTicks <> IntPortion(InitPctTicks) Then begin
-		Alert;
-		Abort;
-	end;
+		If InitPctTicks <> IntPortion(InitPctTicks) Then begin
+			Alert;
+			Abort;
+		end;
 
-	If PctTrailPct <> IntPortion(PctTrailPct) Then begin
-		Alert;
-		Abort;
-	end;
+		If PctTrailPct <> IntPortion(PctTrailPct) Then begin
+			Alert;
+			Abort;
+		end;
+		
+		// Check we are using whole integers to represent percentages properly
+		If Pct_Trl_Pct_One < 0 or Pct_Trl_Pct_One <> IntPortion(Pct_Trl_Pct_One) or
+			Pct_Trl_Pct_Two < 0 or Pct_Trl_Pct_Two <> IntPortion(Pct_Trl_Pct_Two) then begin
+			Alert;
+			Abort;
+		end;
+	end; // Only check inputs once
 
 	MP = MarketPosition;
 
@@ -111,6 +131,31 @@ Input:	UseStrategyName(False),
 			SetPercentTrailing( TrailingDollarAmt, PctTrailPct);
 		end;
 	end;
+	
+	{*************************************************}
+	{         % T R A I L  T W O  L E V E L S         }
+	{*************************************************}
+	
+	if Enable_Pct_Trl_Two_Lvls = 1 and MP <> 0 then begin
+		
+		Vars:	PftThresh(PftActivate), PftPct(Pct_Trl_Pct_One), LvlTwoFlag(0),
+		intrabarpersist HitLvlTwo(false);
+		
+		If barssinceentry = 0 then LvlTwoFlag = 0;
+		
+		HitLvlTwo = openpositionprofit >= PftAdjust;
+		
+		If HitLvlTwo then LvlTwoFlag = 1;
+
+		If LvlTwoFlag <> 0 then begin
+			PftThresh = PftAdjust;
+			PftPct = Pct_Trl_Pct_Two;
+		end;
+		
+		setpercenttrailing(PftThresh, PftPct);
+		
+	end;
+
 
 	{*************************************************}
 	{            T I C K   T R A I L I N G            }
@@ -129,12 +174,9 @@ Input:	UseStrategyName(False),
 			If L < LLow then LLow = L;
 		end;
 			
-		//If MP < 0 then TrailTrigger = (entryprice - Lowest(low,MinList(BarsSinceEntry,MaxBarsBack-1))) / OnePriceTick;
-		If MP < 0 then TrailTrigger = (entryprice - LLow) / OnePriceTick;
+		If MP < 0 then TrailTrigger = (entryprice - LLow) / OneTick;
 		
-		//If MP > 0 then TrailTrigger = (Highest(high,MinList(BarsSinceEntry,MaxBarsBack-1)) - EntryPrice) / OnePriceTick;
-		If MP > 0 then TrailTrigger = (HHigh - EntryPrice) / OnePriceTick;
-
+		If MP > 0 then TrailTrigger = (HHigh - EntryPrice) / OneTick;
 		
 		If NumTicksTrail > 0 then Condition1 = TrailTrigger >= NumTicksActivate;
 		
@@ -182,20 +224,27 @@ Input:	UseStrategyName(False),
 		If TickTrailActive then begin
 		
 			if MP < 0 then begin	
-				//HStopRatchet = Lowest(low,MinList(BarsSinceEntry,MaxBarsBack-1)) + (NumTicksTrail * OnePriceTick);
-				HStopRatchet = LLow + (NumTicksTrail * OnePriceTick);
+				HStopRatchet = LLow + (NumTicksTrail * OneTick);
 				LStopRatchet = 0;
-				//Print(maxbarsback+currentbar, " Short " + NumToStr(HStopRatchet,2));
 			end;
 			
 			if MP > 0 then begin
-				//LStopRatchet = Highest(H, MinList(BarsSinceEntry,MaxBarsBack-1)) - (NumTicksTrail * OnePriceTick);
-				LStopRatchet = HHigh - (NumTicksTrail * OnePriceTick);
+				LStopRatchet = HHigh - (NumTicksTrail * OneTick);
 				HStopRatchet = 0;
-				//Print(maxbarsback+currentbar, " Long " + NumToStr(LStopRatchet,2));
-
 			end;	
 		end;
+		
+		// NEEDS TO BE IMPLEMENTED
+		{If PctTrailActive then begin
+			if MP < 0 then begin
+				
+				LStopRatchet = 0;
+			end;
+			
+			if MP > 0 then begin
+				HStopRatchet = 0;
+			end;
+		end;}
 		
 		{ plot stops }
             	if PlotOK and TickTrailActive then begin
