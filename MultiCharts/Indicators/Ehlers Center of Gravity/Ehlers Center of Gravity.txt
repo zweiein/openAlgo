@@ -1,0 +1,20 @@
+Inputs:	Price((H+L)/2),
+		Length(10);
+
+Vars:  	count(0),
+		Num(0),
+		Denom(0),
+		CG(0);
+
+Num = 0;
+Denom = 0;
+
+For count = 0 to Length -1 begin
+	Num = Num + (1 + count)*(Price[count]);
+	Denom = Denom + (Price[count]);
+End;
+
+If Denom <> 0 then CG = -Num/Denom;
+
+Plot1(CG, "CG");
+Plot2(CG[1], "CG1");

@@ -23,6 +23,7 @@ For a listing of DLL based functions see the submodule directory README file.
 ## Functions ##
 - [AddTime](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/AddTime "AddTime")
 - [Colors](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/Colors "Colors")
+- [EquityCurveStdDev](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/EquityCurveStdDev "EquityCurveStdDev")
 - [MinTick](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/MinTick "MinTick")
 
 ## Indicators ##
@@ -30,6 +31,7 @@ For a listing of DLL based functions see the submodule directory README file.
 - [BB Squeeze](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/BB%20Squeeze "BB Squeeze") 
 - [Bands](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Bands "Bands")
 - [Darvas Box](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Darvas%20Box "Darvas Box")
+- [Ehler's Center of Gravity](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Center%20of%20Gravity "Ehler's Center of Gravity")
 - [Ehler's Cycle Period](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Cycle%20Period "Ehler's Cycle Period")
 - [Ehler's Detrend](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Detrend "Ehler's Detrend")
 - [Ehler's Fractal Adaptive Moving Average](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Fractal%20Adaptive%20Moving%20Average "Ehler's FRAMA")
@@ -55,10 +57,20 @@ For a listing of DLL based functions see the submodule directory README file.
 - [SafeZone](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/SafeZone "SafeZone")
 - [Volume Price Confirmation Indicator (VPCI)](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/VPCI "Volume Price Confirmation Indicator (VPCI)")
 - [William's Percent R Histogram](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/W%25R%20Histogram "William's Percent R Histogram")
+- [XCAP iPolyFit](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/XCAP%20iPolyFit "XCAP iPolyFit")
 - [ZigZag One & Two](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/ZigZag%20One%20%26%20Two "ZigZag One & Two")
 
+## Optimizers ##
+- [Equity Curve STD](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Optimizations/Equity%20Curve%20STD "Equity Curve STD")
+- [NP / GP Ratio](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Optimizations/NP-GP-ratio "NP / GP Ratio")
+- [Van Tharp Expectancy](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Optimizations/Van%20Tharp%20Expectancy "Van Tharp Expectancy")
+
 ## Signals & Strategies ##
+- [Donchain System](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/Donchain%20System "Donchain System")
+- [GD Exit Suite](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/GD-exit-suite "GD Exit Suite")
 - [MA & Std Stops](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/MA%20%26%20Std%20Stops "MA & Std Stops")
 - [METS Exits](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/METS%20Exits "METS Exits")
+- [NMP System](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/NMP%20System "NMP System")
+- [Nija Turtle](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/Nija%20Turtle "Nija Turtle")
 - [Stop Targets](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/Stop%20Targets "Stop Targets")
 - [Triple Exponential Moving Average Displaced Exit](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/Triple%20XMA%20Displaced%20Exit "Triple Exponential Moving Average Displaced Exit")

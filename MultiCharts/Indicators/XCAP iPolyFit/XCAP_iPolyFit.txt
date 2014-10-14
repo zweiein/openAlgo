@@ -1,0 +1,201 @@
+{ 
+XCAP_iPolyFit: 	
+Fits a time series to Legendre (orthogonal) polynomials and thereby provides the full least squares fit to a polynomial 
+over a time interval.
+
+Author: Paul A. Griffin 
+January 2, 2007
+Extrema Capital, 2007
+				
+This indicator provides as output the least square best fit to a set of polynomials of maximum power (degree) using 
+discrete Legendre polynomials.  This is accomplished by decomposing the time series into discrete Legendre polynomials 
+over the interval of orthogonality given by 2 * Width + 1 and discarding the polynomial fits degrees above some maximum degree.  
+The remaining smoothed series, 
+	 
+SmoothedSeries[t] = c[0] * 1 + c[1] * (t-Width) + c[2] * Power(t-Width,2) + ... c[MaximumDegree]*Power(t-Width,MaximumDegree)
+
+has coefficients given by the array c that are determined such that this polynomial has the minimum least square error over
+the interval.  The indicator provides two outputs:
+
+ShowLeadingEdge = TRUE
+
+As you move forward along the time series, the fit is generated.  What is displayed is the leading, rightmost bar, "[0]", for 
+each fit. This is also obtainable via the Savitzky Golay method, see the reference 3 below.  
+
+ShowLastFit = TRUE
+		
+This displays the entire last fit for just the last bar on the chart, so you will only see an output on the last 
+2*Width + 1 bars of your chart.
+	
+Some Comments:
+
+I like this method of determining the least square fit better than the Savitzky Golay method I have posted because is 
+provides the entire fit, not just the leading edge, at any bar.  This makes for a smoothing filter that can be thought of a 
+generalization of simple moving average method.  In fact, it can be thought of as a progression of noise reduction, starting with no 
+noise reduction (MaximumDegree = 2*Width) to reduction of signal down to one degree of freedom (a moving average, MaximumDegree=0).  
+	
+So, if your goal is to reduce existing stochastic noise in the data, then this smoothed output is of interest because it can 
+in principle provide smoothing with minimal lag and best reduction of noise.  
+	
+That is, instead of smoothing a function like this: 
+
+	Average(Function(series),Length1) 
+
+with lag = Length/2, one should contemplate a new method: 
+
+	Function(SmoothedSeries(Length2,Degree)) 
+		
+as the smoothed series should have a higher signal to stochastic noise ratio than the original.  Any improvement is based on the 
+assumption that stochastic noise exists in the chart.  Since most standard models of asset pricing use a stochastic variable 
+model, from everything from options pricing to modern portfolio theory, it seems reasonable to apply this polynomial noise 
+reduction method directly to financial time series.
+ 
+I will post some predictive indicators using this method soon, in this discussion topic.  This post is to get the 
+foundations out of the way and to provide a basic starting point for further work.  
+	
+For "Rocket Scientists" and as a side note: there is a beautiful history of the application of Legendre polynomials to science. 
+For example in the solution to the Hydrogen atom, they serve to define part of the angular dependence of the electron probability field
+around the proton.  
+
+	
+Some Plots: 
+
+For SPY daily chart with a width of 126 bars (126*2+1 = 253, about 1 trading year), I have created jpegs of the fits of order 
+0, 1, 2, 4, 8, 12, and 52. Order zero is the average over one year.  Order 1 is linear regression.  2 though 8 are just interesting 
+low order fits.  I also captured order 12 and 52 because of the number of months and weeks per year respectively.   
+
+References:
+
+[1] http://en.wikipedia.org/wiki/Legendre_polynomials
+
+[2] Peter Seffen, "On Digital Smoothing Filters: A Brief Review of Closed Form Solutions and Two New Filter Approaches", 
+	Circuits Systems Signal Process, Vol. 5, No 2, 1986
+
+[3] https://www.tradestation.com/Discussions/Topic.aspx?Topic_ID=58534
+
+}
+
+Inputs:	
+	TimeSeries((h+l)/2), 		//The original data to fit, put in whatever you want to look at
+	Width(126),				// Length = 2*Width+1, the default gives a fit to one year of daily bars
+	MaxDegree(12),			// 0 <= MaxDegree <= 2*Width+1
+	ShowLeadingEdge(TRUE),
+	ShowSmoothedTimeSeries(TRUE),				
+	LeadingEdgeColor(Blue),
+	SmoothedTimeSeriesColor(Red);
+
+ Variables:
+ 	LeadingEdge(0),
+   	p(0),j(0),
+  	DataSize(2*Width+1);
+
+Arrays:
+	Polynomial[](0),
+	Coefficient[](0),
+	SmoothedTimeSeries[](0);
+
+if barnumber = 1 then begin
+ 	
+	//Allocate memory for the arrays.  Polynomial is a 2D array 
+	Array_SetMaxIndex(Polynomial, DataSize*(MaxDegree+1)+1) ;
+	Array_SetMaxIndex(SmoothedTimeSeries, DataSize);
+	Array_SetMaxIndex(Coefficient, MaxDegree+1) ;
+ 	
+	//Now create the polynomials. The first polynomial is a constant, easy to create 
+ 	for j = - Width to + Width 
+ 	begin
+		Polynomial[0*DataSize + Width+j] = 1;
+	end;
+
+ 	//The second polynomial is a line
+	if MaxDegree>=1 then 
+	begin
+		for j = -Width to +Width 
+		begin
+			Polynomial[1*DataSize + Width+j] = j;
+		end;
+	end;
+
+ 	//We use the discrete Legendre polynomial recurrence relations to create the rest
+	if MaxDegree > 1 then 
+	begin		
+		for p = 1 to MaxDegree - 1 
+		begin											// create the polynomial for degree p+1		
+			for j = -Width to Width 
+			begin										// sum over the interval
+				Value1 = 	j*(2*p+1)/(p+1);					//discrete Legendre polynomial solution
+				Value2 =  	- (p/(p+1))*(2*Width+1+p)*(2*Width+1-p)/4; 	//discrete Legendre polynomial solution
+
+				Polynomial[(p+1)*DataSize+Width+j] 				//The recurrence relation
+				= Value1 * Polynomial[p*DataSize+Width+j] + Value2 * Polynomial[(p-1)*DataSize+Width+j];
+			end;
+		end;
+	end;
+
+	//Now we have to normalize each polynomial, so that the sum of the square of the polynomial 
+	//over the interval is 1. Instead of doing the calculation however, we apply the pre-determined answer[2]:
+	for p = 0 to MaxDegree 
+	begin
+		Value1 = Power(2,-2*p)/(2*p+1);
+		for j = -p to p 
+		begin 
+			Value1 = Value1 * (2*Width+1+j); 
+		end;
+		if Value1 > 0 then Value1 = 1/squareroot(Value1);  //this is the normalization coefficient
+
+	 	for j = -Width to +Width 
+	 	begin
+			Polynomial[p*DataSize+Width+j] = Value1 * Polynomial[p*DataSize+Width+j];
+		end;
+	end;
+
+	//Done!  We now have a orthogonal normalized set of polynomials 
+		
+end;
+
+	//Now decompose data into the polynomial set and determine the overlap coefficients:
+	if ShowLeadingEdge=TRUE or (LastBarOnChart=TRUE and ShowSmoothedTimeSeries=TRUE ) then 
+	begin 
+		//Decompose data into the polynomial set and determine the overlap coefficients:
+		for p = 0 to MaxDegree 
+		begin
+			
+			Coefficient[p] = 0;
+	
+		 	for j = -Width to +Width 
+		 	begin
+				Coefficient[p]= Coefficient[p] + Polynomial[p*DataSize+Width+j]*TimeSeries[Width-j];
+			end;	
+		end;
+		//Recompose the original price as the truncated polynomial version - create the smoothed time series
+		for j  = -Width to Width 
+		begin			
+			SmoothedTimeSeries[Width+j] = 0;
+	
+			for p = 0 to MaxDegree 
+			begin
+				SmoothedTimeSeries[Width+j] = SmoothedTimeSeries[Width+j] + Coefficient[p]*Polynomial[p*DataSize+Width+j];
+			end;	
+		end;
+		//The leading edge is at j = Width
+		LeadingEdge = SmoothedTimeSeries[Width+Width];
+	end;
+
+	//Plotting routines
+	if ShowLeadingEdge=TRUE then Plot1(LeadingEdge,"LdngEdge",LeadingEdgeColor);
+
+	if LastBarOnChart=TRUE and ShowSmoothedTimeSeries=TRUE then 
+	begin
+		for j  = -Width to Width-1 
+		begin
+			Value1 = TL_New(Date[Width-j], Time[Width-j], SmoothedTimeSeries[Width+j], 
+						Date[Width-j-1], Time[Width-j-1], SmoothedTimeSeries[Width+j+1]);
+			TL_SetColor(Value1,SmoothedTimeSeriesColor);
+		end;
+    end;
+
+
+
+
+	
+

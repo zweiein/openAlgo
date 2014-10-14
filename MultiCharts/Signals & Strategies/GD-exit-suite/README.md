@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+# GD Exit Suite #
+## Signal description: ##
+
+Sets liquidation based on a variety of logic
+
+
+=======
 **# GD exit suite #**
 
 **## Signal description: ##**
@@ -17,3 +25,4 @@ Sets exit signals based on a variety of logic
 		Dollar_trail_amt1 (150.00), 			// 1st dollar amt to trail behind profit
 		Init_dollar_trail2 (275.00), 			// Dollar amount to begin trail stop
 		Dollar_trail_amt2 (162.50); 			// 2nd lvel dollar amt to trail behind profit
+>>>>>>> d56b0a21070e23bae132822f32ea1c24aced3df8

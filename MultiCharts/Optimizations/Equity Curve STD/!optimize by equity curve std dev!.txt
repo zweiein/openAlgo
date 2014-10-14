@@ -1,0 +1,6 @@
+if LastBarOnChart_s then begin
+	value1 = EquityCurveStdDev(LastBarOnChart_s);
+	if 0<>value1 then value1 = netprofit / value1 else value1 = 0;
+	SetCustomFitnessValue(value1);
+end;
+
