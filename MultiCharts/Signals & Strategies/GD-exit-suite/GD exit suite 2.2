@@ -1,0 +1,70 @@
+[Intrabarordergeneration=true]
+
+{
+	Type - Signal
+	Name - GD exit suite v2.2 16-10-2014
+	Desc - This Signal has selectable multiple exits
+	Adapted from Neil Wrightson(BigMikeTrading forum) and M Tompkins (GitHub)
+}
+
+{Required inputs for exit}
+
+Input:
+		PctTrailing("-- Pct Trailing --"), 	// Label
+		Enable_Pct_Trail(1), 			// 0 - Disabled | 1 - Enabled
+		Init_percent_trail$1( 87.50 ), 		// Figure to begin percent profit capture trail
+		TrailingPct1( 56 ), 				// 1st level percentage drop to close profitable position and retain profit, e.g. 20 closes after max position profit drops by 20%
+		Init_percent_trail$2( 250),  		// 2nd level to change pct trail to lower figure
+		TrailingPct2 ( 16),				// Attempt to retain more runup profit, e.g. switch from 70% trail to tighter 20% trail
+		
+		Dollar_Trailing("-- Dollar trailing --"), // Label
+		Enable_Dollar_Trail(1),	 		// 0 - Disabled | 1 - Enabled
+		Init_dollar_trail1 (112.50), 		// Dollar amount to begin trail stop
+		Dollar_trail_amt1 (200), 			// 1st dollar amt to trail behind profit
+		Init_dollar_trail2 (275), 			// Dollar amount to begin trail stop
+		Dollar_trail_amt2 (212.50); 			// 2nd level dollar amt to trail behind profit
+		
+Vars: 
+		Double TickSize (0),
+		MP(marketposition);
+		TickSize = minmove/pricescale;
+		
+		
+		setstopcontract;
+		
+// Check for integer input
+	If TrailingPct1 <> IntPortion(TrailingPct1) Then begin
+	Alert;
+	Abort;
+	end;
+	
+{*************************************************}
+{ P E R C E N T T R A I L I N G }
+{*************************************************}
+			
+// if max pos profit > init dollar trail 1, e.g. if run up hits $75, then trail stop at 59%		
+	If ( Init_percent_trail$1 > 0 ) And ( TrailingPct1 > 0 ) 
+		Then 
+			SetPercentTrailing( Init_percent_trail$1, TrailingPct1 ); // if max pos profit > init dollar trail 1, e.g. if run up hits 75, then trail stop at $50
+	
+
+//if max pos profit > init dollar trail 1, e.g. if run up hits 75, then trail stop at $50	
+	If maxcontractprofit >= Init_percent_trail$2  
+		Then 	
+			SetPercentTrailing( Init_percent_trail$2, TrailingPct2 );  
+			
+
+{*************************************************}
+{ DOLLAR TRAILING }
+{*************************************************}
+	
+	// if max pos profit > init dollar trail 1, e.g. if run up hits $75, then trail stop at 59%		
+	If ( Init_dollar_trail1 > 0 ) And ( Dollar_trail_amt1 > 0 )
+		Then
+	// if max pos profit > init dollar trail 1, e.g. if run up hits 75, then trail stop at $50	
+			SetDollarTrailing(  Dollar_trail_amt1 ); 
+			
+	//if max pos profit > init dollar trail 1, e.g. if run up hits 75, then trail stop at $50	
+	If maxcontractprofit >= Init_dollar_trail2
+		Then 	
+			setdollartrailing( Dollar_trail_amt2 );
