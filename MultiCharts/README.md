@@ -30,6 +30,7 @@ For a listing of DLL based functions see the submodule directory README file.
 - [3 Higher](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/3%20Higher "3 Higher" "3 Higher")
 - [BB Squeeze](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/BB%20Squeeze "BB Squeeze") 
 - [Bands](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Bands "Bands")
+- [Butter Bands](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Butter%20Bands "Butter Bands")
 - [Darvas Box](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Darvas%20Box "Darvas Box")
 - [Ehler's Center of Gravity](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Center%20of%20Gravity "Ehler's Center of Gravity")
 - [Ehler's Cycle Period](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Ehlers%20Cycle%20Period "Ehler's Cycle Period")
