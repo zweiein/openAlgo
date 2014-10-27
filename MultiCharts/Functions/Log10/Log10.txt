@@ -1,0 +1,5 @@
+{calculates base 10 log for use with log scale charts}
+
+input: num(numeric);
+
+log10 =  iff(num >0, log(num)/2.302585,0);

@@ -24,6 +24,7 @@ For a listing of DLL based functions see the submodule directory README file.
 - [AddTime](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/AddTime "AddTime")
 - [Colors](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/Colors "Colors")
 - [EquityCurveStdDev](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/EquityCurveStdDev "EquityCurveStdDev")
+- [Log10](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/Log10 "Log10")
 - [MinTick](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/MinTick "MinTick")
 
 ## Indicators ##
@@ -55,6 +56,7 @@ For a listing of DLL based functions see the submodule directory README file.
 - [MATrendline](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/MATrendline "MATrendline")
 - [Mesa Phase 1 & 2](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Mesa%20Phase%201%20%26%202 "Mesa Phase 1 & 2")
 - [Msheiner Scalping Support & Resistance Lines](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Msheiner%20Scalping%20Support%20%26%20Resistance%20Lines "Msheiner Scalping Support & Resistance Lines")
+- [Murray Math](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/Murray%20Math "Murray Math")
 - [SafeZone](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/SafeZone "SafeZone")
 - [Volume Price Confirmation Indicator (VPCI)](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/VPCI "Volume Price Confirmation Indicator (VPCI)")
 - [William's Percent R Histogram](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/W%25R%20Histogram "William's Percent R Histogram")
