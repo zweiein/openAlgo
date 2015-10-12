@@ -16,7 +16,7 @@
 //		cost		Double representing the per contract commission
 //
 // Outputs:
-//		cash		A 2D array of cash debts and credits
+//		cash		A 2D array of cash debits and credits
 //		openEQ		A 2D array of bar to bar openEQ values if there is an open position
 //		netLiq		A 2D array of aggregated cash transactions plus the current openEQ if any up to a given observation
 //		returns		A 2D array of bar to bar returns
