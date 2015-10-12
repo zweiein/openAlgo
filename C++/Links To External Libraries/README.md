@@ -3,7 +3,7 @@ Descriptions will default to any provided by the author if available.
   
 If possible, the author will be clearly identified and credited.
 
-Links will be provided us minimized URLs (e.g. bit.ly).
+Links will be provided using minimized URLs (e.g. bit.ly).
 
 One of the goals for this file is to make finding references fast.  
 Please use maximum brevity.
