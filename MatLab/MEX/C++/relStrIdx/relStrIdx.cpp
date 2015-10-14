@@ -133,7 +133,8 @@ void mexFunction(int nlhs, mxArray *plhs[], /* Output variables */
 	advances[0] = 0;
 	declines[0] = 0;
 
-	for (int ii=1;ii != rowsData; ii++)	// starting at one because we are doing a difference of the observation prior
+	// starting at one because we are doing a difference of the observation prior
+	for (int ii=1;ii != rowsData; ii++)	
 	{
 		if (barsInPtr[ii] - barsInPtr[ii-1] > 0)
 		{
