@@ -15,14 +15,14 @@ function [sta,lBand,mAvg,uBand] = bollBandSTA(price,period,maType,devUp,devDwn)
 %        0  Simple
 %       >0  Weighted e.g. 0.5 Square root weighted, 1 = linear, 2 = square weighted
 %
-%   INPUTS:     period    	Lookback period (default 20)
+%   INPUTS:     period      Lookback period (default 20)
 %               maType
 %               devUp       Number of upward standard deviations (default 2)
 %               devDwn      Number of downward standard deviations (default -2)
 %
-%   OUTPUTS     sta         1      Above upper Bollinger Band
-%                          -1      Below lower Bollinger Band
-%                           0      Between or equal to the pair of bands
+%   OUTPUTS     sta         1       Above upper Bollinger Band
+%                          -1       Below lower Bollinger Band
+%                           0       Between or equal to the pair of bands
 %
 %               lBand		Lower Bollinger band    (MA - Kstd)
 %               mBand		Midline average         (MA)
