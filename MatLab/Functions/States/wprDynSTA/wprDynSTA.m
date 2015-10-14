@@ -3,16 +3,16 @@ function [STA,WPR] = wprDynSTA(price, Mult, OB, OS)
 %   wprDynSTA returns a logical STATE based on Williams % R with an auto-adjusting dynamic lookback period
 %
 %
-%   INPUTS:     price       	An array of price in the form [O | H | L | C]     
-%               Mult            Modifier to control effective risk based on volatility. (Default: 3)
-%                               The higher the value of Mult, the LESS risky. 
-%                               Values over 33 are illogical
-%               OB              threshold of overbought (default: 30)
-%               OS              threshold of oversold (default: 70)
+%   INPUTS:     price       An array of price in the form [O | H | L | C]     
+%               Mult        Modifier to control effective risk based on volatility. (Default: 3)
+%                           The higher the value of Mult, the LESS risky. 
+%                           Values over 33 are illogical
+%               OB          threshold of overbought (default: 30)
+%               OS          threshold of oversold (default: 70)
 %               
-%   OUTPUT: 	STA             1	BUY STATE	(WPR > OS)
-%                               0	neutral     (OB > WPR < OS)
-%                              -1   SELL STATE	(WPR < OB)
+%   OUTPUT:     STA         1   BUY STATE   (WPR > OS)
+%                           0   neutral     (OB > WPR < OS)
+%                          -1   SELL STATE  (WPR < OB)
 %
 %   STA = WPRDYNSTA(PRICE)          returns a STATE based upon provided price vector
 %   [STA,WPR] = WPRDYNSTA(PRICE)    returns a STATE based upon provided price vector and WPR value
