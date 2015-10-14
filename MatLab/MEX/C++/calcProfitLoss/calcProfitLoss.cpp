@@ -11,7 +11,7 @@
 // 
 // Inputs:
 //		data		A 2-D array of prices in the form of Open | Close
-//		sig			An array the same length as data, which gives the quantity bought or sold on a given bar.  Consider Matlab remEchosMEX
+//		sig		An array the same length as data, which gives the quantity bought or sold on a given bar.  Consider Matlab remEchosMEX
 //		bigPoint	Double representing the full tick dollar value of the contract being P&L'd
 //		cost		Double representing the per contract commission
 //
@@ -28,36 +28,36 @@
 //		
 //		The convention that is used refines to the following to effectuate some advanced handling of produced signals. 'NET' is a current net position:
 //
-//			NET = any	SIGNAL = 0					THEN No Action						A zero signal is an evaluated false to a possible state trigger and instructs to 'do nothing'.  
-//																						Signal IF conditions have a boolean output of TRUE == 1 or FALSE == 0
-//			NET = any	SIGNAL = X		(INTEGER)	THEN Buy or Sell X					An integer instructs to BUY or SELL quantity X. 
-//																						This can be additive, reductive or initiating in respect to NET.
-//			NET = any	SIGNAL = +/-0.5	(FRACTION)	THEN Close Out Any Position			Close out any existion position such that a NET = 0 flat condition exists.
-//																						If no position exists, no error is thrown.
+//		NET = any	SIGNAL = 0			THEN No Action				A zero signal is an evaluated false to a possible state trigger and instructs to 'do nothing'.  
+//														Signal IF conditions have a boolean output of TRUE == 1 or FALSE == 0
+//		NET = any	SIGNAL = X (INTEGER)		THEN Buy or Sell X			An integer instructs to BUY or SELL quantity X. 
+//														This can be additive, reductive or initiating in respect to NET.
+//		NET = any	SIGNAL = +/-0.5	(FRACTION)	THEN Close Out Any Position		Close out any existion position such that a NET = 0 flat condition exists.
+//														If no position exists, no error is thrown.
 //			
-//			NET <= 0	SIGNAL =  X.5	(FRACTION)	THEN Reverse to position NET = X	Close out any existing short position and buy X longs to create a NET long position of quantity X
-//			NET >= 0	SIGNAL = -X.5	(FRACTION)	THEN Reverse to position NET = -X	Close out any existing long position and sell X shorts to create a NET short position of quantity X
+//		NET <= 0	SIGNAL =  X.5 (FRACTION)	THEN Reverse to position NET = X	Close out any existing short position and buy X longs to create a NET long position of quantity X
+//		NET >= 0	SIGNAL = -X.5 (FRACTION)	THEN Reverse to position NET = -X	Close out any existing long position and sell X shorts to create a NET short position of quantity X
 //			
-//			NET < 0		SIGNAL = -X.5 | INT(X)<=-1	ERROR								An error is thrown when we have an existing short position and we are given a reverse to net short signal
-//			NET > 0		SIGNAL = +X.5 | INT(X)>= 1	ERROR								An error is thrown when we have an existing long position and we are given a reverse to net long signal
+//		NET < 0		SIGNAL = -X.5 | INT(X)<=-1	ERROR					An error is thrown when we have an existing short position and we are given a reverse to net short signal
+//		NET > 0		SIGNAL = +X.5 | INT(X)>= 1	ERROR					An error is thrown when we have an existing long position and we are given a reverse to net long signal
 //																						
 //		NOTE: 	This convention should also work with those who do not want to avail themselves with the fractional logic.
-//				For example consider the following:
+//			For example consider the following:
 //				
-//		EX 1	Without fractional logic				With fractional logic
-//				NET		 	= 	-1						NET			=	-1
-//				SIGNAL		=	 2						SIGNAL		=	1.5
-//				final NET	=	 1						final NET	=	 1
+//		EX 1	Without fractional logic		With fractional logic
+//			NET		=      -1		NET		=      -1
+//			SIGNAL		=	2		SIGNAL		=	1.5
+//			final NET	=	1		final NET	=	1
 //				
-//		EX 2	Without fractional logic				With fractional logic
-//				NET		 	= 	-50						NET			=	-50
-//				SIGNAL		=	 51						SIGNAL		=	1.5
-//				final NET	=	 1						final NET	=	 1
+//		EX 2	Without fractional logic		With fractional logic
+//			NET		=      -50		NET		=      -50
+//			SIGNAL		=	51		SIGNAL		=	1.5
+//			final NET	=	1		final NET	=	1
 //				
-//		EX 3	Without fractional logic				With fractional logic
-//				NET		 	= 	-50						NET			=	-50
-//				SIGNAL		=	 55						SIGNAL		=	5.5
-//				final NET	=	 5						final NET	=	 5
+//		EX 3	Without fractional logic		With fractional logic
+//			NET		=      -50		NET		=      -50
+//			SIGNAL		=	55		SIGNAL		=	5.5
+//			final NET	=	5		final NET	=	5
 //
 
 #include "mex.h"
@@ -211,17 +211,17 @@ void mexFunction(int nlhs, mxArray *plhs[], /* Output variables */
 
 	// START //
 	// Initialize variables
-	int	sigIdx;							// Iterator that will store the index of the referenced signal
-	int barIdx;							// Iterator that will store the index of the referenced bar
+	int	sigIdx;					// Iterator that will store the index of the referenced signal
+	int barIdx;					// Iterator that will store the index of the referenced bar
 	bool anyTrades = false;				// Variable that indicates if we have any trades
 
 	// Check that we have at least one signal (at least one trade)
-	for (sigIdx=0; sigIdx < rowsSig; sigIdx++)					// Remember C++ starts counting at '0'
+	for (sigIdx=0; sigIdx < rowsSig; sigIdx++)	// Remember C++ starts counting at '0'
 	{
 		if (abs(sigInPtr[sigIdx]) >=1)		// See if we have a signal that generates a position
 		{
-			anyTrades=true;					// Trade found
-			break;							// Exit the for loop
+			anyTrades=true;			// Trade found
+			break;				// Exit the for loop
 		}
 	}	
 
@@ -253,11 +253,11 @@ void mexFunction(int nlhs, mxArray *plhs[], /* Output variables */
 				{
 					// Check for known advanced signal type
 					if (knownAdvSig(sigInPtr[ii]))
-						// Known
+					// Known
 					{
 						// Check for additive or reductive
 						if ((openPosition <= 0 && sigInPtr[ii] <= -1) || (openPosition >= 0 && sigInPtr[ii] >= 1))
-							// Additive
+						// Additive
 						{
 							// We ignore reverse advance instructions when they are additive
 						}
