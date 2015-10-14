@@ -20,13 +20,13 @@ function [sta,lBand,mAvg,uBand] = bollBandSTA(price,period,maType,devUp,devDwn)
 %               devUp       Number of upward standard deviations (default 2)
 %               devDwn      Number of downward standard deviations (default -2)
 %
-%	OUTPUTS		sta         1      Above upper Bollinger Band
+%   OUTPUTS     sta         1      Above upper Bollinger Band
 %                          -1      Below lower Bollinger Band
 %                           0      Between or equal to the pair of bands
 %
 %               lBand		Lower Bollinger band    (MA - Kstd)
-%				mBand		Midline average         (MA)
-%               uBand       Upper Bollinger band    (MA + Kstd)
+%               mBand		Midline average         (MA)
+%               uBand   Upper Bollinger band    (MA + Kstd)
 
 %% MEX code to be skipped
 coder.extrinsic('bollBand_mex');
