@@ -42,7 +42,7 @@ using namespace std;
 
 // Global variables
 int obsvIn;
-double *barsInPtr;								// Pointer for the price matrix
+double *barsInPtr;	// Pointer for the price matrix
 
 void mexFunction(int nlhs, mxArray *plhs[], /* Output variables */
 				 int nrhs, const mxArray *prhs[]) /* Input variables */
@@ -133,7 +133,7 @@ void mexFunction(int nlhs, mxArray *plhs[], /* Output variables */
 	advances[0] = 0;
 	declines[0] = 0;
 
-	for (int ii=1;ii != rowsData; ii++)					// starting at one because we are doing a difference of the observation prior
+	for (int ii=1;ii != rowsData; ii++)	// starting at one because we are doing a difference of the observation prior
 	{
 		if (barsInPtr[ii] - barsInPtr[ii-1] > 0)
 		{
