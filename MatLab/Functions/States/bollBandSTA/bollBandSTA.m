@@ -24,8 +24,8 @@ function [sta,lBand,mAvg,uBand] = bollBandSTA(price,period,maType,devUp,devDwn)
 %                          -1       Below lower Bollinger Band
 %                           0       Between or equal to the pair of bands
 %
-%               lBand		Lower Bollinger band    (MA - Kstd)
-%               mBand		Midline average         (MA)
+%               lBand   Lower Bollinger band    (MA - Kstd)
+%               mBand   Midline average         (MA)
 %               uBand   Upper Bollinger band    (MA + Kstd)
 
 %% MEX code to be skipped
