@@ -45,7 +45,7 @@ int obsvIn;
 double *barsInPtr;	// Pointer for the price matrix
 
 void mexFunction(int nlhs, mxArray *plhs[], /* Output variables */
-				 int nrhs, const mxArray *prhs[]) /* Input variables */
+int nrhs, const mxArray *prhs[]) /* Input variables */
 {
 	// There are a number of provided functions for interfacing back to Matlab
 	// mexFuncion		The gateway to C.  Required in every C & C++ solution to allow Matlab to call it
@@ -67,11 +67,11 @@ void mexFunction(int nlhs, mxArray *plhs[], /* Output variables */
 
 	// Define constants (#define assigns a variable as either a constant or a macro)
 	// Inputs
-#define bars_IN		prhs[0]
-#define obsv_IN		prhs[1]
+	#define bars_IN		prhs[0]
+	#define obsv_IN		prhs[1]
 
 	// Outputs
-#define rsi_OUT		plhs[0]
+	#define rsi_OUT		plhs[0]
 
 	// Create a NaN value
 	// mxArray *nanvalue;
