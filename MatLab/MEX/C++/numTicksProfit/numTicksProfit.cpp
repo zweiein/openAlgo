@@ -81,18 +81,18 @@ using namespace std;
 // Create a struct for open position
 typedef struct openEntry
 {
-	int sigIndex;								// Array index of signal that created open position
-	int qtyOpen;								// Quantity of created open position
-	double openPrice;							// Entry price of open position
-	double profitPrice;							// Price where position will be closed with a profit
+	int sigIndex;				// Array index of signal that created open position
+	int qtyOpen;				// Quantity of created open position
+	double openPrice;			// Entry price of open position
+	double profitPrice;			// Price where position will be closed with a profit
 } openEntry;
 
 // Create struct for profit ledger
 typedef struct profitEntry
 {
-	int barIndex;								// Array index of observation that create the profit taking
-	int qtyProfit;								// Quantity bought or sold at the profit taking price
-	double profitPrice;							// Profit price
+	int barIndex;				// Array index of observation that create the profit taking
+	int qtyProfit;				// Quantity bought or sold at the profit taking price
+	double profitPrice;			// Profit price
 } profitEntry;
 
 
@@ -119,14 +119,14 @@ void sameBarProfitCheck(list<openEntry> &openLedger, list<profitEntry> &profitLe
 #define isRealScalar(P) (isReal2DfullDouble(P) && mxGetNumberOfElements(P) == 1)
 
 // Global Variables
-double PROFIT_TGT;								// Calculated profit target (for readability)
-double numTicks;								// Number of ticks (representing $ multiples) in which to take a profit
-double minTick;									// What a single tick increment is for a given contract
-double openAvg;									// Should we manage profit taking on a per contract basis or average the net position (0 = atomic | 1 = average)
+double PROFIT_TGT;				// Calculated profit target (for readability)
+double numTicks;				// Number of ticks (representing $ multiples) in which to take a profit
+double minTick;					// What a single tick increment is for a given contract
+double openAvg;					// Should we manage profit taking on a per contract basis or average the net position (0 = atomic | 1 = average)
 
-double *barsInPtr;								// Pointer for the price matrix
-double *sigInPtr;								// Pointer for the signal array
-int shiftOpen;									// used for readability 
+double *barsInPtr;				// Pointer for the price matrix
+double *sigInPtr;				// Pointer for the signal array
+int shiftOpen;					// used for readability 
 int shiftHigh;
 int shiftLow;
 int shiftClose;
