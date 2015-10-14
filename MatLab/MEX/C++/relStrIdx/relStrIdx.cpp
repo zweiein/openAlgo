@@ -4,15 +4,15 @@
 //
 // Formula: RSI = 100 - 100 / (1 + RS) where
 //			
-//			RS[<N]	=	NaN
-//			RS[N]	=	Avg Gain / Avg Loss
-//			RS[>N]	=	(((Avg Gain[-1]*(N-1)) + Avg Gain[0]) / N)
-//						------------------------------------------
-//						(((Avg Loss[-1]*(N-1)) + Avg Loss[0]) / N)
+//		RS[<N]	=	NaN
+//		RS[N]	=	Avg Gain / Avg Loss
+//		RS[>N]	=	(((Avg Gain[-1]*(N-1)) + Avg Gain[0]) / N)
+//				------------------------------------------
+//				(((Avg Loss[-1]*(N-1)) + Avg Loss[0]) / N)
 //
-//	NOTE:	The RS value has a weighting effect as it uses historical values in the ratio.
-//			As a consequence, "the more data" the more "tuned" an RSI will be.  This is also
-//			important to consider when comparing calculated RSI values across datasets.
+// NOTE:	The RS value has a weighting effect as it uses historical values in the ratio.
+//		As a consequence, "the more data" the more "tuned" an RSI will be.  This is also
+//		important to consider when comparing calculated RSI values across datasets.
 //
 // nlhs Number of output variables nargout 
 // plhs Array of mxArray pointers to the output variables varargout
@@ -23,11 +23,11 @@
 // rsi = relStrIdx_mex(data,N)
 // 
 // Inputs:
-//		data		A 1-D array of prices in the form of PRICE
-//		N			A scalar that defines the lookback period
+//		data	A 1-D array of prices in the form of PRICE
+//		N	A scalar that defines the lookback period
 //
 // Outputs:
-//		rsi			The calculated relative strength index (RSI)
+//		rsi	The calculated relative strength index (RSI)
 //
 
 #include "mex.h"
