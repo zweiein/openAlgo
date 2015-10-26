@@ -7,6 +7,7 @@ The repository is divided in to sections for a modest amount of organization acr
 
 ## Sections ##
 - [C++](https://github.com/mtompkins/openAlgo/tree/master/C%2B%2B)
+- [HFT Linux Kernel Utilities](https://github.com/mtompkins/openAlgo/tree/master/)
 - [MatLab](https://github.com/mtompkins/openAlgo/tree/master/MatLab)
 - [MultiCharts](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts)
 - [TradeStation](https://github.com/mtompkins/openAlgo/tree/master/TradeStation)

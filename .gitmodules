@@ -1,3 +1,6 @@
 [submodule "MultiCharts/C++ DLLs/mcfunctions"]
 	path = MultiCharts/C++ DLLs/mcfunctions
 	url = https://mtompkins@bitbucket.org/mtompkins/mcfunctions.git
+[submodule "HFT Linux Kernel Utilities"]
+	path = HFT Linux Kernel Utilities
+	url = git@github.com:mtompkins/linux-kernel-utilities.git
