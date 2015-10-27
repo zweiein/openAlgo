@@ -11,7 +11,7 @@
 
 
 
-openAlgo is a publicly shared repository for various work product germane to algorithms and coding associated with the high frequency low latency electronic trading space with a bias toward exchange traded futures and options.
+openAlgo is a public repository for various work product relavant to algorithms and the high frequency low latency electronic trading space with a bias toward market microstructure as well as exchange traded futures and options.
 
 The repository is divided in to sections for a modest amount of organization across interests and software used.
 
