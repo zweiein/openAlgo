@@ -1,19 +1,4 @@
 # Links To External Libraries #
-
-#### Notice of Submodule ####
-This directory contains a git repository submodule `matlab-ParforProgress2`. When cloning openAlgo this subfolder will not automatically pull the contents [(Reference)](http://www.git-scm.com/book/en/Git-Tools-Submodules "Git-Tools-Submodules").
-
-To pull the submodule enter the director and execute:
-
-    git submodule init
-    git submodule update
-
-To update the submodule content execute:
-
-	git submodule update --remote --merge
-For a listing of DLL based functions see the submodule directory README file.
-
-----
 ## C++ DLLs ##
 This file contains links to useful, referenced or otherwise used files with minor descriptions.  
 Descriptions will default to any provided by the author if available.
