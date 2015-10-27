@@ -10,3 +10,6 @@
 [submodule "C++/External Libraries and Functions/ta-lib"]
 	path = C++/External Libraries and Functions/ta-lib
 	url = git@github.com:mtompkins/ta-lib-mirror.git
+[submodule "C++/External Libraries and Functions/mlmechtrade-lib"]
+	path = C++/External Libraries and Functions/mlmechtrade-lib
+	url = git@github.com:mtompkins/mlmechtrade-mirror.git
