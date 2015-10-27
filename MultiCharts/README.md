@@ -7,19 +7,6 @@ While this approach does create a higher likelihood of a missing referenced call
 
 Where possible original author's comments have been left intact to give appropriate credit. Some of this content while old, is still believed to be valuable. In addition, code has been acquired from many sources including culling from the internet. In the event proprietary code has been posted here that shouldn't be public and there is a claim to intellectual property, please reach out to me directly and I will address it professionally.
 
-## C++ DLLs
-This directory contains a git repository submodule. When cloning openAlgo this subfolder will not automatically pull the contents [Reference: http://www.git-scm.com/book/en/Git-Tools-Submodules](http://www.git-scm.com/book/en/Git-Tools-Submodules "Git-Tools-Submodules"). 
-
-To pull the submodule content execute:
-
-    git submodule init
-    git submodule update
-
-To update the submodule content execute:
-
-	git submodule update --remote --merge
-For a listing of DLL based functions see the submodule directory README file.
-
 ## Functions ##
 - [AddTime](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/AddTime "AddTime")
 - [Colors](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Functions/Colors "Colors")
@@ -29,7 +16,7 @@ For a listing of DLL based functions see the submodule directory README file.
 
 ## Indicators ##
 - [3 Higher](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/3%20Higher "3 Higher" "3 Higher")
-- [BB Squeeze](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/BB%20Squeeze "BB Squeeze") 
+- [BB Squeeze](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/BB%20Squeeze "BB Squeeze")
 - [Bands](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Bands "Bands")
 - [Butter Bands](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Butter%20Bands "Butter Bands")
 - [Darvas Box](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Indicators/Darvas%20Box "Darvas Box")
