@@ -1,6 +1,6 @@
 This file contains links to useful, referenced or otherwise used files with minor descriptions.  
 Descriptions will default to any provided by the author if available.
-  
+
 If possible, the author will be clearly identified and credited.
 
 Links will be provided using minimized URLs (e.g. bit.ly).
@@ -22,7 +22,6 @@ Multi-Platform Tools for Market Analysis
 
 Mario Fortier  
 
-SVN: [svn://svn.code.sf.net/p/ta-lib/code](svn://svn.code.sf.net/p/ta-lib/code)  
 WEB: [http://bit.ly/15ZefoF](http://bit.ly/15ZefoF)
 
 --------------------------------------------------------

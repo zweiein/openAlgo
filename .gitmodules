@@ -7,3 +7,6 @@
 [submodule "Matlab/External Libraries and Functions/matlab-ParforProgress2"]
 	path = Matlab/External Libraries and Functions/matlab-ParforProgress2
 	url = https://github.com/kotowicz/matlab-ParforProgress2.git
+[submodule "C++/External Libraries and Functions/ta-lib"]
+	path = C++/External Libraries and Functions/ta-lib
+	url = git@github.com:mtompkins/ta-lib-mirror.git
