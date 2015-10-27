@@ -1,0 +1,1 @@
+!powercfg -S SCHEME_BALANCED
