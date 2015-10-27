@@ -1,16 +1,13 @@
-%% Bollinger Band Parametric Sweep
+%% Moving Average with Profit Taking Sweep
 %
-%	This script runs a parametric sweep using bollBandSIG
-%	Parameters: period  Lookback period for calculating the Midline and standard deviation
-%	maType	Available average types are:
-%	-5 Triangle (Double smoothed similar to Hull)
-%	-4 Trimmed  (10%)
-%	-3 Harmonic
-%	-2 Geometric
-%	-1 Exponential
-%	 0 Simple
-%	>0 Weighted e.g. 0.5 Square root weighted, 1 = linear, 2 = square weighted
-%	devUp | devDwn  Number of standard deviations to +/- from the midline
+%	This script runs a parametric sweep using a moving average signal generator coupled
+%	with a number of ticks profit taker.
+%	Signal 1:	Moving Average crossover
+%
+%	The signal is generated and then passed to the profit taking routine.
+%
+%	This pair can then be passed into a genetic algorithm to see how the results would differ
+%	with various mutations
 %
 
 %% Parameter sweep settings
@@ -26,9 +23,18 @@ clust = 4;
 %	Variables	%
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Bollinger Band
-pStart = 1; pEnd = 100; maType = 0; devUp = 1; devDwn = 1;
-period = pStart:pEnd;
+% Create a range variable so we can vectorize inputs for parametric sweep
+
+% MOVING AVERAGE
+optEnd = 75; typeMA=-5:0;
+%leadStart = 1; leadEnd = optEnd; lagStart = 1; lagEnd = optEnd*2;
+leadStart = 1; leadEnd = optEnd; lagStart = 1; lagEnd = 300;
+
+fastMA = leadStart:leadEnd; slowMA = lagStart:lagEnd;
+
+% PROFIT TAKER
+%%%%%%%% [barsOut,sigOut,sharpeOut] = numTicksProfit(barsIn,sigIn,sharpeIn,minTick,numTicks,openAvg)
+numTicks = 2:10; openAvg = 0;
 
 %% Select datafile and time adjustment(s)
 %	KC1D  (KC)	Arabica Futures	Daily	all years
@@ -49,7 +55,7 @@ period = pStart:pEnd;
 contract = 'ES1M1';
 
 % Enter either [time] or [startTime endTime]
-time = [4];                                                                                        %#ok<NBRAK> 
+time = [8];                                                                                       %#ok<NBRAK>
 
 %% Load Data
 [dFile, defFile, scaling] = dataSelect(contract);
@@ -87,7 +93,7 @@ end; %if
 %
 % Parallel
 % Create a range variable so we can vectorize inputs for parametric sweep
-range = {period, maType, devUp, devDwn};
+range = {fastMA, slowMA, typeMA, numTicks, openAvg};
 
 %% Perform the parameter sweep
 
@@ -112,7 +118,9 @@ else
 	error('Unable to parse ''time'' variable.  Aborting...');
 end; %if
 
+%% Iterate over time 
 for t=tStart:tEnd
+    
 	% Using a variable for parametric sweep range end so that we can automatically extend it if the
 	% optimization finds the boundary value to be the best fit.
     
@@ -128,17 +136,17 @@ for t=tStart:tEnd
 	end %if
     
 	%% Break up vBars into 80% test and 20% validation sets
-	% testPts = floor(0.8*length(vBars));
-	% vBarsTest = vBars(1:testPts,:);
-	% vBarsVal = vBars(testPts+1:end,:);
+	testPts = floor(0.8*length(vBars));
+	vBarsTest = vBars(1:testPts,:);
+	vBarsVal = vBars(testPts+1:end,:);
     
 	%% Define parallel function for parametric sweep
 	% Ordinarily we would pass a Test set then review a Validation set
-	% The parallel function bollBandPARMETS sweeps for the best METSharpe and need the full data set.
+	% The parallel function ma2inputsNumTicksPftPARMETS sweeps for the best METSharpe and need the full data set.
 	% METSharpe is a weighted version of the classic sharpe ratio that looks at both a Test data set result
 	% and a validation set result and scores them with their weighted average.
 	% Because of this we will not pass a vBarsTest, but will pass the entire data set.
-	fun = @(x) bollBandPARMETS(x,vBars,bigPoint,cost,scaling);
+	fun = @(x) ma2inputsNumTicksPftPARMETS(x,vBars,minTick,bigPoint,cost,scaling);
     
 	%% Sweep for best METSharpe
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -147,38 +155,63 @@ for t=tStart:tEnd
 	% Provide a bit of feedback for the user
 	optInfo(1, range);
 	tic
-		[maxSharpe,param,sh,var] = parameterSweep(fun,range);
+		%[maxSharpe,param,sh] = parameterSweep(fun,range);
+		[maxSharpe,param] = parameterSweep(fun,range);
 	toc
     
-	endTime = datestr(now);
+	% Extend the optimization range if we detect a maximum on the moving average lag boundary
+	if param(2) == lagEnd
+		curEnd = lagEnd;
+		while param(2) == curEnd
+			curEnd=curEnd+5;
+			range = {leadStart:curEnd,curEnd-5:curEnd, typeMA, numTicks, openAvg};          
+			fprintf('Found optimized value at iteration''s Moving Average Lag boundary.');
+			fprintf(' Increasing range. %s\n',datestr(now));
+			fprintf('Range extended to: \n')
+			for ii = 1:length(range)
+				formatSpec = '          Parameter %d: %s\n';
+				fprintf(formatSpec,ii,vect2colon(range{ii}));
+			end;
+			[maxSharpe,param] = parameterSweep(fun,range);
+	toc
+		end;
+		range = {leadStart:curEnd,lagStart:curEnd, typeMA, numTicks, openAvg};
+	end;
     
-	[~,R,SH] = bollBandSIG_mex(vBars,param(1),param(2),param(3),param(4),...
-			bigPoint,cost,scaling);
+	endTime = datestr(now);
     
 	%% Disply results to command window
 	fprintf('Optimization completed: ');
 	fprintf(endTime);
 	fprintf('\n\nParametric sweep found the following optimized values sweeping for METSharpe: \n');
 	fprintf('     Bars In Test Set: %s\n',thousandSep(length(vBars)));
-	formatSpec = '     Period: %d     MA type: %d\n   Num STD Up: %.2f   Num STD Dwn: %.2f\n\n';
-	fprintf(formatSpec,param(1),param(2),param(3),param(4));
-	fprintf('Bollinger Band Sharpe Ratio = %s\r\n',num2str(SH,3));
-	fprintf('Cumulative Return = %s\r\n\r\n',thousandSepCash(sum(R)));
+	formatSpec = '     Lead: %d          Lag: %d               MA type: %d\n     # Ticks: %d     Liq Strategy: %d\n\n';
+	fprintf(formatSpec,param(1),param(2),param(3),param(4),param(5));
     
-	bollBandSIG_DIS(vBars,param(1),param(2),param(3),param(4),...
+	[~,rMA,shMA]=ma2inputsSIG_mex(vBars,param(1),param(2),param(3),bigPoint,cost,scaling);
+	fprintf('MA Sharpe Ratio = %s\n',num2str(shMA,3));
+	fprintf('Cumulative Return = %s\n\n',thousandSepCash(sum(rMA)));
+    
+	[~,~,rMaPft,shMaPft]=ma2inputsNumTicksPftSIG_mex(vBars,param(1),param(2),param(3),...
+	minTick,param(4),param(5),...
+	bigPoint,cost,scaling);
+	fprintf('MA w/ Profit Sharpe Ratio = %s\n',num2str(shMaPft,3));
+	fprintf('Cumulative Return = %s\n\n',thousandSepCash(sum(rMaPft)));
+    
+	ma2inputsNumTicksPftSIG_DIS(vBars,param(1),param(2),param(3),...
+		minTick,param(4),param(5),...
 		bigPoint,cost,scaling);
-    
-	set(gcf,'name','Parameter Result - Entire Data Set')
+	set(gcf,'name','Parametric Result - Entire Data Set')
 	snapnow;
     
 	fprintf('\n                    -- Iteration Complete --\n\n\n');
     
 	%% Export optimization into simple text file
 	disp('Now exporting current run into text file log');
-	if ~exist('\\SHARE\Matlab\OutputLogs\bollBand Parametric Sweep Results.txt','file')
-		fid = fopen('\\SHARE\Matlab\OutputLogs\bollBand Parametric Sweep Results.txt','w');
+	if ~exist('\\SHARE\Matlab\OutputLogs\ma2iNumTicksPft Parametric Sweep Results.txt','file')
+		fid = fopen('\\SHARE\Matlab\OutputLogs\ma2iNumTicksPft Parametric Sweep Results.txt','w');
 	else
-		fid = fopen('\\SHARE\Matlab\OutputLogs\bollBand Parametric Sweep Results.txt','a');
+		fid = fopen('\\SHARE\Matlab\OutputLogs\ma2iNumTicksPft Parametric Sweep Results.txt','a');
 	end; %if
     
 	% Get the number of iterations we processed
@@ -205,11 +238,13 @@ for t=tStart:tEnd
     
 	fprintf(fid,'\r\nParametric sweep found the following optimized values sweeping for METSharpe: \r\n');
 	fprintf(fid,'     Bars In Test Set: %s\r\n',thousandSep(length(vBars)));
-	formatSpec = '     Period: %d     MA type: %d\n   Num STD Up: %.2f   Num STD Dwn: %.2f\n\n';
-	fprintf(fid,formatSpec,param(1),param(2),param(3),param(4));
+	formatSpec = '     Lead: %d          Lag: %d               MA type: %d\n     # Ticks: %d     Liq Strategy: %d\n\n';
+	fprintf(fid,formatSpec,param(1),param(2),param(3),param(4),param(5));
     
-	fprintf(fid,'Bollinger Band Sharpe Ratio = %s\r\n',num2str(SH,3));
-	fprintf(fid,'Cumulative Return = %s\r\n\r\n',thousandSepCash(sum(R)));
+	fprintf(fid,'MA Sharpe Ratio = %s\r\n',num2str(shMA,3));
+	fprintf(fid,'Cumulative Return = %s\r\n\r\n',thousandSepCash(sum(rMA)));
+	fprintf(fid,'MA w/ NumTicksPfr Sharpe Ratio = %s\r\n',num2str(shMaPft,3));
+	fprintf(fid,'Cumulative Return = %s\r\n\r\n',thousandSepCash(sum(rMaPft)));
     
 	fprintf(fid,'End Time %s\r\n',endTime);
 	fprintf(fid,'*** END PARAMETRIC SWEEP ***\r\n');

@@ -1,16 +1,18 @@
-%% Bollinger Band Parametric Sweep
+%% Moving Average with RAVI Transformer Parametric Sweep
 %
-%	This script runs a parametric sweep using bollBandSIG
-%	Parameters: period  Lookback period for calculating the Midline and standard deviation
-%	maType	Available average types are:
-%	-5 Triangle (Double smoothed similar to Hull)
-%	-4 Trimmed  (10%)
-%	-3 Harmonic
-%	-2 Geometric
-%	-1 Exponential
-%	 0 Simple
-%	>0 Weighted e.g. 0.5 Square root weighted, 1 = linear, 2 = square weighted
-%	devUp | devDwn  Number of standard deviations to +/- from the midline
+%	This script runs a parametric sweep using 
+%	MA:	2 inputs moving average crossover
+%	RAVI:	A trending | ranging indicator
+%
+%	The Moving Average can be manipulated in one of 4 ways using RAVI transformer:
+%	Effect 0: Remove the signal in trending markets (default = 0)
+%	Effect 1: Remove the signal in ranging markets
+%	Effect 2: Reverse the signal in trending markets
+%	Effect 3: Reverse the signal in ranging markets
+%
+%
+%	This pair can then be passed into a genetic algorithm to see how the results would differ
+%	with various mutations
 %
 
 %% Parameter sweep settings
@@ -26,9 +28,17 @@ clust = 4;
 %	Variables	%
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Bollinger Band
-pStart = 1; pEnd = 100; maType = 0; devUp = 1; devDwn = 1;
-period = pStart:pEnd;
+% MOVING AVERAGE
+optEnd = 15; 
+ leadStart = 1; leadEnd = optEnd; lagStart = 1; lagEnd = optEnd*2;
+%leadStart = 1; leadEnd = optEnd; lagStart = 45; lagEnd = 75;
+fastMA = leadStart:leadEnd; slowMA = lagStart:lagEnd; typeMA=0;
+
+% RAVI
+RAVILead = 5; RAVILag = 65; RAVIDenom = [0 1]; RAVIMean = 15:5:25; RAVIEffect = 0:3; RAVIThresh = 15:5:65;
+
+% MARAVI
+% none
 
 %% Select datafile and time adjustment(s)
 %	KC1D  (KC)	Arabica Futures	Daily	all years
@@ -56,29 +66,12 @@ time = [4];                                                                     
 data = importFromTxt(dFile);
 importSymbolDef(defFile);
 
-%% Cost basis
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%	Commissions & Fees	%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
+%%  Cost basis
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   Commissions & Fees    %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
 cost=5; % $5 Round turn commission
-
-%% Confirm cluster is active
-% Ensure cluster is set to correct config
-if matlabpool('size') ~= clust
-	warning('Cluster being configured or closed as needed.  Adjusting...');
-    
-	if matlabpool('size') ~= 0
-		matlabpool CLOSE;
-	end;
-    
-	if clust > 1 && clust < 7
-		matlabpool('local',clust);
-	else
-		matlabpool('Core',clust);
-	end; %if
-
-end; %if
 
 %% Transform variables to vector
 %%%%%%%%%%%%%%%%%%%%%%%%%
@@ -87,7 +80,7 @@ end; %if
 %
 % Parallel
 % Create a range variable so we can vectorize inputs for parametric sweep
-range = {period, maType, devUp, devDwn};
+range = {fastMA, slowMA, typeMA, RAVILead, RAVILag, RAVIDenom, RAVIMean, RAVIEffect, RAVIThresh};
 
 %% Perform the parameter sweep
 
@@ -134,11 +127,11 @@ for t=tStart:tEnd
     
 	%% Define parallel function for parametric sweep
 	% Ordinarily we would pass a Test set then review a Validation set
-	% The parallel function bollBandPARMETS sweeps for the best METSharpe and need the full data set.
+	% The parallel function maRaviPARMETS sweeps for the best METSharpe and need the full data set.
 	% METSharpe is a weighted version of the classic sharpe ratio that looks at both a Test data set result
 	% and a validation set result and scores them with their weighted average.
 	% Because of this we will not pass a vBarsTest, but will pass the entire data set.
-	fun = @(x) bollBandPARMETS(x,vBars,bigPoint,cost,scaling);
+	fun = @(x) maRaviPARMETS(x,vBars,bigPoint,cost,scaling);
     
 	%% Sweep for best METSharpe
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -147,43 +140,66 @@ for t=tStart:tEnd
 	% Provide a bit of feedback for the user
 	optInfo(1, range);
 	tic
-		[maxSharpe,param,sh,var] = parameterSweep(fun,range);
+		%[maxSharpe,param,sh] = parameterSweep(fun,range);
+		[maxSharpe,param] = parameterSweep(fun,range);
 	toc
     
+	% Extend the optimization range if we detect a maximum on the moving average lag boundary
+	if param(2) == lagEnd
+		curEnd = lagEnd;
+		while param(2) == curEnd
+			fprintf('Found optimized value at iteration''s Moving Average Lag boundary.');
+			fprintf(' Increasing range. %s\n',datestr(now));
+			range = {leadStart:curEnd+5,curEnd:curEnd+5, typeMA, ...
+			RAVILead, RAVILag, RAVIDenom, RAVIMean, RAVIEffect, RAVIThresh}; 
+			[maxSharpe,param] = parameterSweep(fun,range);
+			curEnd=curEnd+5;
+	toc
+		end;
+		range = {leadStart:curEnd-5,lagStart:curEnd-5, typeMA, ...
+				RAVILead, RAVILag, RAVIDenom, RAVIMean, RAVIEffect, RAVIThresh};
+		fprintf('Range extended to: \n')
+		for ii = 1:length(range)
+			formatSpec = '          Parameter %d: %s\n';
+			fprintf(formatSpec,ii,vect2colon(range{ii}));
+		end;
+	end;
 	endTime = datestr(now);
-    
-	[~,R,SH] = bollBandSIG_mex(vBars,param(1),param(2),param(3),param(4),...
-			bigPoint,cost,scaling);
-    
 	%% Disply results to command window
 	fprintf('Optimization completed: ');
 	fprintf(endTime);
 	fprintf('\n\nParametric sweep found the following optimized values sweeping for METSharpe: \n');
 	fprintf('     Bars In Test Set: %s\n',thousandSep(length(vBars)));
-	formatSpec = '     Period: %d     MA type: %d\n   Num STD Up: %.2f   Num STD Dwn: %.2f\n\n';
-	fprintf(formatSpec,param(1),param(2),param(3),param(4));
-	fprintf('Bollinger Band Sharpe Ratio = %s\r\n',num2str(SH,3));
-	fprintf('Cumulative Return = %s\r\n\r\n',thousandSepCash(sum(R)));
+	formatSpec = '     MA Lead: %d     MA Lag: %d      MA type: %d\n   RAVI Lead: %d   RAVI Lag: %d	 RAVI Denom: %d%%     RAVI Mean Shift: %d     RAVI Effect: %d     RAVI Thresh: %d%%\n\n';
+	fprintf(formatSpec,param(1),param(2),param(3),param(4),param(5),param(6),param(7),param(8),param(9));
     
-	bollBandSIG_DIS(vBars,param(1),param(2),param(3),param(4),...
+	[~,r,sh]=ma2inputsSIG_mex(vBars,param(1),param(2),param(3),bigPoint,cost,scaling);
+	fprintf('MA Sharpe Ratio = %s\n',num2str(sh,3));
+	fprintf('Cumulative Return = %s\n\n',thousandSepCash(sum(r)));
+    
+	[~,r,sh]=maRaviSIG_DIS(vBars,param(1),param(2),param(3),param(4),...
+		param(5),param(6),param(7),param(8),param(9),...
 		bigPoint,cost,scaling);
+	fprintf('MA+RAVI Sharpe Ratio = %s\n',num2str(sh,3));
+	fprintf('Cumulative Return = %s\n',thousandSepCash(sum(r)));
     
+	maRaviSIG_DIS(vBars,param(1),param(2),param(3),param(4),...
+		param(5),param(6),param(7),param(8),param(9),...
+		bigPoint,cost,scaling)
 	set(gcf,'name','Parameter Result - Entire Data Set')
 	snapnow;
     
 	fprintf('\n                    -- Iteration Complete --\n\n\n');
-    
+
+
 	%% Export optimization into simple text file
 	disp('Now exporting current run into text file log');
-	if ~exist('\\SHARE\Matlab\OutputLogs\bollBand Parametric Sweep Results.txt','file')
-		fid = fopen('\\SHARE\Matlab\OutputLogs\bollBand Parametric Sweep Results.txt','w');
+	if ~exist('maRAVI Parametric Sweep Results.txt','file')
+		fid = fopen('maRAVI Parametric Sweep Results.txt','w');
 	else
-		fid = fopen('\\SHARE\Matlab\OutputLogs\bollBand Parametric Sweep Results.txt','a');
+		fid = fopen('maRAVI Parametric Sweep Results.txt','a');
 	end; %if
-    
-	% Get the number of iterations we processed
-	strNumI = thousandSep(numIterations(range));
-    
+
 	fprintf(fid,'\r\n\r\n*** BEGIN PARAMETRIC SWEEP ***\r\n');
 	fprintf(fid,'Data file: %s\r\n',dFile);
 	fprintf(fid,'Start Time %s\r\n',startTime);
@@ -199,23 +215,21 @@ for t=tStart:tEnd
 			fprintf(fid,formatSpec,ii,vect2colon(range{ii}));
 		end;
 	end;
-    
-	formatSpec = '\r\nNumber of iterations performed: %s\r\n\r\n';
-	fprintf(fid,formatSpec,strNumI);
-    
+
 	fprintf(fid,'\r\nParametric sweep found the following optimized values sweeping for METSharpe: \r\n');
 	fprintf(fid,'     Bars In Test Set: %s\r\n',thousandSep(length(vBars)));
-	formatSpec = '     Period: %d     MA type: %d\n   Num STD Up: %.2f   Num STD Dwn: %.2f\n\n';
-	fprintf(fid,formatSpec,param(1),param(2),param(3),param(4));
     
-	fprintf(fid,'Bollinger Band Sharpe Ratio = %s\r\n',num2str(SH,3));
-	fprintf(fid,'Cumulative Return = %s\r\n\r\n',thousandSepCash(sum(R)));
-    
+	formatSpec = '     MA Lead: %d     MA Lag: %d      MA type: %d\r\n   RAVI Lead: %d   RAVI Lag: %d	 RAVI Denom: %d%%     RAVI Mean Shift: %d     RAVI Effect: %d     RAVI Thresh: %d%%\r\n\r\n';
+	fprintf(fid,formatSpec,param(1),param(2),param(3),param(4),param(5),param(6),param(7),param(8),param(9));
 	fprintf(fid,'End Time %s\r\n',endTime);
 	fprintf(fid,'*** END PARAMETRIC SWEEP ***\r\n');
 	fclose(fid);
 	fprintf(' **** JOB COMPLETE ****\n');
+
 end; %for
+
+%% Close cluster for memory cleanup
+matlabpool close;
 
 %% END SCRIPT
 

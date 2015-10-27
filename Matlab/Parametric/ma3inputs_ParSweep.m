@@ -1,16 +1,7 @@
-%% Bollinger Band Parametric Sweep
+%% Moving Average 3 Input
 %
-%	This script runs a parametric sweep using bollBandSIG
-%	Parameters: period  Lookback period for calculating the Midline and standard deviation
-%	maType	Available average types are:
-%	-5 Triangle (Double smoothed similar to Hull)
-%	-4 Trimmed  (10%)
-%	-3 Harmonic
-%	-2 Geometric
-%	-1 Exponential
-%	 0 Simple
-%	>0 Weighted e.g. 0.5 Square root weighted, 1 = linear, 2 = square weighted
-%	devUp | devDwn  Number of standard deviations to +/- from the midline
+%	This script runs a parametric sweep using one basic signal generator.
+%	Signal 1:	Moving Average 3 Input crossover
 %
 
 %% Parameter sweep settings
@@ -26,9 +17,14 @@ clust = 4;
 %	Variables	%
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %
-% Bollinger Band
-pStart = 1; pEnd = 100; maType = 0; devUp = 1; devDwn = 1;
-period = pStart:pEnd;
+% MOVING AVERAGE
+optBasis = 45;
+leadStart = 1; leadEnd = optBasis; medStart = 1; medEnd = optBasis*2; lagStart = 1; lagEnd = optBasis*5;
+%leadStart = 1; leadEnd = optEnd; lagStart = 45; lagEnd = 75;
+%fastMA = leadStart:leadEnd; slowMA = lagStart:lagEnd; typeMA=-5:0;
+fastMA = leadStart:leadEnd; medMA = medStart:medEnd; slowMA = lagStart:lagEnd;
+typeMA = 0;
+%typeMA = -5:0;
 
 %% Select datafile and time adjustment(s)
 %	KC1D  (KC)	Arabica Futures	Daily	all years
@@ -49,7 +45,7 @@ period = pStart:pEnd;
 contract = 'ES1M1';
 
 % Enter either [time] or [startTime endTime]
-time = [4];                                                                                        %#ok<NBRAK> 
+time = [30];                                                                                       %#ok<NBRAK>
 
 %% Load Data
 [dFile, defFile, scaling] = dataSelect(contract);
@@ -87,7 +83,7 @@ end; %if
 %
 % Parallel
 % Create a range variable so we can vectorize inputs for parametric sweep
-range = {period, maType, devUp, devDwn};
+range = {fastMA, medMA, slowMA, typeMA};
 
 %% Perform the parameter sweep
 
@@ -112,7 +108,9 @@ else
 	error('Unable to parse ''time'' variable.  Aborting...');
 end; %if
 
+%% Iterate over time 
 for t=tStart:tEnd
+    
 	% Using a variable for parametric sweep range end so that we can automatically extend it if the
 	% optimization finds the boundary value to be the best fit.
     
@@ -128,57 +126,53 @@ for t=tStart:tEnd
 	end %if
     
 	%% Break up vBars into 80% test and 20% validation sets
-	% testPts = floor(0.8*length(vBars));
-	% vBarsTest = vBars(1:testPts,:);
-	% vBarsVal = vBars(testPts+1:end,:);
+	testPts = floor(0.8*length(vBars));
+	vBarsTest = vBars(1:testPts,:);
+	vBarsVal = vBars(testPts+1:end,:);
     
 	%% Define parallel function for parametric sweep
-	% Ordinarily we would pass a Test set then review a Validation set
-	% The parallel function bollBandPARMETS sweeps for the best METSharpe and need the full data set.
-	% METSharpe is a weighted version of the classic sharpe ratio that looks at both a Test data set result
-	% and a validation set result and scores them with their weighted average.
-	% Because of this we will not pass a vBarsTest, but will pass the entire data set.
-	fun = @(x) bollBandPARMETS(x,vBars,bigPoint,cost,scaling);
+	fun = @(x) ma3inputsPAR(x,vBarsTest,bigPoint,cost,range,scaling);
     
-	%% Sweep for best METSharpe
+	%% Sweep for best Sharpe
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	%          SWEEP          %
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	% Provide a bit of feedback for the user
 	optInfo(1, range);
 	tic
-		[maxSharpe,param,sh,var] = parameterSweep(fun,range);
+		%[maxSharpe,param,sh] = parameterSweep(fun,range);
+		[maxSharpe,param] = parameterSweep(fun,range);
 	toc
     
-	endTime = datestr(now);
+	% Consider adding auto range extension like ma2inputs on LAG boundary
     
-	[~,R,SH] = bollBandSIG_mex(vBars,param(1),param(2),param(3),param(4),...
-			bigPoint,cost,scaling);
+	endTime = datestr(now);
     
 	%% Disply results to command window
 	fprintf('Optimization completed: ');
 	fprintf(endTime);
-	fprintf('\n\nParametric sweep found the following optimized values sweeping for METSharpe: \n');
+	fprintf('\n\nParametric sweep found the following optimized values sweeping for Sharpe: \n');
 	fprintf('     Bars In Test Set: %s\n',thousandSep(length(vBars)));
-	formatSpec = '     Period: %d     MA type: %d\n   Num STD Up: %.2f   Num STD Dwn: %.2f\n\n';
+	formatSpec = '     Lead: %d          Med: %d          Lag: %d               MA type: %d\n\n';
 	fprintf(formatSpec,param(1),param(2),param(3),param(4));
-	fprintf('Bollinger Band Sharpe Ratio = %s\r\n',num2str(SH,3));
-	fprintf('Cumulative Return = %s\r\n\r\n',thousandSepCash(sum(R)));
     
-	bollBandSIG_DIS(vBars,param(1),param(2),param(3),param(4),...
-		bigPoint,cost,scaling);
-    
+	[~,rMA,shMA]=ma3inputsSIG_mex(vBars,param(1),param(2),param(3),param(4),bigPoint,cost,scaling);
+	fprintf('MA Sharpe Ratio = %s\n',num2str(shMA,3));
+	fprintf('Cumulative Return = %s\n\n',thousandSepCash(sum(rMA)));
+
+	ma3inputsSIG_DIS(vBars,param(1),param(2),param(3),param(4),...       % MA
+		bigPoint,cost,scaling)
 	set(gcf,'name','Parameter Result - Entire Data Set')
 	snapnow;
     
 	fprintf('\n                    -- Iteration Complete --\n\n\n');
     
-	%% Export optimization into simple text file
+	%%	Export optimization into simple text file
 	disp('Now exporting current run into text file log');
-	if ~exist('\\SHARE\Matlab\OutputLogs\bollBand Parametric Sweep Results.txt','file')
-		fid = fopen('\\SHARE\Matlab\OutputLogs\bollBand Parametric Sweep Results.txt','w');
+	if ~exist('\\SHARE\Matlab\OutputLogs\ma3input Parametric Sweep Results.txt','file')
+		fid = fopen('\\SHARE\Matlab\OutputLogs\ma3input Parametric Sweep Results.txt','w');
 	else
-		fid = fopen('\\SHARE\Matlab\OutputLogs\bollBand Parametric Sweep Results.txt','a');
+		fid = fopen('\\SHARE\Matlab\OutputLogs\ma3input Parametric Sweep Results.txt','a');
 	end; %if
     
 	% Get the number of iterations we processed
@@ -203,18 +197,18 @@ for t=tStart:tEnd
 	formatSpec = '\r\nNumber of iterations performed: %s\r\n\r\n';
 	fprintf(fid,formatSpec,strNumI);
     
-	fprintf(fid,'\r\nParametric sweep found the following optimized values sweeping for METSharpe: \r\n');
+	fprintf(fid,'\r\nParametric sweep found the following optimized values sweeping for Sharpe: \r\n');
 	fprintf(fid,'     Bars In Test Set: %s\r\n',thousandSep(length(vBars)));
-	formatSpec = '     Period: %d     MA type: %d\n   Num STD Up: %.2f   Num STD Dwn: %.2f\n\n';
+	formatSpec = '     Lead: %d          Med: %d          Lag: %d               MA type: %d\r\n\r\n';
 	fprintf(fid,formatSpec,param(1),param(2),param(3),param(4));
-    
-	fprintf(fid,'Bollinger Band Sharpe Ratio = %s\r\n',num2str(SH,3));
-	fprintf(fid,'Cumulative Return = %s\r\n\r\n',thousandSepCash(sum(R)));
-    
+	fprintf(fid,'MA Sharpe Ratio = %s\r\n',num2str(shMA,3));
+	fprintf(fid,'Cumulative Return = %s\r\n\r\n',thousandSepCash(sum(rMA)));
+
 	fprintf(fid,'End Time %s\r\n',endTime);
 	fprintf(fid,'*** END PARAMETRIC SWEEP ***\r\n');
 	fclose(fid);
 	fprintf(' **** JOB COMPLETE ****\n');
+    
 end; %for
 
 %% END SCRIPT
