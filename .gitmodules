@@ -4,3 +4,6 @@
 [submodule "HFT Linux Kernel Utilities"]
 	path = HFT Linux Kernel Utilities
 	url = git@github.com:mtompkins/linux-kernel-utilities.git
+[submodule "Matlab/External Libraries/matlab-ParforProgress2"]
+	path = Matlab/External Libraries/matlab-ParforProgress2
+	url = https://github.com/kotowicz/matlab-ParforProgress2.git

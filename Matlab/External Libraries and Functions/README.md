@@ -36,7 +36,7 @@ WEB: [http://bit.ly/13fcgN4](http://bit.ly/13fcgN4 "http://bit.ly/13fcgN4")
 
 --------------------------------------------------------
 MATLAB: shift.m  
-shift a row or column relative to the other elements in a matrix.			
+shift a row or column relative to the other elements in a matrix.
 
 John T. McCarthy  
 jtmcc@iol.ie
