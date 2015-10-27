@@ -7,3 +7,6 @@
 [submodule "Matlab/External Libraries/matlab-ParforProgress2"]
 	path = Matlab/External Libraries/matlab-ParforProgress2
 	url = https://github.com/kotowicz/matlab-ParforProgress2.git
+[submodule "Matlab/External Libraries and Functions/matlab-ParforProgress2"]
+	path = Matlab/External Libraries and Functions/matlab-ParforProgress2
+	url = https://github.com/kotowicz/matlab-ParforProgress2.git
