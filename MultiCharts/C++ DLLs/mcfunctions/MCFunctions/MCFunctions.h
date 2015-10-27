@@ -1,0 +1,10 @@
+extern "C" __declspec(dllexport) double __stdcall AvgRangeFunc(IEasyLanguageObject *pELObj, EN_DATA_STREAM iDataStream, int Len, int BarNum);
+extern "C" __declspec(dllexport) double __stdcall HCloseFunc(IEasyLanguageObject *pELObj, EN_DATA_STREAM iDataStream, int Len, int BarNum);
+extern "C" __declspec(dllexport) double __stdcall HHighFunc(IEasyLanguageObject *pELObj, EN_DATA_STREAM iDataStream, int Len, int BarNum);
+extern "C" __declspec(dllexport) double __stdcall LCloseFunc(IEasyLanguageObject *pELObj, EN_DATA_STREAM iDataStream, int Len, int BarNum);
+extern "C" __declspec(dllexport) double __stdcall LLowFunc(IEasyLanguageObject *pELObj, EN_DATA_STREAM iDataStream, int Len, int BarNum);
+extern "C" __declspec(dllexport) double __stdcall MovAvgFunc(IEasyLanguageObject *pELObj, EN_DATA_STREAM iDataStream, int Len, int BarNum);
+extern "C" __declspec(dllexport) double __stdcall PercentR_Func(IEasyLanguageObject *pELObj, EN_DATA_STREAM iDataStream, int Len, int BarNum);
+extern "C" __declspec(dllexport) double __stdcall TrueHighFunc(IEasyLanguageObject *pELObj, EN_DATA_STREAM iDataStream, int BarNum);
+extern "C" __declspec(dllexport) double __stdcall TrueLowFunc(IEasyLanguageObject *pELObj, EN_DATA_STREAM iDataStream, int BarNum);
+extern "C" __declspec(dllexport) double __stdcall TrueRangeFunc(IEasyLanguageObject *pELObj, EN_DATA_STREAM iDataStream, int BarNum);
