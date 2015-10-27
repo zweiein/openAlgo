@@ -1,12 +1,9 @@
 This file contains links to useful, referenced or otherwise used files with minor descriptions.  
-Descriptions will default to any provided by the author if available.
+If possible, the author will be clearly credited and original descriptions used.
 
-If possible, the author will be clearly identified and credited.
+Links will be provided using minimized URLs (e.g. bit.ly) to mitigate search robots.
 
-Links will be provided using minimized URLs (e.g. bit.ly).
-
-One of the goals for this file is to make finding references fast.  
-Please use maximum brevity.
+One of the goals for this file is to make finding references fast.  Please use maximum brevity.
 
 ```
 Most recent revision:
