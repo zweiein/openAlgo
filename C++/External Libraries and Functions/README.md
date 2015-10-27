@@ -20,7 +20,7 @@ July 1, 2013 - Mark Tompkins
 - Multi-Platform Tools for Market Analysis - [ta-lib](https://github.com/mtompkins/linux-kernel-utilities)
 
 --------------------------------------------------------
-Mechanical trading systems    
+C++: Mechanical trading systems    
 The collection of MATLAB compatible routines for Mechanical Trading Systems.
 
 OrangeCap Network
@@ -28,7 +28,7 @@ OrangeCap Network
 WEB: [http://bit.ly/1Wg8uCO](http://bit.ly/1Wg8uCO)
 
 --------------------------------------------------------
-TA-Lib  
+C++: TA-Lib  
 Multi-Platform Tools for Market Analysis
 
 Mario Fortier  
