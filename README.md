@@ -24,7 +24,9 @@ The repository is divided in to sections for a modest amount of organization acr
 
 ## Setup ##
 This repository uses submodules
-`git clone --recursive git@github.com:mtompkins/openAlgo.git`
+```
+git clone --recursive git@github.com:mtompkins/openAlgo.git
+``
 
 ## Support openAlgo ##
 
