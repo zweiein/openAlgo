@@ -13,16 +13,7 @@ Previous revisions:
 July 1, 2013 - Mark Tompkins
 ```
 ## Sections ##
-- Mechanical trading systems - [mlmechtrade-lib](https://github.com/mtompkins/openAlgo/tree/master/C%2B%2B)
 - Multi-Platform Tools for Market Analysis - [ta-lib](https://github.com/mtompkins/linux-kernel-utilities)
-
---------------------------------------------------------
-C++: Mechanical trading systems    
-The collection of MATLAB compatible routines for Mechanical Trading Systems.
-
-OrangeCap Network
-
-WEB: [http://bit.ly/1Wg8uCO](http://bit.ly/1Wg8uCO)
 
 --------------------------------------------------------
 C++: TA-Lib  
