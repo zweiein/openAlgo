@@ -34,7 +34,7 @@ progress monitor (progress bar) that works with parfor.
 
 Andreas Kotowicz 
 
-GIT: [git@github.com:kotowicz/matlab-ParforProgress2.git](git@github.com:kotowicz/matlab-ParforProgress2.git "git@github.com:kotowicz/matlab-ParforProgress2.git")  
+GIT: `git@github.com:kotowicz/matlab-ParforProgress2.git`  
 WEB: [http://bit.ly/1O9pO85](http://bit.ly/1O9pO85 "http://bit.ly/1O9pO85")
 
 --------------------------------------------------------
