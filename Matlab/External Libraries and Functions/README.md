@@ -29,6 +29,15 @@ GIT: [git://github.com/jdscheff/parfor_progress.git](git://github.com/jdscheff/p
 WEB: [http://bit.ly/ZqpERm](http://bit.ly/ZqpERm "http://bit.ly/ZqpERm")
 
 --------------------------------------------------------
+MATLAB: matlab-ParforProgress2
+progress monitor (progress bar) that works with parfor.
+
+Andreas Kotowicz 
+
+GIT: [git://github.com:kotowicz/matlab-ParforProgress2.git](git://github.com:kotowicz/matlab-ParforProgress2.git "git://github.com:kotowicz/matlab-ParforProgress2.git")  
+WEB: [http://bit.ly/1O9pO85](http://bit.ly/1O9pO85 "http://bit.ly/1O9pO85")
+
+--------------------------------------------------------
 MATLAB: slidefun.m  
 apply function to a moving window over a vector
 
