@@ -29,7 +29,7 @@ GIT: [git://github.com/jdscheff/parfor_progress.git](git://github.com/jdscheff/p
 WEB: [http://bit.ly/ZqpERm](http://bit.ly/ZqpERm "http://bit.ly/ZqpERm")
 
 --------------------------------------------------------
-MATLAB: matlab-ParforProgress2
+MATLAB: matlab-ParforProgress2    
 progress monitor (progress bar) that works with parfor.
 
 Andreas Kotowicz 
