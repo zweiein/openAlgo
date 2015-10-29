@@ -1,9 +1,9 @@
 # MultiCharts DLL functions #
 
 ## Conventions used for functions ##
-The below list of functions are exposed in the DLL project and can be called from MultiCharts as follows (psuedo) in PowerLanguage: 
+The below list of functions are exposed in the DLL project and can be called from MultiCharts as follows (psuedo) in PowerLanguage:
 
-    external method: "C:\Path\To\Compiled\DLL\MCFunctions.dll", double, "SomeFunc", 
+    external method: "C:\Path\To\Compiled\DLL\MCFunctions.dll", double, "SomeFunc",
 						int {DataStream}, varType {someParameter}, ...;
 
 where *varType* is the explicitly identified input variable type (e.g. int, double, ...);
@@ -33,3 +33,5 @@ where *varType* is the explicitly identified input variable type (e.g. int, doub
     double TrueLowFunc(IEasyLanguageObject *pELObj, EN_DATA_STREAM iDataStream, int BarNum);
 ## True Range ##
     double TrueRangeFunc(IEasyLanguageObject *pELObj, EN_DATA_STREAM iDataStream, int BarNum);
+
+Revision: 5780.25390

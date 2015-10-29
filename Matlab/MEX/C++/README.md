@@ -2,7 +2,7 @@
 The following functions should be *MEX'd* prior to usage. Those files ending with an extension of *.mexw64* have been compiled on a 64-bit Intel based Windows platform.
 ## Functions ##
 - [calcProfitLoss](https://github.com/mtompkins/openAlgo/tree/master/MatLab/MEX/C%2B%2B/calcProfitLoss "calcProfitLoss")
-	- Produces an array profit or loss from a given set of inputs 
+	- Produces an array profit or loss from a given set of inputs
 - [clearVar](https://github.com/mtompkins/openAlgo/tree/master/MatLab/MEX/C%2B%2B/clearVar "clearVar")
 	- Clears MatLab session variables
 - [deleteFirstRow](https://github.com/mtompkins/openAlgo/tree/master/MatLab/MEX/C%2B%2B/deleteFirstRow "deleteFirstRow")
@@ -17,3 +17,5 @@ The following functions should be *MEX'd* prior to usage. Those files ending wit
 	- Relative Strength Index (RSI)
 - [taInvoke](https://github.com/mtompkins/openAlgo/blob/master/MatLab/MEX/C%2B%2B/taInvoke "taInvoke")
 	- A wrapper for calling the ta-lib function library from MatLab
+
+	Revision: 5780.25390

@@ -15,3 +15,5 @@ Mathwork's reference to debugging a MEX file:
     `mex numTicksProfit.cpp -g G:\openAlgo\C++\myFunctions\myMath.cpp -IG:\openAlgo\C++\myFunctions`
 
 	where '-IG:\openAlgo\...' is '*dash EYE somePath*' to indicate an Include as per Matlab documentation. Also shown is the '-g' option to create a symbol file for debugging.
+
+Revision: 5780.25390

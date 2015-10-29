@@ -64,3 +64,5 @@ Where possible original author's comments have been left intact to give appropri
 - [Nija Turtle](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/Nija%20Turtle "Nija Turtle")
 - [Stop Targets](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/Stop%20Targets "Stop Targets")
 - [Triple Exponential Moving Average Displaced Exit](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts/Signals%20%26%20Strategies/Triple%20XMA%20Displaced%20Exit "Triple Exponential Moving Average Displaced Exit")
+
+Revision: 5780.25390
