@@ -25,7 +25,7 @@ progress monitor (progress bar) that works with parfor.
 Jeremy Scheff  
 jdscheff@gmail.com  
 
-GIT: [git://github.com/jdscheff/parfor_progress.git](git://github.com/jdscheff/parfor_progress.git "git://github.com/jdscheff/parfor_progress.git")  
+GIT: `git@github.com/jdscheff/parfor_progress.git`  
 WEB: [http://bit.ly/ZqpERm](http://bit.ly/ZqpERm "http://bit.ly/ZqpERm")
 
 --------------------------------------------------------
