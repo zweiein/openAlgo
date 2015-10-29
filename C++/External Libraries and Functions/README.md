@@ -13,7 +13,7 @@ Previous revisions:
 July 1, 2013 - Mark Tompkins
 ```
 ## Sections ##
-- Multi-Platform Tools for Market Analysis - [ta-lib](https://github.com/mtompkins/linux-kernel-utilities)
+- Multi-Platform Tools for Market Analysis - [ta-lib](https://github.com/mtompkins/ta-lib-mirror)
 
 --------------------------------------------------------
 C++: TA-Lib  
