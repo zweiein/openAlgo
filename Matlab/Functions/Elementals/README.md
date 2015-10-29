@@ -8,7 +8,7 @@ As a general statement elementals should:
 
 - not call any other function other than another elemental function
 
-They should NOT return a `**SIG**nal` or `**STA**te` generation directly.
+They should NOT return a **SIG**nal or **STA**te generation directly.
 
 This atomic approach allows to code correction without need for downstream edits.
 
@@ -16,8 +16,8 @@ For example, to create a moving average crossover system one would:
 
 
 1. Create a moving average elemental function 
-2. Create a moving average `**STA**te` funciton incorporating two averages and their corresponding state to each other
-3. Create a moving average `**SIG**nal` function that interprets the `**STA**te` output and creates an actionable `**SIG**nal`.
+2. Create a moving average **STA**te funciton incorporating two averages and their corresponding state to each other
+3. Create a moving average **SIG**nal function that interprets the **STA**te output and creates an actionable **SIG**nal.
 
 > elemental function --> state function --> signal function  
 
