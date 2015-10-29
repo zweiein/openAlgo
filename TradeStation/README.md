@@ -7,4 +7,4 @@ of posting EasyLanguage content is through text file so that code may be rendere
 
 While this approach does create a higher likelihood of a possible failure to post a referenced function that is not standard, I believe the value of publicly viewable code to be considerably more in line with the spirit of openAlgo.org.
 
-*Note:* Having moved away from TradeStation to MultiCharts those interested may be better served looking within the [MultiCharts](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts) folder for EasyLanguage compatible code.
+**Note:** Having moved away from TradeStation to MultiCharts those interested may be better served looking within the [MultiCharts](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts) folder for EasyLanguage compatible code.
