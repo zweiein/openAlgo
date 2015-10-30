@@ -16,7 +16,7 @@ openAlgo is a public repository for various work product relavant to algorithms 
 The repository is divided in to sections for a modest amount of organization across interests and software used.
 
 ## Sections ##
-- [C++](https://github.com/mtompkins/openAlgo/tree/master/C%2B%2B)
+- [C++](https://github.com/mtompkins/openAlgo/tree/master/Cpp)
 - [HFT Linux Kernel Utilities](https://github.com/mtompkins/linux-kernel-utilities)
 - [Matlab](https://github.com/mtompkins/openAlgo/tree/master/Matlab)
 - [MultiCharts](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts)
