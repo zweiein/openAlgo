@@ -13,3 +13,6 @@
 [submodule "Matlab/External Libraries and Functions/mlmechtrade-lib"]
 	path = Matlab/External Libraries and Functions/mlmechtrade-lib
 	url = git@github.com:mtompkins/mlmechtrade-mirror.git
+[submodule "hardware-hints"]
+	path = hardware-hints
+	url = git@github.com:mtompkins/hardware-hints.git

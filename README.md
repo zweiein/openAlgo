@@ -17,6 +17,7 @@ The repository is divided in to sections for a modest amount of organization acr
 
 ## Sections ##
 - [C++](https://github.com/mtompkins/openAlgo/tree/master/Cpp)
+- [Hardware Hints](https://github.com/mtompkins/hardware-hints)
 - [HFT Linux Kernel Utilities](https://github.com/mtompkins/linux-kernel-utilities)
 - [Matlab](https://github.com/mtompkins/openAlgo/tree/master/Matlab)
 - [MultiCharts](https://github.com/mtompkins/openAlgo/tree/master/MultiCharts)
