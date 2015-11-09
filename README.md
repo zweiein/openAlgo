@@ -1,3 +1,4 @@
+![Project Status: Active][Project Status Image]
   -------------------------------------------------------------------------
 
 			 ██████╗ ██████╗ ███████╗███╗   ██╗ █████╗ ██╗      ██████╗  ██████╗
@@ -39,3 +40,4 @@ If you can't contribute directly, please consider a donation to support costs:
 
 
 Revision: 5780.25390
+[Project Status Image]: https://img.shields.io/badge/project-active-green.svg "Project Status: Active"
