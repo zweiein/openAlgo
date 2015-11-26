@@ -9,5 +9,5 @@ Matlab functions are classified as follows:
 - [Printing and Display](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Printing%20and%20Display) - Functions that provide user feedback during processing
 - [Signal Aggregators](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Signal%20Aggregators) - Aggregators take two or more **state** functions and combines them logically to create an aggregated **signal** output
 - [Signals](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Signals) - Functions that output an actionable array of signals that should be passed to a P&L function for analysis
-- [States](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/States) - Functions that output a boolean array of a logical test results per observation (e.g.: Is Open [![Math]](http://mathurl.com/q66m8ot) Close )
+- [States](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/States) - Functions that output a boolean array of a logical test results per observation (e.g.: Is Open ![Image](http://mathurl.com/q66m8ot) Close )
 - [Utilities](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Utilities) - Functions that call to operating system low level actions
