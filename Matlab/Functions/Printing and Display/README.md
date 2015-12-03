@@ -1,6 +1,6 @@
 # Printing and Display
 
-Functions that manipulate and format strings in order to provide moderate user feedback during processing or for report generation. 
+Functions that manipulate and format strings in order to provide feedback during processing or for report generation. 
 
 ## Functions
 | Function | Description |
