@@ -7,10 +7,10 @@ PAR functions are wrappers for the embarrassingly parallel parametric sweeps of 
 >PARMETS sweep for an optimum `shMETS` value.    
 Input data is bifurcated:    
 
->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;80% `shTest` (test set)    
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20% `shVal` (validation set):    
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;80% `test` (test set)    
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20% `val` (validation set)    
 
->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;```shMETS = ((shTest * 2) + shVal) / 3```    
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![Image](http://mathurl.com/jm665du)
 
 >MEXPAR require the MEX'd version of the associated function
 
