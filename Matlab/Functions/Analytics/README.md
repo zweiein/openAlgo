@@ -24,9 +24,9 @@ Those that produce an actionable signal have the corresponding **SIG** in their 
 |RSI Signal|[rsiSIG_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/rsiSIG_DIS)|
 |RSI & RAVI Signal|[rsiRaviSIG_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/rsiRaviSIG_DIS)|
 |Signal To Noise Ratio (SNR)|[signalNoiseRatio_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/signalNoiseRatio_DIS)|
-|William's Percent R Signal|[wprSIG_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/wprSIG_DIS)|
-|William's Percent R - Modified Signal|[wprDynSIG_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/wprDynSIG_DIS)|
-|William's Percent R - Modified & Profit Taking Signal|[wprDynNumTicksPftSIG_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/wprDynNumTicksPftSIG_DIS)|
+|Williams' Percent R Signal|[wprSIG_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/wprSIG_DIS)|
+|Williams' Percent R - Modified Signal|[wprDynSIG_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/wprDynSIG_DIS)|
+|Williams' Percent R - Modified & Profit Taking Signal|[wprDynNumTicksPftSIG_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/wprDynNumTicksPftSIG_DIS)|
 
 
 Author:			Mark Tompkins  
