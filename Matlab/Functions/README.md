@@ -1,6 +1,6 @@
-# MATLAB Functions #
+# MATLAB Functions
 
-## Function Types ##   
+## Function Types  
 - [Analytics](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics) - functions that return a graphical `Display` response
 - [Bars](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Bars) - functions that manipulate or parse a given vector or matrix of price observations (`Open | High | Low | Close`)
 - [Elementals](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Elementals) - functions that are **fundamental atomic** calculations
@@ -13,7 +13,7 @@
 - [States](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/States) - Functions that output a boolean array of a logical test results per observation (Open ![Image](http://mathurl.com/q66m8ot.png) Close)
 - [Utilities](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Utilities) - Functions that call to operating system low level actions
 
-## Naming Convention ##  
+## Naming Convention
 
 | Name Style | Description |
 | ---------- | ----------- |

@@ -1,8 +1,8 @@
-# Analytics #
+# Analytics
 Analytics are functions that return a graphical response for various routines.    
 Those that produce an actionable signal have the corresponding **SIG** in their title.
 
-## Functions ##
+## Functions
 | Description | Function |
 |:-----|:-----|
 |Average True Range| [atr_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/atr_DIS)|

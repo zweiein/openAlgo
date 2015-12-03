@@ -23,7 +23,7 @@ For example, to create a moving average crossover system one would:
 ## Functions ##
 | Function | Description |
 |:-----|:-----|
-|[ascRange](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Elementals/ascRange)|Creates a dynamic self-adjusting lookback period. |
+|[ascRange](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Elementals/ascRange)|Creates a dynamic self-adjusting lookback period |
 |[atr](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Elementals/atr)|Average True Range|
 |[bollBand](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Elementals/bollBand)|Bollinger Bands|
 |[iTrend](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Elementals/iTrend)|Ehler's Instantaneous Trend|

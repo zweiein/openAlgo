@@ -1,4 +1,4 @@
-# Bars #
+# Bars
 
 Bars are functions that manipulate or parse a given vector or matrix in to logical format of:   
 
@@ -8,7 +8,7 @@ Although there are benefits for data mining and referencing using Matlab's datas
 for a consistent convention for import and export we will use simple arrays. In addition,
 as of this writing compiling to MEX does not support the dataset object.
 
-## Functions ##
+## Functions
 | Function | Description |
 |:-----|:-----|
 |[OHLCSplitter](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Bars/OHLCSplitter)|Parses a given dataset or matrix into individual arrays of `Open`&#124;`High`&#124;`Low`&#124; `Close`|
