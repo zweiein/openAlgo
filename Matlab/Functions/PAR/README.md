@@ -5,12 +5,9 @@ PAR functions are wrappers for the embarrassingly parallel parametric sweeps of 
 >PAR sweeps are coded for finding an optimum Sharpe ratio.    
 
 >PARMETS sweep for an optimum `shMETS` value.    
-Input data is bifurcated:    
+Input data is bifurcated: &nbsp;&nbsp;&nbsp;`80% test |  20% val`    
 
->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;80% `test` (test set)    
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20% `val` (validation set)    
-
->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![Image](http://mathurl.com/jm665du)
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![Image](http://mathurl.com/jm665du.png)
 
 >MEXPAR require the MEX'd version of the associated function
 
