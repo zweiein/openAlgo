@@ -4,7 +4,7 @@ Signal aggregators take two or more `State` functions and combine them logically
 
 
 >INPUT:	A minimum of two `State` vectors  
->OUTPUT:	One or more actionable `Signal` vector
+>OUTPUT:	One or more actionable `Signal` vectors
 
 ## Functions
 | Description | Function |
