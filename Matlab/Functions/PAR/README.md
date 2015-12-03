@@ -10,7 +10,7 @@ Input data is bifurcated:
 >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;80% `test` (test set)    
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20% `val` (validation set)    
 
->&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;![Image](http://mathurl.com/jm665du)
+>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ![Image](http://mathurl.com/jm665du)
 
 >MEXPAR require the MEX'd version of the associated function
 
