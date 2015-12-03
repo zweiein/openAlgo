@@ -1,6 +1,6 @@
 # Elementals #
 
-Elementals are functions that are fundamental and atomic calculations.
+Elementals are functions that are fundamental atomic calculations.
 
 As a general statement elementals should:
 
