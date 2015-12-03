@@ -3,9 +3,9 @@ Analytics are functions that return a graphical response for various routines.
 Those that produce an actionable signal have the corresponding **SIG** in their title.
 
 ## Functions ##
-| Name | Folder |
+| Description | Function |
 |:-----|:-----|
-|Averate True Range| [atr_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/atr_DIS)|
+|Average True Range| [atr_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/atr_DIS)|
 |Bollinger Bands Signal|[bollBandSIG_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/bollBandSIG_DIS)|
 |Bollinger Bands Signal & Profit Taking|[bollBandNumTicksPftSIG_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/bollBandNumTicksPftSIG_DIS)|
 |Ehler's Instantaneous Trend|[iTrend_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/iTrend_DIS)|
