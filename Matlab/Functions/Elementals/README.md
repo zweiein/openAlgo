@@ -4,8 +4,8 @@ Elementals are functions that are fundamental atomic calculations.
 
 As a general statement elementals should:
 
-> - return either a scalar or vector as a result    
-> - not call any other function other than another elemental function
+> return either a scalar or vector as a result    
+> not call any other function other than another elemental function
 
 They should **not** return a `Signal` or `State` directly.  This allows code corrections without need for downstream edits.
 
