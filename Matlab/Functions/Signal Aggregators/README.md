@@ -1,25 +1,25 @@
-SIGnal Aggregators take two or more STAte functions and combines them logically to create an aggregated SIGnal output.
+# Signal Aggregators
 
-**SIGnal aggregation files should take care to call STAte functions and then produce a signal.**
+Signal aggregators take two or more `State` functions and combine them logically to create an aggregate `Signal` output.
 
-If this step is bypassed and the aggregation functions uses SIGnal functions,  
-additional and unnecessary calls to the function *calcProfitLoss* will occur.
 
->INPUT:	A minimum of two SIGNAL vectors  
->OUTPUT:	A minimum of a single actionable SIGNAL
+>INPUT:	A minimum of two `State` vectors  
+>OUTPUT:	One or more actionable `Signal` vector
 
-**Function Naming Convention:**  
-
-| Name Style | Description |
-| ---------- | ----------- |
-|function|ELEMENTAL function|
-|functionDIS|DISPLAY function|
-|functionPAR|PARAMETRIC function|
-|functionSIG|SIGNAL function|
-|functionSTA|STATE function|
-|functionFunctionSIG|SIGNAL AGGREGATOR function|
-|functionFunctionSTA|STATE AGGREGATOR function|  
+## Functions
+| Description | Function |
+|:-----|:-----|
+|Bollinger Bands + Profit Taking|[bollBandNumTicksPftSIG](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Signal%20Aggregators/bollBandNumTicksPftSIG)|
+|Ehler's iTrend + MovAvg|[iTrendMaSIG](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Signal%20Aggregators/iTrendMaSIG)|
+|Ehler's iTrend + RAVI|[iTrendRaviSIG](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Signal%20Aggregators/iTrendRaviSIG)|
+|MovAvg (2 inputs) + Profit Taking|[ma2inputsNumTicksPftSIG](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Signal%20Aggregators/ma2inputsNumTicksPftSIG)|
+|MovAvg (3 inputs) + W%R|[ma3inputs_wprSIG](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Signal%20Aggregators/ma3inputs_wprSIG)|
+|MovAvg (3 inputs) + W%R + Profit Taking|[ma3inputs_wpr_NumTicksPftSIG](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Signal%20Aggregators/ma3inputs_wpr_NumTicksPftSIG)|
+|MovAvg + RAVI|[maRaviSIG](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Signal%20Aggregators/maRaviSIG)|
+|MovAvg + RSI|[maRsiSIG](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Signal%20Aggregators/maRsiSIG)|
+|MovAvg + SNR|[maSnrSIG](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Signal%20Aggregators/maSnrSIG)|
+|RSI + RAVI|[rsiRaviSIG](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Signal%20Aggregators/rsiRaviSIG)|
+|W%R Dynamic + Proft Taking|[wprDyn_NumTicksPftSIG](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Signal%20Aggregators/wprDyn_NumTicksPftSIG)|
 
 Author:			Mark Tompkins  
 Revision:		4902.23918  
-All rights reserved.
