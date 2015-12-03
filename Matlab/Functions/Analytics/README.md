@@ -6,11 +6,13 @@ Those that produce an actionable signal have the corresponding **SIG** in their 
 | Description | Function |
 |:-----|:-----|
 |Average True Range| [atr_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/atr_DIS)|
+|Bollinger Bands|[bollBand_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/bollBand_DIS)|
 |Bollinger Bands Signal|[bollBandSIG_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/bollBandSIG_DIS)|
 |Bollinger Bands Signal & Profit Taking|[bollBandNumTicksPftSIG_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/bollBandNumTicksPftSIG_DIS)|
 |Ehler's Instantaneous Trend|[iTrend_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/iTrend_DIS)|
 |Ehler's Instantaneous Trend - Modified|[iTrend_v2DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/iTrend_v2DIS)
 |Ehler's Instantaneous Trend Signal|[iTrendMaSIG_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/iTrendMaSIG_DIS)|
+|Ehler's Instantaneous Trend & Moving Average Signal|[iTrendMaSIG_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/iTrendMaSIG_DIS)|
 |Ehler's Instantaneous Trend & RAVI Signal|[iTrendRaviSIG_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/iTrendRaviSIG_DIS)|
 |Moving Average (2 input) Signal|[ma2inputsSIG_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/ma2inputsSIG_DIS)|
 |Moving Average (3 input) Signal|[ ma3inputsSIG_DIS](https://github.com/mtompkins/openAlgo/tree/master/Matlab/Functions/Analytics/ma3inputsSIG_DIS)|
