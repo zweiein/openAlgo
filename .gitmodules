@@ -16,3 +16,6 @@
 [submodule "hardware-hints"]
 	path = hardware-hints
 	url = git@github.com:mtompkins/hardware-hints.git
+[submodule "Cpp/External Libraries and Functions/ta-lib-mirror"]
+	path = Cpp/External Libraries and Functions/ta-lib-mirror
+	url = git@github.com:mtompkins/ta-lib-mirror.git
