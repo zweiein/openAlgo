@@ -35,7 +35,7 @@ The output value should be the number of contracts to be bought or sold.
 |>=0|-X.5 (fraction)|Reverse to position NET = -X|Close out any existing long position and sell X shorts to create a short position such that NET = -X|
 
 
-		NOTE: This convention maintains compatibility basic signals.
+		NOTE: This convention maintains compatibility with basic signals.
 **Examples:**
 
 |EX 1|Without fractional logic|With fractional logic|
