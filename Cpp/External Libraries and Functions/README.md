@@ -13,10 +13,9 @@ Previous revisions:
 July 1, 2013 - Mark Tompkins
 ```
 ## Sections ##
-- Multi-Platform Tools for Market Analysis - [ta-lib](https://github.com/mtompkins/ta-lib-mirror)
 
 --------------------------------------------------------
-C++: TA-Lib  
+C++: [TA-Lib](https://github.com/mtompkins/ta-lib-mirror)  
 Multi-Platform Tools for Market Analysis
 
 Mario Fortier  
