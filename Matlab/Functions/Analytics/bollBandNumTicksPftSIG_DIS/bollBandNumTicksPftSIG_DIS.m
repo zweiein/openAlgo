@@ -13,7 +13,7 @@ function [varargout] = bollBandNumTicksPftSIG_DIS(price,period,maType,devUp,devD
 %       -4  Trimmed  (10%)
 %       -3  Harmonic
 %       -2  Geometric
-%       -1	Exponential
+%       -1  Exponential
 %        0  Simple
 %       >0  Weighted e.g. 0.5 Square root weighted, 1 = linear, 2 = square weighted
 %
