@@ -8,10 +8,10 @@ function varargout = atr_DIS(price,M,hSub)
 %	bar components High, Low, and Close.
 %
 %   INPUTS:     price       	n array of any [C] or [O | C] or [O | H | L | C]
-%				M				Exponential moving average lookback period (default 20)
-%				hSub			An embedded variable passed from 'DIS' files for poisitioning graphical feedback
+%		M		Exponential moving average lookback period (default 20)
+%		hSub		An embedded variable passed from 'DIS' files for poisitioning graphical feedback
 %
-%	OUTPUTS:	ATR				Average true range vector
+%   OUTPUTS:	ATR		Average true range vector
 %
 %   atr_DIS = ATR(PRICE)        returns the average true range using a default lookback
 %                               of 20 observations
@@ -19,7 +19,7 @@ function varargout = atr_DIS(price,M,hSub)
 %   atr_DIS = ATR(PRICE,M)      returns the average true range using a a specified
 %                               lookback of 'M' observations when M is an integer > 0
 %   
-%	atr_DIS = ATR(PRICE,M,hSub) returns the average true range using a a specified
+%   atr_DIS = ATR(PRICE,M,hSub) returns the average true range using a a specified
 %                               lookback of 'M' observations while allowing the parameters
 %                               of hSub to be passed for graphing
 
@@ -60,7 +60,7 @@ if nargout == 0 && (~exist('hSub','var'))		% Plot
     
 elseif (nargout == 0) && exist('hSub','var')% Plot as subplot
     % We pass hSub as a string so we can have asymmetrical graphs
-	% The call to char() parses the passed cell array
+    % The call to char() parses the passed cell array
     ax(1) = subplot(str2num(char(hSub(1))),str2num(char(hSub(2))),str2num(char(hSub(3)))); %#ok<ST2NM>
     plot(fClose);
     axis (ax(1),'tight');
