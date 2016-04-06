@@ -30,14 +30,5 @@ This repository uses submodules
 git clone --recursive https://github.com/mtompkins/openAlgo.git
 ```
 
-## Support openAlgo ##
-
-If you can't contribute directly, please consider a donation to support costs:
-
-[![Screenshot](/../master/ScreenShots/paypal.jpg?raw=true "Support")](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=ZMYDCUCMWCN8Q)
-
-
-
-
 Revision: 5780.25390
 [Project Status Image]: https://img.shields.io/badge/project-active-green.svg "Project Status: Active"
